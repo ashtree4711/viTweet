@@ -32,10 +32,10 @@ class WebService(object):
         
 
     def dispatch_request(self, request):
-        tweets = search_tweets("bvb")
+        tweets = search_tweets("trump")
         content = ""
         for t in tweets:
-            content = content + t['text']
+            content = content + t['text'] + "/n"
     
         return Response(content)
 
