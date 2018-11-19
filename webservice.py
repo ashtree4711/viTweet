@@ -14,7 +14,9 @@ from werkzeug.utils import redirect
 from werkzeug.wrappers import Response, Request
 from jinja2 import Environment, FileSystemLoader
 from twython.api import Twython
-from twitter_api import search_tweets
+from viTweet import twitter_api as api
+from viTweet import tweet
+
 
 
 
@@ -32,10 +34,21 @@ class WebService(object):
         
 
     def dispatch_request(self, request):
-        tweets = search_tweets("trump")
+        'tweets = api.search_tweets("trump")'
+        tweets = api.search_retweets_by_id()
         content = ""
         for t in tweets:
-            content = content + t['text'] + "/n"
+            tweet_obj=tweet.Tweet(t)
+            next_tweet = tweet_obj.get_timestamp()+" Tweet: "+tweet_obj.get_tweet_content()+"("+tweet_obj.get_user_name()+") \n"
+            next_retweet = tweet_obj.get_retweeted_timestamp()+"Retweeted Tweet:"+tweet_obj.get_retweeted_text()+"("+tweet_obj.get_retweeted_user()+") \n"
+            content = content + "\n" + next_tweet +next_retweet
+
+        
+        
+        
+           
+            
+            
     
         return Response(content)
 
