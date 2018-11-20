@@ -14,8 +14,8 @@ from werkzeug.utils import redirect
 from werkzeug.wrappers import Response, Request
 from jinja2 import Environment, FileSystemLoader
 from twython.api import Twython
-from viTweet import twitter_api as api
-from viTweet import tweet
+import twitter_api as api
+import tweet
 
 
 
