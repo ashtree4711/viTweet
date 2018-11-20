@@ -4,6 +4,7 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
+from vi_twitter.exporter import save_to_json as save
 
 def search_tweets(keyword):
     twitter_session=connect_to_api()
@@ -13,6 +14,7 @@ def search_tweets(keyword):
     if tweets.get('statuses'):
         for tweet in tweets['statuses']:
             tweetList.append(tweet)
+    save(tweetList)
     return tweetList
 
 
@@ -24,5 +26,5 @@ def search_retweets_by_id():
     for tweet in tweets:
         tweetList.append(tweet)
         print(tweet)
-    
+    save(tweetList)
     return tweetList
