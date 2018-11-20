@@ -25,9 +25,9 @@ class Tweet(object):
         self.user_url = api_json['user']['url'] # String
         self.user_desc = api_json['user']['description'] # String
         
-        # Geo-Location of Tweet -> https://developer.twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id.html
+        # Geo-Location of Tweet -> https://developer.vi_twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id.html
         
-        # Entities of a Tweet (Hashtags, User-Mentions, Media) -> https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/entities-object.html
+        # Entities of a Tweet (Hashtags, User-Mentions, Media) -> https://developer.vi_twitter.com/en/docs/tweets/data-dictionary/overview/entities-object.html
         
         # Retweet
         if api_json['retweeted_status']:
