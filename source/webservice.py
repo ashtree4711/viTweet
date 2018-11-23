@@ -48,7 +48,7 @@ class WebService(object):
         
         #content = search.get_user_timeline(214008538)
         
-        content = search.get_replies(1065875254122303489)
+        content = search.get_replies(1065952431455068160)
         
 
         

@@ -57,7 +57,7 @@ def search_replies_by_id(searched_id):
    
    
     
-    for x in range(0, 100):
+    for x in range(0, 500):
         tweets = twitter_session.search(q="@"+repliedUser, count=100, result_type='recent', since_id=searched_id)
         if tweets.get('statuses'):
             for tweet in tweets['statuses']:
@@ -95,28 +95,41 @@ def get_user_timeline(uid):
                 
     return "Done"
     
-    
+    # Workaround Function  
 def get_replies(tweet_id):
     twitter_session=connect_to_api()
+        #get the searched Tweet
     tweet=twitter_session.show_status(id=tweet_id)
     tweetList=[]
     replyList=[]
-    mention="@"+tweet['user']['screen_name']
-    print(mention)
-    replies=twitter_session.search(q=mention)
-    if replies.get('statuses'):
-            for reply in replies['statuses']:
-                print("Mentions: ", reply['text'])
-                tweetList.append(reply)
-                if reply['in_reply_to_status_id']==tweet_id:
-                    replyList.append(reply)
-                    print("Reply To Tweet: ", reply['text'])
+        #create from the Screenname a Keyword
+    mention="@"+tweet['user']['screen_name']+"-filter:retweets"
+        # latest_tweet is needed for the loop, because without it, you'll get always the same 100 Tweets
+    latest_tweet = tweet_id
+        # Choose how many times you will loop. 5 means, that we get 500 Tweets with @user
+    for _ in range(5):
+            # you can change result_type between 'recent', 'popular', 'mixed'
+            # since_id searched since a specific tweet. It is needed to get the next 100 tweets and not the same.
+        replies=twitter_session.search(q=mention, count=100, result_type='recent', since_id=latest_tweet)
+        if replies.get('statuses'):
+                for reply in replies['statuses']:
+                        # Just for control!
+                    print(reply['created_at'], "Mentions: ", reply['text'])
+                    tweetList.append(reply)
+                        # Checks all the Tweets with @user, if there is a tweet, which is a reply to the focused tweet
+                        # Needs to be converted into a Twitter-Object
+                    if reply['in_reply_to_status_id']==tweet_id:
+                        replyList.append(reply)
+                        print(reply['created_at'],"Reply To Tweet: ", reply['text'])
+        
+        latest_tweet=tweetList[0]['id']
+            # Just for Control!
+        print("Crawled Mentions: "+tweetList.__len__().__str__()+ "| Found Replies: "+replyList.__len__().__str__())
+        
     content = "Searched Tweet: "+tweet['text']+" ("+mention+") \n"               
-                    
+        # Temporary constructs a string to shown on localhost :-P               
     for reply in replyList:
         content=content+"\n Reply: "+reply['text']+ " ("+reply['user']['screen_name']+") \n"    
-    
-    
     return content
         
 
