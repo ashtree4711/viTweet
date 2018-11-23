@@ -7,8 +7,7 @@ import datetime, os, json
 from pathlib import Path
 
 def save_to_json(dictionary):
-    
-    # Save Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
+        # Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M"),'export':dictionary}
     dirname = Path(__file__).parents[2]

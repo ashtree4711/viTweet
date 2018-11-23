@@ -13,7 +13,8 @@ class Tweet(object):
     def __init__(self, api_json):
         # General Information of posted Tweet
         self.timestamp = api_json['created_at'] # String
-        self.tweet_id = api_json['id_str'] # String
+        self.tweet_id = api_json['id'] # Integer
+        self.tweet_id_str= api_json['id_str'] # String
         self.tweet_content = api_json['text'] # String
         
         # Information about User of posted Tweet
@@ -25,16 +26,26 @@ class Tweet(object):
         self.user_url = api_json['user']['url'] # String
         self.user_desc = api_json['user']['description'] # String
         
+        
+        
         # Geo-Location of Tweet -> https://developer.vi_twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id.html
         
         # Entities of a Tweet (Hashtags, User-Mentions, Media) -> https://developer.vi_twitter.com/en/docs/tweets/data-dictionary/overview/entities-object.html
         
+        # Reply Information
+        self.reply_to_tweet_id = api_json['in_reply_to_status_id'] # Integer
+        self.reply_to_tweet_id_str = api_json['in_reply_to_status_id_str'] # String
+        self.reply_to_user_id = api_json['in_reply_to_user_id'] # Integer
+        self.reply_to_user_id_str = api_json['in_reply_to_user_id_str'] # String
+        self.reply_isQuote = api_json['is_quote_status']  # Boolean
+        
+        
         # Retweet
-        if api_json['retweeted_status']:
-            self.retweet_count = api_json['retweet_count']
-            self.retweeted_timestamp = api_json['retweeted_status']['created_at']
-            self.retweeted_text = api_json['retweeted_status']['text']
-            self.retweeted_user = api_json['retweeted_status']['user']['name']
+        if 'retweeted_status' in api_json.keys():
+            self.retweet_count = api_json['retweet_count'] # Integer
+            self.retweeted_timestamp = api_json['retweeted_status']['created_at'] # String
+            self.retweeted_text = api_json['retweeted_status']['text'] # String
+            self.retweeted_user = api_json['retweeted_status']['user']['name'] #String
 
     def get_timestamp(self):
         return self.__timestamp
@@ -42,6 +53,10 @@ class Tweet(object):
 
     def get_tweet_id(self):
         return self.__tweet_id
+
+
+    def get_tweet_id_str(self):
+        return self.__tweet_id_str
 
 
     def get_tweet_content(self):
@@ -76,6 +91,26 @@ class Tweet(object):
         return self.__user_desc
 
 
+    def get_reply_to_tweet_id(self):
+        return self.__reply_to_tweet_id
+
+
+    def get_reply_to_tweet_id_str(self):
+        return self.__reply_to_tweet_id_str
+
+
+    def get_reply_to_user_id(self):
+        return self.__reply_to_user_id
+
+
+    def get_reply_to_user_id_str(self):
+        return self.__reply_to_user_id_str
+
+
+    def get_reply_is_quote(self):
+        return self.__reply_isQuote
+
+
     def get_retweet_count(self):
         return self.__retweet_count
 
@@ -98,6 +133,10 @@ class Tweet(object):
 
     def set_tweet_id(self, value):
         self.__tweet_id = value
+
+
+    def set_tweet_id_str(self, value):
+        self.__tweet_id_str = value
 
 
     def set_tweet_content(self, value):
@@ -132,6 +171,26 @@ class Tweet(object):
         self.__user_desc = value
 
 
+    def set_reply_to_tweet_id(self, value):
+        self.__reply_to_tweet_id = value
+
+
+    def set_reply_to_tweet_id_str(self, value):
+        self.__reply_to_tweet_id_str = value
+
+
+    def set_reply_to_user_id(self, value):
+        self.__reply_to_user_id = value
+
+
+    def set_reply_to_user_id_str(self, value):
+        self.__reply_to_user_id_str = value
+
+
+    def set_reply_is_quote(self, value):
+        self.__reply_isQuote = value
+
+
     def set_retweet_count(self, value):
         self.__retweet_count = value
 
@@ -154,6 +213,10 @@ class Tweet(object):
 
     def del_tweet_id(self):
         del self.__tweet_id
+
+
+    def del_tweet_id_str(self):
+        del self.__tweet_id_str
 
 
     def del_tweet_content(self):
@@ -188,6 +251,26 @@ class Tweet(object):
         del self.__user_desc
 
 
+    def del_reply_to_tweet_id(self):
+        del self.__reply_to_tweet_id
+
+
+    def del_reply_to_tweet_id_str(self):
+        del self.__reply_to_tweet_id_str
+
+
+    def del_reply_to_user_id(self):
+        del self.__reply_to_user_id
+
+
+    def del_reply_to_user_id_str(self):
+        del self.__reply_to_user_id_str
+
+
+    def del_reply_is_quote(self):
+        del self.__reply_isQuote
+
+
     def del_retweet_count(self):
         del self.__retweet_count
 
@@ -205,6 +288,7 @@ class Tweet(object):
 
     timestamp = property(get_timestamp, set_timestamp, del_timestamp, "timestamp's docstring")
     tweet_id = property(get_tweet_id, set_tweet_id, del_tweet_id, "tweet_id's docstring")
+    tweet_id_str = property(get_tweet_id_str, set_tweet_id_str, del_tweet_id_str, "tweet_id_str's docstring")
     tweet_content = property(get_tweet_content, set_tweet_content, del_tweet_content, "tweet_content's docstring")
     user = property(get_user, set_user, del_user, "user's docstring")
     user_id = property(get_user_id, set_user_id, del_user_id, "user_id's docstring")
@@ -213,10 +297,17 @@ class Tweet(object):
     user_location = property(get_user_location, set_user_location, del_user_location, "user_location's docstring")
     user_url = property(get_user_url, set_user_url, del_user_url, "user_url's docstring")
     user_desc = property(get_user_desc, set_user_desc, del_user_desc, "user_desc's docstring")
+    reply_to_tweet_id = property(get_reply_to_tweet_id, set_reply_to_tweet_id, del_reply_to_tweet_id, "reply_to_tweet_id's docstring")
+    reply_to_tweet_id_str = property(get_reply_to_tweet_id_str, set_reply_to_tweet_id_str, del_reply_to_tweet_id_str, "reply_to_tweet_id_str's docstring")
+    reply_to_user_id = property(get_reply_to_user_id, set_reply_to_user_id, del_reply_to_user_id, "reply_to_user_id's docstring")
+    reply_to_user_id_str = property(get_reply_to_user_id_str, set_reply_to_user_id_str, del_reply_to_user_id_str, "reply_to_user_id_str's docstring")
+    reply_isQuote = property(get_reply_is_quote, set_reply_is_quote, del_reply_is_quote, "reply_isQuote's docstring")
     retweet_count = property(get_retweet_count, set_retweet_count, del_retweet_count, "retweet_count's docstring")
     retweeted_timestamp = property(get_retweeted_timestamp, set_retweeted_timestamp, del_retweeted_timestamp, "retweeted_timestamp's docstring")
     retweeted_text = property(get_retweeted_text, set_retweeted_text, del_retweeted_text, "retweeted_text's docstring")
     retweeted_user = property(get_retweeted_user, set_retweeted_user, del_retweeted_user, "retweeted_user's docstring")
+
+
 
     
         

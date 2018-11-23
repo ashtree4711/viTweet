@@ -35,14 +35,21 @@ class WebService(object):
         
 
     def dispatch_request(self, request):
-        'tweets = api.search_tweets("trump")'
-        tweets = search.search_retweets_by_id()
-        content = ""
-        for t in tweets:
-            tweet_obj=Tweet.Tweet(t)
-            next_tweet = tweet_obj.get_timestamp()+" Tweet: "+tweet_obj.get_tweet_content()+"("+tweet_obj.get_user_name()+") \n"
-            next_retweet = tweet_obj.get_retweeted_timestamp()+"Retweeted Tweet:"+tweet_obj.get_retweeted_text()+"("+tweet_obj.get_retweeted_user()+") \n"
-            content = content + "\n" + next_tweet +next_retweet
+            # Let one method uncommented! Just some test methods
+            
+            # get Tweets by Keyword
+        #content = search.search_tweets("@realdonaldtrump")
+        
+            # get Retweets of Tweet-ID
+        #content = search.search_retweets_by_id(1064540462848098304)
+        
+        
+        #content = search.search_replies_by_id(1064540462848098304)
+        
+        #content = search.get_user_timeline(214008538)
+        
+        content = search.get_replies(1065875254122303489)
+        
 
         
         

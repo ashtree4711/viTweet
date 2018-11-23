@@ -27,7 +27,8 @@ def connect_to_api():
     config.read(config_path)
         # Establish Connection
     APP_KEY = config['TWITTER']['API_key']                                         
-    APP_SECRET = config['TWITTER']['API_secret_key']          
+    APP_SECRET = config['TWITTER']['API_secret_key']
+    #ACCESS_TOKEN  = config ['TWITTER']['Access_token']        
     twitter_session = Twython(APP_KEY, APP_SECRET, oauth_version=2)
     ACCESS_TOKEN = twitter_session.obtain_access_token()
     twitter_session = Twython(APP_KEY, access_token=ACCESS_TOKEN)
