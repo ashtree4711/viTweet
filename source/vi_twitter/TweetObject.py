@@ -46,7 +46,24 @@ class Tweet(object):
             self.retweeted_timestamp = api_json['retweeted_status']['created_at'] # String
             self.retweeted_text = api_json['retweeted_status']['text'] # String
             self.retweeted_user = api_json['retweeted_status']['user']['name'] #String
+            
+        self.convertedDict = self.convert_to_new_dict()
 
+    def get_converted_structure(self):
+        return self.__convertedTweetStructure
+    
+    def convert_to_new_dict(self):
+            # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
+        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 
+                    'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
+                            'location':self.user_location, 'description': self.user_desc}}
+        
+        return new_dict
+        
+    def get_converted_dict(self):
+        return self.convertedDict   
+    
+    
     def get_timestamp(self):
         return self.__timestamp
 

@@ -5,6 +5,7 @@ Created on 20 Nov 2018
 '''
 import datetime, os, json
 from pathlib import Path
+from vi_twitter import TweetObject as Tweet
 
 def save_to_json(dictionary):
         # Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
@@ -17,3 +18,26 @@ def save_to_json(dictionary):
     print ("SAVE JSON TO:", persist_data_file)
     
     return
+
+def save_response_json(searched_Tweet, replies):
+    now = datetime.datetime.now()
+    created_json = {'datetime': now.strftime("%Y-%m-%d %H:%M"), 'main':searched_Tweet, 'replies':replies}
+    dirname = Path(__file__).parents[2]
+    created_json_file = os.path.join(dirname, "temp_files/json/", "response"+now.strftime("%Y%m%d")+".json")
+    with open(created_json_file, 'w') as outfile:
+        json.dump(created_json, outfile, indent=4, sort_keys=True)
+    print ("SAVE JSON TO:", created_json_file)
+    return
+
+
+
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
