@@ -13,12 +13,7 @@ from werkzeug.wsgi import SharedDataMiddleware
 from werkzeug.utils import redirect
 from werkzeug.wrappers import Response, Request
 from jinja2 import Environment, FileSystemLoader
-from twython.api import Twython
-import vi_twitter.TweetObject as Tweet
 import vi_twitter.search as search
-
-
-
 
 
 
@@ -35,30 +30,12 @@ class WebService(object):
         
 
     def dispatch_request(self, request):
-            # Let one method uncommented! Just some test methods
-            
-            # get Tweets by Keyword
-        #content = search.search_tweets("@realdonaldtrump")
         
-            # get Retweets of Tweet-ID
-        #content = search.search_retweets_by_id(1064540462848098304)
-        
-        
-        #content = search.search_replies_by_id(1064540462848098304)
-        
-        #content = search.get_user_timeline(214008538)
-        
-        content = search.get_replies(1066017112425185280)
-        
-
-        
-        
-        
-           
-            
-            
+            # Call function with TWEET-ID + max. Replies (please dont call over 10!)
+        content = search.get_replies(1066876053170339840, 5)
     
         return Response(content)
+    
 
     def wsgi_app(self, environ, start_response):
         request = Request(environ)
