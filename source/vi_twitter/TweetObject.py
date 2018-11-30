@@ -59,6 +59,7 @@ class Tweet(object):
                             'location':self.user_location, 'description': self.user_desc}}
         
         return new_dict
+    
         
     def get_converted_dict(self):
         return self.convertedDict   

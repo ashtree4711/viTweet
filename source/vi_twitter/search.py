@@ -12,92 +12,114 @@ import twython
 
     # Workaround Function  
 def get_replies(tweet_id, max_replies):
-    twitter_session=connect_to_api()
-        # get the searched Tweet
-    tweet=twitter_session.show_status(id=tweet_id)
-    convertedMainTweet = Tweet.Tweet(tweet).get_converted_dict()
-    tweetList=[]
-    replyList=[]
-    convertedReplyList=[]
-        # create from the Screenname a Keyword
-    mention="@"+tweet['user']['screen_name']+"-filter:retweets"
-        # latest_tweet is needed for the loop, because without it, you'll get always the same 100 Tweets
-    try:
-            # First Round: We need the parameter "since_id" first, because the API will give us automatically the latest tweets
-            #              and we just have to take care, that no Tweet should be older than the Root Tweet.
-        potential_replies=twitter_session.search(q=mention, count=2, result_type='recent', since_id=tweet_id)
-        if potential_replies.get('statuses'):
-            for reply in potential_replies['statuses']:
-                    # Just for control!
-                print(reply['created_at'], "[", reply['id_str'], "] Mentions: ", reply['text'])
-                tweetList.append(reply)
-                    # Checks all the Tweets with @user, if there is a tweet, which is a reply to the focused tweet
-                    # Needs to be converted into a Twitter-Object
-                if reply['in_reply_to_status_id']==tweet_id:
-                    convertedReply = Tweet.Tweet(reply).get_converted_dict()
-                    
-                    convertedReplyList.append(convertedReply)
-                    replyList.append(reply)
-                    
-                    print(reply['created_at'], "[", reply['id_str'],"] Reply To Tweet: ", reply['text'])
-                
-                 
-        print("Crawled Mentions: "+tweetList.__len__().__str__()+ "| Found Replies: "+replyList.__len__().__str__())
-        
-            # Second Round: Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
-            #               So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
-            #               Tweet of the existing list and declare it as the max_id.
-        latest_tweet=tweetList[-1]['id']
-        previousTweetList=0
+    twitterSession = connect_to_api() 
+    potentialReplies=[]
+    replyHits= []
+    previousPotentialReplies=0
+    rootTweet = get_root_tweet_by_id(tweet_id, twitterSession)
+        # create from the screenname a user mention
+    userMention="@"+rootTweet.get_user_screenname()+"-filter:retweets"
+ 
+        # First Round: We need the parameter "since_id" first, because the API will give us automatically the latest tweets
+        #              and we just have to take care, that no Tweet should be older than the Root Tweet.
+    potentialReplies, replyHits=search_by_usermention_since_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet)
+        # Second Round: Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
+        #               So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
+        #               Tweet of the existing list and declare it as the max_id.
+    while (len(replyHits) <= max_replies and previousPotentialReplies < len(potentialReplies) and potentialReplies[-1].get_tweet_id() > rootTweet.get_tweet_id()):
+        previousPotentialReplies=len(potentialReplies)
+        potentialReplies, replyHits=search_by_usermention_max_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet)
+        print("___________________________________________")
+        print("FOUND REPLIES: ", len(replyHits))
+    #latest_tweet=potentialReplies[-1].get_id()
+    #previousTweetList=0
             # Looping as long we reached the maximum replies or there are no new Tweets
-        while (len(replyList) <= max_replies and previousTweetList < len(tweetList) and tweetList[-1]['id']>tweet_id):
-            print("______________________________________________________________________________________________________________")
-                # you can change result_type between 'recent', 'popular', 'mixed'
-                # since_id searched since a specific tweet. It is needed to get the next 100 tweets and not the same.
-            previousTweetList=len(tweetList)
-            potential_replies=twitter_session.search(q=mention, count=100, result_type='recent', max_id=latest_tweet-1)
-            if potential_replies==None:
-                break
-            
-            if potential_replies.get('statuses'):
-                for reply in potential_replies['statuses']:
-                        # Just for control!
-                    print(reply['created_at'], "[", reply['id_str'], "] Mentions: ", reply['text'])
-                    tweetList.append(reply)
-                    
-                        # Checks all the Tweets with @user, if there is a tweet, which is a reply to the focused tweet
-                        # Needs to be converted into a Twitter-Object
-                    if reply['in_reply_to_status_id']==tweet_id:
-                        convertedReply = Tweet.Tweet(reply).get_converted_dict()
-                        convertedReplyList.append(convertedReply)
-                        replyList.append(reply)
-                        print(reply['created_at'], "[", reply['id_str'],"] Reply To Tweet: ", reply['text'])
-                        
-                    if replyList.__len__() == max_replies:
-                        print("Crawled Mentions: "+tweetList.__len__().__str__()+ "| Found Replies: "+replyList.__len__().__str__())
-                        break
-                if replyList.__len__() == max_replies:
-                    print("Crawled Mentions: "+tweetList.__len__().__str__()+ "| Found Replies: "+replyList.__len__().__str__())
-                    break
-                     
-            print("Crawled Mentions: "+tweetList.__len__().__str__()+ "| Found Replies: "+replyList.__len__().__str__())
-            
-            latest_tweet=tweetList[-1]['id']
-            
+    replyHits=clean_hits(replyHits, max_replies)
+    
+        
+           
+    save_response_json(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))    
+       
+    content = "Searched Tweet: "+rootTweet.get_tweet_content()+" ("+userMention+") \n"               
+            # Temporary constructs a string to shown on localhost :-P               
+    for reply in replyHits:
+        content=content+"\n Reply: "+reply.get_tweet_content()+ " ("+reply.get_user_screenname()+") \n"    
+    return content
+
+def get_root_tweet_by_id(tweet_id, session):
+    rootTweet = session.show_status(id=tweet_id)
+    rootTweet = Tweet.Tweet(rootTweet)
+    return rootTweet
+
+def search_by_usermention_since_id(userMention, session, potentialReplies, replyHits, rootTweet):
+    '''
+        Used for the first 100 Tweets.
+        
+        # userMention: '@user'-String expecting
+        # session: Connection to Twitter-API via Twython needed
+        # potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
+        # replyHits: List of all hitted Reply-Tweets(Object)
+        # rootTweet: Tweet(Object) for which we seek replies 
+        # return: Updated lists of potentialReplies & replyHits
+    '''
+    try:
+        print("______________________________________________________________________________________________________________")
+        newTweets=session.search(q=userMention, count=100, result_type='recent', since_id=rootTweet.get_tweet_id())
+        if newTweets.get('statuses'):
+            for tweet in newTweets['statuses']:
+                tweetObj=Tweet.Tweet(tweet)
+                print(tweetObj.get_timestamp(), "[", tweetObj.get_tweet_id_str(), "] Mentions: ", tweetObj.get_tweet_content())
+                potentialReplies.append(tweetObj)
+                if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
+                    replyHits.append(tweetObj)
+                    print("REPLY FOUND")
     except twython.exceptions.TwythonRateLimitError:
         print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
-            
-    save_response_json(convertedMainTweet, convertedReplyList)    
-        
-    content = "Searched Tweet: "+tweet['text']+" ("+mention+") \n"               
-        # Temporary constructs a string to shown on localhost :-P               
-    for reply in replyList:
-        content=content+"\n Reply: "+reply['text']+ " ("+reply['user']['screen_name']+") \n"    
-    return content
-        
+    return potentialReplies, replyHits
 
-            
+
+def search_by_usermention_max_id(userMention, session, potentialReplies, replyHits, rootTweet):
+    '''
+        Used for the 100+ Tweets.
+        
+        # userMention: '@user'-String expecting
+        # session: Connection to Twitter-API via Twython needed
+        # potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
+        # replyHits: List of all hitted Reply-Tweets(Object)
+        # rootTweet: Tweet(Object) for which we seek replies 
+        # return: Updated lists of potentialReplies & replyHits
+    '''
+    try:
+        print("______________________________________________________________________________________________________________")
+        newTweets=session.search(q=userMention, count=100, result_type='recent', max_id=potentialReplies[-1].get_tweet_id()-1)
+        if newTweets.get('statuses'):
+            for tweet in newTweets['statuses']:
+                tweetObj = Tweet.Tweet(tweet)
+                    # Just for control!
+                print(tweetObj.get_timestamp(), "[", tweetObj.get_tweet_id_str(), "] Mentions: ", tweetObj.get_tweet_content())
+                potentialReplies.append(tweetObj)
+                if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
+                    replyHits.append(tweetObj)
+                    print("REPLY FOUND")        
+    except twython.exceptions.TwythonRateLimitError:
+        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
+    return potentialReplies, replyHits
    
+def clean_hits(replyHits, max_replies):
+    newReplyHits=[]
+    for reply in replyHits[0:max_replies]:
+        newReplyHits.append(reply)
+    return newReplyHits
+
+def convert_list_to_dict(tweetObjectList):
+    newTweetObjectList=[]
+    for tweetObject in tweetObjectList:
+        newTweetObjectList.append(tweetObject.convert_to_new_dict())
+    return newTweetObjectList
+            
+    
+    
+    
       
     
     

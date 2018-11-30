@@ -32,7 +32,7 @@ class WebService(object):
     def dispatch_request(self, request):
         
             # Call function with TWEET-ID + max. Replies (please dont call over 10!)
-        content = search.get_replies(1066885131657506816, 100)
+        content = search.get_replies(1068491952696557575, 5)
     
         return Response(content)
     
