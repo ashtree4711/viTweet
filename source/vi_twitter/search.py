@@ -4,11 +4,9 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import save_to_json as save, save_response_json
+from vi_twitter.utilities import create_response
 import vi_twitter.TweetObject as Tweet
 import twython
-
-
 
     # Workaround Function  
 def get_replies(tweet_id, max_replies):
@@ -35,16 +33,12 @@ def get_replies(tweet_id, max_replies):
     #previousTweetList=0
             # Looping as long we reached the maximum replies or there are no new Tweets
     replyHits=clean_hits(replyHits, max_replies)
-    
-        
-           
-    save_response_json(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))    
-       
-    content = "Searched Tweet: "+rootTweet.get_tweet_content()+" ("+userMention+") \n"               
-            # Temporary constructs a string to shown on localhost :-P               
+    response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))           
+        # Temporary constructs a string to shown on localhost :-P 
+    content = "Searched Tweet: "+rootTweet.get_tweet_content()+" ("+userMention+") \n"                                 
     for reply in replyHits:
         content=content+"\n Reply: "+reply.get_tweet_content()+ " ("+reply.get_user_screenname()+") \n"    
-    return content
+    return content, response
 
 def get_root_tweet_by_id(tweet_id, session):
     rootTweet = session.show_status(id=tweet_id)
