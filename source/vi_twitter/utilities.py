@@ -19,15 +19,15 @@ def save_to_json(dictionary):
     
     return
 
-def save_response_json(searched_Tweet, replies):
+def create_response(searched_Tweet, replies):
     now = datetime.datetime.now()
-    created_json = {'datetime': now.strftime("%Y-%m-%d %H:%M"), 'main':searched_Tweet, 'replies':replies}
+    response = {'datetime': now.strftime("%Y-%m-%d %H:%M"), 'main':searched_Tweet, 'replies':replies}
     dirname = Path(__file__).parents[2]
     created_json_file = os.path.join(dirname, "temp_files/json/", "response"+now.strftime("%Y%m%d")+".json")
     with open(created_json_file, 'w') as outfile:
-        json.dump(created_json, outfile, indent=4, sort_keys=True)
+        json.dump(response, outfile, indent=4, sort_keys=True)
     print ("SAVE JSON TO:", created_json_file)
-    return
+    return response
 
 
 

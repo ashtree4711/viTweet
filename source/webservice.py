@@ -32,7 +32,9 @@ class WebService(object):
     def dispatch_request(self, request):
         
             # Call function with TWEET-ID + max. Replies (please dont call over 10!)
-        content = search.get_replies(1066876053170339840, 5)
+            # content -> Temporary String (nothing for future)
+            # response -> Dictionary to be used 
+        content, response = search.get_replies(1068491952696557575, 5)
     
         return Response(content)
     
