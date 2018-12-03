@@ -6,9 +6,12 @@ Created on 20 Nov 2018
 import datetime, os, json
 from pathlib import Path
 from vi_twitter import TweetObject as Tweet
+from builtins import int
 
 def save_to_json(dictionary):
-        # Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
+    '''
+        Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
+    '''
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M"),'export':dictionary}
     dirname = Path(__file__).parents[2]
@@ -20,6 +23,9 @@ def save_to_json(dictionary):
     return
 
 def create_response(searched_Tweet, replies):
+    '''
+        Creates the response after searching and filtering Tweets
+    '''
     now = datetime.datetime.now()
     response = {'datetime': now.strftime("%Y-%m-%d %H:%M"), 'main':searched_Tweet, 'replies':replies}
     dirname = Path(__file__).parents[2]
@@ -28,6 +34,28 @@ def create_response(searched_Tweet, replies):
         json.dump(response, outfile, indent=4, sort_keys=True)
     print ("SAVE JSON TO:", created_json_file)
     return response
+
+def preprocess_input(input):
+    '''
+        Checks if the input is the required tweet_id as an Integer and changes if it is not so. 
+    '''
+    if isinstance(input, int):
+        print("input: ", input)
+        print("isInputInteger: ", isinstance(input, int))
+        print("isInputString: ", isinstance(input, str))
+        print("no processing required...")
+        return input
+    if isinstance(input, str):
+        print("input: ", input)
+        print("isInputInteger: ", isinstance(input, int))
+        print("isInputString: ", isinstance(input, str))
+        print("processing required...")
+        input=int(input[-19:])
+        print("processedInput: ", input)
+        print("isInputInteger: ", isinstance(input, int))
+        print("isInputString: ", isinstance(input, str))
+        return input
+        
 
 
 
