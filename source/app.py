@@ -9,7 +9,7 @@ Bootstrap(app)
 
 @app.route('/')
 def index():
-    return 'The viTweet start page'
+    return render_template('index.html')
 
 def convo(tweetID):
     return 'A viTweet conversation page showing the conversation starting from the Tweet with ID {}'.format(tweetID)
