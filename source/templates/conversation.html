@@ -1,0 +1,11 @@
+<title>viTweet visualization</title>
+<h1>Wow, what a beautiful linear visualization of the Twitter conversation:</h1>
+<ul>
+{% for items in response['replies'] %}
+	<li>{{ items }}</li>
+	{% for replies in items['replies'] %}
+		<li>{{ replies['tweet_content'] }}</li>
+	{% endfor %}
+{% endfor %}
+ <ul>
+{% extends "bootstrap/base.html" %}
