@@ -14,6 +14,7 @@ from werkzeug.utils import redirect
 from werkzeug.wrappers import Response, Request
 from jinja2 import Environment, FileSystemLoader
 import vi_twitter.search as search
+import vi_twitter.utilities as u
 
 
 
@@ -34,8 +35,12 @@ class WebService(object):
             # Call function with TWEET-ID + max. Replies (please dont call over 10!)
             # content -> Temporary String (nothing for future)
             # response -> Dictionary to be used 
-        content, response = search.get_replies(1068491952696557575, 5)
-    
+            
+        url_or_id = "https://twitter.com/faznet/status/1069356286444212224"
+        input=u.preprocess_input(url_or_id)
+        
+        content, response = search.get_replies(input, 5)
+     
         return Response(content)
     
 
