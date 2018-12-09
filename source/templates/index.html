@@ -1,3 +1,31 @@
-<title>viTweet index page</title>
-<a href="/convo/1069660787722084352/linear">Show conversation starting at tweet 1069660787722084352</a>
 {% extends "bootstrap/base.html" %}
+
+{% block content %}
+
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">viTweet</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+<form method="POST" action="/convo">
+    <div class="form-group">
+        <label for="mainSearch">Search Tweet</label>
+        <input type="search" class="form-control" id="mainSearch" placeholder="URL oder Tweet-ID" name="response">
+    </div>
+    <button class="btn btn-primary" type="submit" value="Submit" role="button">Search</button>
+</form>
+</div>
+
+
+{% endblock %}

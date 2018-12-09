@@ -1,12 +1,25 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">viTweet</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#contact">Contact</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</div>
+
 <title>viTweet visualization</title>
 <h1>Wow, what a beautiful linear visualization of the Twitter conversation:</h1>
 <h2>Juhuu</h2>
-<ul>
-{% for items in response['replies'] %}
-	<li>{{ items }}</li>
-	{% for replies in items['replies'] %}
-		<li>{{ replies['tweet_content'] }}</li>
-	{% endfor %}
-{% endfor %}
- <ul>
-{% extends "bootstrap/base.html" %}
+
+<p>Tweet: {{response}}</p>
+
+{% endblock %}
