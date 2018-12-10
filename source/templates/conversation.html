@@ -4,6 +4,7 @@
 <div class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<div class="navbar-header">
+			<!-- place for our brand logo, click logo will always bring you back to index page -->
 			<a class="navbar-brand" href="#">viTweet</a>
 		</div>
 		<div class="collapse navbar-collapse">
@@ -16,10 +17,20 @@
 	</div>
 </div>
 
+<div class="container">
 <title>viTweet visualization</title>
 <h1>Wow, what a beautiful linear visualization of the Twitter conversation:</h1>
 <h2>Juhuu</h2>
 
-<p>Tweet: {{response}}</p>
+<ul>
+	{% for items in response['replies'] %}
+	<li>{{ items }}</li>
+	{% endfor %}
+	{% for replies in items['replies'] %}
+	<li>{{ replies['tweet_content'] }}</li>
+	{% endfor %}
+</ul>
+
+</div>
 
 {% endblock %}

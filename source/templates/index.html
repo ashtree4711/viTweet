@@ -5,6 +5,7 @@
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="navbar-header">
+            <!-- place for our brand logo, click logo will always bring you back to index page -->
             <a class="navbar-brand" href="#">viTweet</a>
         </div>
         <div class="collapse navbar-collapse">
@@ -17,13 +18,14 @@
     </div>
 </div>
 
-<div class="container">
-<form method="POST" action="/convo">
+<div class="container" id="mainSearch">
+<form method="POST" action="/conversation">
     <div class="form-group">
         <label for="mainSearch">Search Tweet</label>
-        <input type="search" class="form-control" id="mainSearch" placeholder="URL oder Tweet-ID" name="response">
+        <input type="text" class="form-control" id="search" placeholder="URL oder Tweet-ID" name="tweetID">
+        <button class="btn btn-primary" type="submit" value="Submit" role="button">Search</button>
     </div>
-    <button class="btn btn-primary" type="submit" value="Submit" role="button">Search</button>
+
 </form>
 </div>
 
