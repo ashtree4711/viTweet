@@ -4,8 +4,9 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import create_response
+from vi_twitter.utilities import create_response, preprocess_input
 import vi_twitter.TweetObject as Tweet
+
 import twython
 
     # Workaround Function  
@@ -14,9 +15,13 @@ def get_replies(tweet_id, max_replies):
     potentialReplies=[]
     replyHits= []
     previousPotentialReplies=0
+    
+        # Convert user input to Twitter ID Integer
+    tweet_id=preprocess_input(tweet_id)
+    
     rootTweet = get_root_tweet_by_id(tweet_id, twitterSession)
         # create from the screenname a user mention
-    userMention="@"+rootTweet.get_user_screenname()+"-filter:retweets"
+    userMention="to:"+rootTweet.get_user_screenname()+" OR from:"+rootTweet.get_user_screenname()+" -filter:retweets"
  
         # First Round: We need the parameter "since_id" first, because the API will give us automatically the latest tweets
         #              and we just have to take care, that no Tweet should be older than the Root Tweet.
@@ -35,7 +40,7 @@ def get_replies(tweet_id, max_replies):
     replyHits=clean_hits(replyHits, max_replies)
     response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))           
         # Temporary constructs a string to shown on localhost :-P 
-    content = "Searched Tweet: "+rootTweet.get_tweet_content()+" ("+userMention+") \n"                                 
+    content = "Root Tweet: "+rootTweet.get_tweet_content()+" ("+rootTweet.get_user_screenname()+") \n"                                 
     for reply in replyHits:
         content=content+"\n Reply: "+reply.get_tweet_content()+ " ("+reply.get_user_screenname()+") \n"    
     return content, response
