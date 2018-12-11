@@ -36,7 +36,7 @@ class WebService(object):
             # content -> Temporary String (nothing for future)
             # response -> Dictionary to be used 
             
-        url_or_id = "https://twitter.com/the_mark4711/status/1070295398907031553"
+        url_or_id = "https://twitter.com/spinfocl/status/1072248966182510594"
         input=u.preprocess_input(url_or_id)
         
         content, response = search.get_replies(input, 5)

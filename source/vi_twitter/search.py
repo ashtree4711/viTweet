@@ -4,8 +4,9 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import create_response
+from vi_twitter.utilities import create_response, preprocess_input
 import vi_twitter.TweetObject as Tweet
+
 import twython
 
     # Workaround Function  
@@ -14,6 +15,10 @@ def get_replies(tweet_id, max_replies):
     potentialReplies=[]
     replyHits= []
     previousPotentialReplies=0
+    
+        # Convert user input to Twitter ID Integer
+    tweet_id=preprocess_input(tweet_id)
+    
     rootTweet = get_root_tweet_by_id(tweet_id, twitterSession)
         # create from the screenname a user mention
     userMention="to:"+rootTweet.get_user_screenname()+" OR from:"+rootTweet.get_user_screenname()+" -filter:retweets"
