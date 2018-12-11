@@ -9,9 +9,8 @@ Bootstrap(app)
 
 def get_replies(tweetID, maxReplies):
     # Call function with TWEET-ID + max. Replies (please don't call over 10!)
-    # content -> Temporary String (nothing for future)
     # response -> Dictionary to be used 
-    content, response = search.get_replies(tweetID, maxReplies)
+    response = search.get_replies(tweetID, maxReplies)
     return response
 
 @app.route('/')
