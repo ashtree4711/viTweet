@@ -10,7 +10,11 @@ import vi_twitter.TweetObject as Tweet
 import twython
 
     # Workaround Function  
-def get_replies(tweet_id, max_replies):
+def get_replies(tweet_id, language, max_replies=5):
+        # tweet_id -> Twitter-URL or ID
+        # language -> Restricts tweets to the given language, given by an ISO 639-1 code. Language detection is best-effort
+        # max_replies -> maximum Replies
+        
     twitterSession = connect_to_api() 
     potentialReplies=[]
     replyHits= []
@@ -25,32 +29,28 @@ def get_replies(tweet_id, max_replies):
  
         # First Round: We need the parameter "since_id" first, because the API will give us automatically the latest tweets
         #              and we just have to take care, that no Tweet should be older than the Root Tweet.
-    potentialReplies, replyHits=search_by_usermention_since_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet)
+    potentialReplies, replyHits=search_by_usermention_since_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet, language)
         # Second Round: Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
         #               So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
         #               Tweet of the existing list and declare it as the max_id.
     while (len(replyHits) <= max_replies and previousPotentialReplies < len(potentialReplies) and potentialReplies[-1].get_tweet_id() > rootTweet.get_tweet_id()):
         previousPotentialReplies=len(potentialReplies)
-        potentialReplies, replyHits=search_by_usermention_max_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet)
+        potentialReplies, replyHits=search_by_usermention_max_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet, language)
         print("___________________________________________")
         print("FOUND REPLIES: ", len(replyHits))
     #latest_tweet=potentialReplies[-1].get_id()
     #previousTweetList=0
             # Looping as long we reached the maximum replies or there are no new Tweets
     replyHits=clean_hits(replyHits, max_replies)
-    response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))           
-        # Temporary constructs a string to shown on localhost :-P 
-    content = "Root Tweet: "+rootTweet.get_tweet_content()+" ("+rootTweet.get_user_screenname()+") \n"                                 
-    for reply in replyHits:
-        content=content+"\n Reply: "+reply.get_tweet_content()+ " ("+reply.get_user_screenname()+") \n"    
-    return content, response
+    response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))            
+    return response
 
 def get_root_tweet_by_id(tweet_id, session):
     rootTweet = session.show_status(id=tweet_id)
     rootTweet = Tweet.Tweet(rootTweet)
     return rootTweet
 
-def search_by_usermention_since_id(userMention, session, potentialReplies, replyHits, rootTweet):
+def search_by_usermention_since_id(userMention, session, potentialReplies, replyHits, rootTweet, language):
     '''
         Used for the first 100 Tweets.
         
@@ -63,7 +63,7 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
     '''
     try:
         print("______________________________________________________________________________________________________________")
-        newTweets=session.search(q=userMention, count=100, result_type='recent', since_id=rootTweet.get_tweet_id())
+        newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', since_id=rootTweet.get_tweet_id())
         if newTweets.get('statuses'):
             for tweet in newTweets['statuses']:
                 tweetObj=Tweet.Tweet(tweet)
@@ -77,7 +77,7 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
     return potentialReplies, replyHits
 
 
-def search_by_usermention_max_id(userMention, session, potentialReplies, replyHits, rootTweet):
+def search_by_usermention_max_id(userMention, session, potentialReplies, replyHits, rootTweet, language):
     '''
         Used for the 100+ Tweets.
         
@@ -90,7 +90,7 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
     '''
     try:
         print("______________________________________________________________________________________________________________")
-        newTweets=session.search(q=userMention, count=100, result_type='recent', max_id=potentialReplies[-1].get_tweet_id()-1)
+        newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', max_id=potentialReplies[-1].get_tweet_id()-1)
         if newTweets.get('statuses'):
             for tweet in newTweets['statuses']:
                 tweetObj = Tweet.Tweet(tweet)
