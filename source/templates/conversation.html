@@ -38,7 +38,7 @@
 	<div>
 		<ul>
 			{% for items in response['replies'] %}
-			<li>{{ items['user']['screen_name'] }}</li>
+			<li>{{ items['tweet_content'] }}</li>
 			{% endfor %}
 		</ul>
 	</div>
