@@ -29,27 +29,44 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
-	<div>
-		<h1>Linear Visualization of Tweet {{response['main']['tweet_id']}}:</h1>
-	</div>
 
-		<div class="panel-group">
-			<div class="panel panel-primary">
-				<!-- main tweet -->
-				<div class="panel-heading">{{response['main']['user']['screen_name']}}</div>
-				<div class="panel-body">{{response['main']['tweet_content']}}</div>
-			</div>
+<div class="container">
+	<h1>Linear Visualization of Tweet {{response['main']['tweet_id']}}:</h1>
 
-			{% for items in response['replies'] %}
-			<div class="panel panel-default">
-				<div class="panel-heading">{{ items['user']['screen_name'] }}</div>
-				<div class="panel-body">{{ items['tweet_content'] }}</div>
-			</div>
-			{% endfor %}
-
+	<div class="media">
+		<!--<div class="media-left">
+			<img src="img_avatar1.png" class="media-object" style="width:45px">
+		</div>-->
+		<div class="media-left">
+			<p>test</p>
 		</div>
+		<div class="media-body">
+			<div class="panel-group">
+				<div class="panel panel-primary">
+					<!-- main tweet -->
+					<div class="panel-heading">{{response['main']['user']['screen_name']}}</div>
+					<div class="panel-body">{{response['main']['tweet_content']}}</div>
+				</div>
 
-</div>
+				<!-- Nested media object -->
+				{% for items in response['replies'] %}
+				<div class="media">
+					<!--<div class="media-left">
+					<img src="img_avatar2.png" class="media-object" style="width:45px">
+					</div>-->
+					<div class="media-left">
+						<p>test</p>
+					</div>
+					<div class="media-body">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{ items['user']['screen_name'] }}</div>
+							<div class="panel-body">{{ items['tweet_content'] }}</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

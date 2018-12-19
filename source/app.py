@@ -22,7 +22,7 @@ def conversation():
     if request.method == 'POST':
         # maybe TODO: check if input is valid (only Twitter URL or ID accepted); if URL, convert to ID
         requestedTweetID = request.form.get('tweetID')
-        language = 'de' #request.form.get('langopt')
+        language = request.form.get('langopt')
     return render_template('conversation.html',response=get_replies(requestedTweetID, language, 10))
 
 
