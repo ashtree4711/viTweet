@@ -34,14 +34,22 @@
 		<h1>Linear Visualization of Tweet {{response['main']['tweet_id']}}:</h1>
 	</div>
 
-	<!--first visualization by Elli and Monica-->
-	<div>
-		<ul>
+		<div class="panel-group">
+			<div class="panel panel-primary">
+				<!-- main tweet -->
+				<div class="panel-heading">{{response['main']['user']['screen_name']}}</div>
+				<div class="panel-body">{{response['main']['tweet_content']}}</div>
+			</div>
+
 			{% for items in response['replies'] %}
-			<li>{{ items['user']['screen_name'] }}</li>
+			<div class="panel panel-default">
+				<div class="panel-heading">{{ items['user']['screen_name'] }}</div>
+				<div class="panel-body">{{ items['tweet_content'] }}</div>
+			</div>
 			{% endfor %}
-		</ul>
-	</div>
+
+		</div>
+
 </div>
 
 {% endblock %}
