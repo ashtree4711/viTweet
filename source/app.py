@@ -7,11 +7,7 @@ app = Flask(__name__)
 Bootstrap(app)
 
 
-def get_replies(tweetID, language, maxReplies):
-    # Call function with TWEET-ID + max. Replies (please don't call over 10!)
-    # response -> Dictionary to be used 
-    response = search.get_replies(tweetID, language, maxReplies)
-    return response
+
 
 @app.route('/')
 def index():
@@ -23,7 +19,7 @@ def conversation():
         # maybe TODO: check if input is valid (only Twitter URL or ID accepted); if URL, convert to ID
         requestedTweetID = request.form.get('tweetID')
         language = request.form.get('langopt')
-    return render_template('conversation.html',response=get_replies(requestedTweetID, language, 10))
+    return render_template('conversation.html',response=search.get_replies(requestedTweetID, language, 10))
 
 
 if __name__ == "__main__":
