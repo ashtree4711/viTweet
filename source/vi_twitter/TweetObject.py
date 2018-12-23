@@ -38,6 +38,7 @@ class Tweet(object):
         self.reply_to_user_id = api_json['in_reply_to_user_id'] # Integer
         self.reply_to_user_id_str = api_json['in_reply_to_user_id_str'] # String
         self.reply_isQuote = api_json['is_quote_status']  # Boolean
+        self.reply_quantity = 0 # Integer
         
         
         # Retweet
@@ -54,7 +55,7 @@ class Tweet(object):
     
     def convert_to_new_dict(self):
             # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
-        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 
+        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity,
                     'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
         
@@ -127,6 +128,9 @@ class Tweet(object):
 
     def get_reply_is_quote(self):
         return self.__reply_isQuote
+    
+    def get_reply_quantity(self):
+        return self.__reply_quantity
 
 
     def get_retweet_count(self):
@@ -207,7 +211,9 @@ class Tweet(object):
 
     def set_reply_is_quote(self, value):
         self.__reply_isQuote = value
-
+        
+    def set_reply_quantity(self, value):
+        self.reply_quantity = value
 
     def set_retweet_count(self, value):
         self.__retweet_count = value
