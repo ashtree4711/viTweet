@@ -30,8 +30,8 @@ def conversation():
         #    return redirect(url_for('index'))
         #else: 
         #    return render_template('conversation.html', response=search.get_replies(requestedTweetID, language, 10))
-        search.get_conversation(requestedTweetID, language, max_replies=200)
-        return #render_template('conversation.html', response=search.get_conversation(requestedTweetID, language, max_replies=10))
+        #search.get_conversation(requestedTweetID, language, max_replies=200)
+        return render_template('conversation.html', response=search.get_conversation(requestedTweetID, language, max_replies=200))
 
 
 if __name__ == "__main__":
