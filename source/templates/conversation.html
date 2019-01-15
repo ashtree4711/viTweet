@@ -59,12 +59,14 @@
 				
 				
 				Quote Tweets:
-				{% for items in response['3.quote_tweets'] %}
-					<div>{{items['1.tweet']['tweet_id']}}</div>
-					<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
-					<div>{{items['1.tweet']['tweet_content']}}</div>
-					<br/>
-				{% endfor %}
+				{% if response['3.quote_tweets'] %}
+					{% for items in response['3.quote_tweets'] %}
+						<div>{{items['1.tweet']['tweet_id']}}</div>
+						<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
+						<div>{{items['1.tweet']['tweet_content']}}</div>
+						<br/>
+					{% endfor %}
+				{% endif %}
 
 
 
