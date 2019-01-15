@@ -1,5 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
+
 {% block content %}
 <!-- Navigation on top of the website -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,6 +43,10 @@
 		<div class="media-left">
 			<!-- button with number of replies (to do: number of replies) -->
 			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['1.tweet']['number_of_replies']}}</span></button>
+			
+			Zahl der Quote Tweets: 
+			<span class="badge">{{response['1.tweet']['number_of_quote_tweets']}}</span>
+			
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
@@ -50,47 +55,50 @@
 					<div class="panel-heading">{{response['1.tweet']['user']['user_name']}},{{response['1.tweet']['user']['screen_name']}},{{response['1.tweet']['timestamp']}}</div>
 					<div class="panel-body">{{response['1.tweet']['tweet_content']}}</div>
 				</div>
+				
+				
+				
+				Quote Tweets:
+				{% if response['3.quote_tweets'] %}
+					{% for items in response['3.quote_tweets'] %}
+						<div>{{items['1.tweet']['tweet_id']}}</div>
+						<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
+						<div>{{items['1.tweet']['tweet_content']}}</div>
+						<br/>
+					{% endfor %}
+				{% endif %}
+
+
 
 				<!-- Nested media object -->
-				{% for items in response['2.replies'] %}
-				<div class="media" id="reply" style="margin-bottom: 10px">
-					<!--<div class="media-left">
-					<img src="img_avatar2.png" class="media-object" style="width:45px">
-					</div>-->
-					<div class="media-left">
-						<button data-toggle="collapse" data-target="#replyofreply">Replies<span class="badge">{{items['1.tweet']['number_of_replies']}}</span></button>
-					</div>
-					<div class="media-body">
-						<div class="panel panel-default">
-							<div class="panel-heading">{{ items['1.tweet']['user']['user_name'] }},{{ items['1.tweet']['user']['screen_name']}},{{ items['1.tweet']['timestamp']}}</div>
-							<div class="panel-body">{{ items['1.tweet']['tweet_content'] }}</div>
-						</div>
 
-						<!-- Nested media object -->
-						{% if items ['2.replies']!=Null %}
-						{% for items2 in items['2.replies'] %}
-						<div class="media" id="replyofreply" style="margin-bottom: 10px">
-							<!--<div class="media-left">
-                            <img src="img_avatar2.png" class="media-object" style="width:45px">
-                            </div>-->
-							<div class="media-left">
-								<button data-toggle="collapse">Replies</button>
-							</div>
-							<div class="media-body">
-								<div class="panel panel-default">
-									<div class="panel-heading">{{ items2['1.tweet']['user']['user_name'] }},{{ items2['1.tweet']['user']['screen_name']}},{{ items2['1.tweet']['timestamp']}}</div>
-									<div class="panel-body">{{ items2['1.tweet']['tweet_content'] }}</div>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
-						{% endif %}
-					</div>
-				</div>
-				{% endfor %}
+				{{ render_boxes(response['2.replies']) }}
+
+
 			</div>
 		</div>
 
 	</div>
 </div>
 {% endblock %}
+
+{% macro render_boxes(replies) %}
+{% for items in replies %}
+<div class="media" id="reply" style="margin-bottom: 10px">
+	<div class="media-left">
+		<button data-toggle="collapse" data-target="#replyofreply">Replies<span class="badge">{{items['1.tweet']['number_of_replies']}}</span></button>
+	</div>
+	<div class="media-body">
+		<div class="panel panel-default">
+			<div class="panel-heading">{{ items['1.tweet']['user']['user_name'] }}, {{ items['1.tweet']['user']['screen_name']}},{{ items['1.tweet']['timestamp']}}</div>
+			<div class="panel-body">{{ items['1.tweet']['tweet_content'] }}</div>
+		</div>
+		{% if items['2.replies'] %}
+		{{ render_boxes(items['2.replies']) }}
+		{% endif %}
+	</div>
+
+</div>
+
+{% endfor %}
+{% endmacro %}
