@@ -43,6 +43,10 @@
 		<div class="media-left">
 			<!-- button with number of replies (to do: number of replies) -->
 			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['1.tweet']['number_of_replies']}}</span></button>
+			
+			Zahl der Quote Tweets: 
+			<span class="badge">{{response['1.tweet']['number_of_quote_tweets']}}</span>
+			
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
@@ -51,6 +55,17 @@
 					<div class="panel-heading">{{response['1.tweet']['user']['user_name']}},{{response['1.tweet']['user']['screen_name']}},{{response['1.tweet']['timestamp']}}</div>
 					<div class="panel-body">{{response['1.tweet']['tweet_content']}}</div>
 				</div>
+				
+				
+				
+				Quote Tweets:
+				{% for items in response['3.quote_tweets'] %}
+					<div>{{items['1.tweet']['tweet_id']}}</div>
+					<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
+					<div>{{items['1.tweet']['tweet_content']}}</div>
+					<br/>
+				{% endfor %}
+
 
 
 				<!-- Nested media object -->
@@ -85,4 +100,3 @@
 
 {% endfor %}
 {% endmacro %}
-

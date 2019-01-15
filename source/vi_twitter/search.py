@@ -29,12 +29,21 @@ def get_conversation(userInput, language, max_replies):
     
         # Initially we do need the Tweet-Object of the Root-Tweet, to call the get_replies()-function.
     rootTweet = get_tweet_by_id(root_id, twitterSession)
-    response=get_replies(twitterSession, rootTweet, language, max_replies)
+    quoteTweets=get_quote_tweets(twitterSession, rootTweet, language)
+    replies=get_replies(twitterSession, rootTweet, language, max_replies)
+    
+        # merging the replies dict and the quoteTweets dict
+    merged = {**quoteTweets, **replies}
     
         # saving temporary for test purposes
-    save_to_json(response)
-   
-    return response
+    #save_to_json(replies)
+    #save_to_json(quoteTweets)
+    save_to_json(merged)
+    
+    #return quoteTweets, replies
+    #return response
+    return merged
+    
 
 def get_replies(twitterSession, tweet, language, max_replies):
     """
@@ -84,7 +93,7 @@ def get_replies(twitterSession, tweet, language, max_replies):
         print("INFO: FOLLOWING ID's ARE REPLIES")
         for hit in replyHits:
             print("------> ", hit.get_tweet_id())
-            
+
         # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
         # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
         # with the Tweet and set the replies to null.
@@ -93,11 +102,11 @@ def get_replies(twitterSession, tweet, language, max_replies):
         for hit in replyHits:
             responseList.append(get_replies(twitterSession, hit, language, max_replies))
         response={'1.tweet': tweet.convert_to_new_dict(), '2.replies':responseList}   
-        return  response 
+        return response 
     else:
         response={'1.tweet':tweet.convert_to_new_dict(), '2.replies':None}
         return response
-    
+       
     
     
     
@@ -133,6 +142,62 @@ def get_replies2(tweet_id, language, max_replies=5):
     replyHits=clean_hits(replyHits, max_replies)
     response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))            
     return response
+
+
+# Elli
+def get_quote_tweets(twitterSession, tweet, language):
+    """
+    @param twitterSession: Connection to Twitter-API via Twython needed
+    @param rootTweet: Tweet(Object) for which we seek quotes
+    @param language: 
+    
+    @return Updated lists of potentialReplies & replyHits. These are the latest tweets
+    
+    @desc Calls the first 100 Tweets. They have to be older than related tweet  
+    """
+    print("___________________________________________")
+    print("INFO: LOOKING FOR QUOTE TWEETS OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
+    
+    quoteTweetHits = []
+    
+    try:
+        newTweets=twitterSession.search(q='https://twitter.com/' + tweet.get_user_screenname() + '/status/' + tweet.get_tweet_id_str() + ' -filter:retweets', count=100, lang=language)
+            # (re)construct the tweet URL of the root tweet / tweet for which quote tweets are searched
+        if newTweets.get('statuses'):
+            for atweet in newTweets['statuses']: # TODO: wie hier diesen Iterator nennen?
+                tweetObj=Tweet.Tweet(atweet)
+                quoteTweetHits.append(tweetObj)
+    except twython.exceptions.TwythonRateLimitError:
+        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
+        
+    
+            # We finally know how many quote tweets the tweet has and so save this information within the TweetObject
+    tweet.set_quote_tweet_quantity(len(quoteTweetHits))
+    
+    
+        # Produce some control information shown in the console
+    print("INFO: ", len(quoteTweetHits), "QUOTE TWEETS IDENTIFIED")
+    if len(quoteTweetHits)!=0:
+        print("INFO: FOLLOWING ID's ARE QUOTE TWEETS")
+        for hit in quoteTweetHits:
+            print("------> ", hit.get_tweet_id())
+            
+
+        # TODO: adapt the below comment for the piece of code
+        # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
+        # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
+        # with the Tweet and set the replies to null.
+    if len(quoteTweetHits)!=0:
+        quoteTweetList = []
+        for hit in quoteTweetHits:
+            quoteTweetList.append(get_quote_tweets(twitterSession, hit, language))
+            quoteTweets={'1.tweet': tweet.convert_to_new_dict(), '3.quote_tweets':quoteTweetList}   
+        return quoteTweets
+    else:
+        quoteTweets={'1.tweet': tweet.convert_to_new_dict(), '3.quote_tweets':None}
+        return quoteTweets
+
+
 
 def get_tweet_by_id(tweet_id, session):
     """
