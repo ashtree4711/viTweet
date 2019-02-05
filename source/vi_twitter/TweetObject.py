@@ -32,14 +32,23 @@ class Tweet(object):
         
         # Entities of a Tweet (Hashtags, User-Mentions, Media) -> https://developer.vi_twitter.com/en/docs/tweets/data-dictionary/overview/entities-object.html
         
-        # Reply Information
+        # Reply / Quoted Tweets Information
         self.reply_to_tweet_id = api_json['in_reply_to_status_id'] # Integer
         self.reply_to_tweet_id_str = api_json['in_reply_to_status_id_str'] # String
         self.reply_to_user_id = api_json['in_reply_to_user_id'] # Integer
         self.reply_to_user_id_str = api_json['in_reply_to_user_id_str'] # String
         self.reply_isQuote = api_json['is_quote_status']  # Boolean
+        if api_json['is_quote_status']:
+            self.quote_to_tweet_id = api_json['quoted_status_id'] # Integer
+            self.quote_to_tweet_id_str = api_json['quoted_status_id_str'] #String
+        else:
+            self.quote_to_tweet_id = None # Integer
+            self.quote_to_tweet_id_str = None #String
         self.reply_quantity = 0 # Integer
         self.quote_tweet_quantity = 0 # Integer
+        
+        # Embedded Tweet
+        self.embedded_tweet = self.create_embedded_tweet() # String
         
         
         # Retweet
@@ -51,16 +60,33 @@ class Tweet(object):
             
         self.convertedDict = self.convert_to_new_dict()
 
+    
+    def create_embedded_tweet(self):
+            # Constructs html-blockquote and Script to create a embeddeed tweet
+        blockquote_start = "<blockquote class='twitter-tweet' data-lang='de'>"
+        content = "<p dir='ltr'>"+self.tweet_content+"</p>"
+        user = "&mdash; "+self.user_name+" (@"+self.user_screenname+") "
+        link = "<a href='https://twitter.com/"+self.user_screenname+"/status/"+self.tweet_id_str+"?ref_src=twsrc%5Etfw'>"
+        time = self.timestamp
+        blockquote_end = "</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>"
+        self.embedded_tweet = blockquote_start+content+user+link+time+blockquote_end
+        print(self.embedded_tweet)
+        return self.embedded_tweet
+    
+    def get_embeddeed_tweet(self):
+        return self.embedded_tweet
+    
     def get_converted_structure(self):
         return self.__convertedTweetStructure
     
     def convert_to_new_dict(self):
             # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
-        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'number_of_quote_tweets':self.quote_tweet_quantity,
+        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'number_of_quote_tweets':self.quote_tweet_quantity, 'embeddingCode':self.embedded_tweet,
                     'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
         
         return new_dict
+    
     
         
     def get_converted_dict(self):
@@ -131,10 +157,16 @@ class Tweet(object):
         return self.__reply_isQuote
     
     def get_reply_quantity(self):
-        return self.__reply_quantity    
+        return self.reply_quantity 
+    
+    def get_quote_to_tweet_id(self):
+        return self.quote_to_tweet_id 
+    
+    def get_quote_to_tweet_id_str(self):
+        return self.quote_to_tweet_id_str   
     
     def get_quote_tweet_quantity(self):
-        return self.__quote_tweet_quantity
+        return self.quote_tweet_quantity
     
 
     def get_retweet_count(self):
@@ -216,6 +248,12 @@ class Tweet(object):
     def set_reply_is_quote(self, value):
         self.__reply_isQuote = value
         
+    def set_quote_to_tweet_id(self, value):
+        self.__quote_to_tweet_id = value
+    
+    def set_quote_to_tweet_id_str(self, value):
+        self.__quote_to_tweet_id_str = value 
+        
     def set_reply_quantity(self, value):
         self.reply_quantity = value
         
@@ -224,6 +262,12 @@ class Tweet(object):
 
     def set_retweet_count(self, value):
         self.__retweet_count = value
+        
+    def raise_reply_quantity(self):
+        self.reply_quantity = self.reply_quantity+1
+        
+    def raise_quote_tweet_quantity(self):
+        self.quote_tweet_quantity = self.quote_tweet_quantity+1
 
 
     def set_retweeted_timestamp(self, value):
