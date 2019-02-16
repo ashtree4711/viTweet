@@ -50,7 +50,7 @@
 			<div class="panel-group">
 				<div class="panel panel-primary">
 					<!-- main tweet -->
-					{{response['inv.tweet']['embeddingCode']}}
+					{{response['inv.tweet']['embeddingCode']|safe}}
 					<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div>
 					<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div>
 				</div>
