@@ -5,22 +5,37 @@ Created on 20 Nov 2018
 '''
 import datetime, os, json
 from pathlib import Path
-from vi_twitter import TweetObject as Tweet
 from builtins import int
+
 
 def save_to_json(dictionary):
     '''
         Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
     '''
     now = datetime.datetime.now()
-    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M"),'export':dictionary}
+    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'export':dictionary}
     dirname = Path(__file__).parents[2]
-    persist_data_file = os.path.join(dirname, "temp_files/json/", now.strftime("%Y%m%d")+".json")
+    filename = now.strftime("%Y%m%d%H%M%S")
+    persist_data_file = os.path.join(dirname, "temp_files/json/", filename + ".json")
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
     print ("SAVE JSON TO:", persist_data_file)
+        
+    return filename
+
+
+
+def json_to_dictionary(mode, requested_file):
+    if mode == 'search':
+        json_file = open('../temp_files/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
+    elif mode == 'upload':
+        json_file = open('../useruploads/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
+    json_str = json_file.read()
+    dictionary = json.loads(json_str)
     
-    return
+    return dictionary
+
+
 
 def create_response(searched_Tweet, replies):
     '''
