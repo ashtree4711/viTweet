@@ -115,10 +115,19 @@ def graph_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
-@app.route('/download/<path:filename>', methods=['GET'])
-def download_file(filename):
-        # Take the chosen file from the path specified in the config; serve file at /download/[...].json
-    return send_from_directory(app.config['TEMP_JSON_FILES'], filename)
+@app.route('/download/json/<path:json_filename>', methods=['GET'])
+def download_json(json_filename):
+        # Take the requested file from the path specified in the config; serve file at /download/[...].json
+    return send_from_directory(app.config['TEMP_JSON_FILES'], json_filename  + '.json')
+
+
+@app.route('/download/xml/<path:create_xml_filename>', methods=['GET'])
+def download_xml(create_xml_filename):
+        # Convert the currently shown JSON to XML
+    xml_filename = utilities.json_to_xml(create_xml_filename)
+        # Take the requested file from the path specified in the config; serve file at /download/[...].xml
+        # TODO: Aus irgendeinem Grund fehlt der heruntergeladenen Datei die Endung '.xml'???
+    return send_from_directory(app.config['TEMP_XML_FILES'], xml_filename + '.xml')
 
 
 if __name__ == "__main__":

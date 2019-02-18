@@ -36,9 +36,12 @@
 <div class="container">
 	<h1>Linear Visualization of Tweet {{response['export']['inv.tweet']['tweet_id']}}:</h1>
 	
-	<!-- Download button; filename is created from 'datetime' at the start of the JSON file -->
-	<a href="/download/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}.json" download>
+	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+	<a href="/download/json/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
 		<button>Export this conversation (JSON)</button>
+	</a>
+	<a href="/download/xml/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+		<button>Export this conversation (XML)</button>
 	</a>
 	
 	<div class="media">

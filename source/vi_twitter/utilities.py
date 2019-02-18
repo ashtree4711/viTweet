@@ -3,7 +3,7 @@ Created on 20 Nov 2018
 
 @author: markeschweiler
 '''
-import datetime, os, json
+import datetime, os, json, xmltodict
 from pathlib import Path
 from builtins import int
 
@@ -16,7 +16,7 @@ def save_to_json(dictionary):
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'export':dictionary}
     dirname = Path(__file__).parents[2]
     filename = now.strftime("%Y%m%d%H%M%S")
-    persist_data_file = os.path.join(dirname, "temp_files/json/", filename + ".json")
+    persist_data_file = os.path.join(dirname, "temp_files/json/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
     print ("SAVE JSON TO:", persist_data_file)
@@ -34,6 +34,26 @@ def json_to_dictionary(mode, requested_file):
     dictionary = json.loads(json_str)
     
     return dictionary
+
+
+
+def json_to_xml(json_filename):
+    # Transform a file from JSON to XML, using the library xmltodict
+    
+        # Specify file names and paths
+    xml_filename = json_filename
+    json_filepath = '../temp_files/json/' + json_filename + '.json' #TODO: Pfad stattdessen aus config-Datei entnehmen
+    xml_filepath = '../temp_files/xml/' + xml_filename + '.xml' #TODO: Pfad stattdessen aus config-Datei entnehmen
+    
+    with open(json_filepath, 'r') as f:
+        jsonString = f.read()
+    jsonString_with_added_root_element = '{"conversation":\n' + jsonString + '\n}'    
+    xmlString = xmltodict.unparse(json.loads(jsonString_with_added_root_element), pretty=True)
+    
+    with open(xml_filepath, 'w') as f:
+        f.write(xmlString)
+        
+    return xml_filename
 
 
 
