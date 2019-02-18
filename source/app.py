@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, flash, redirect, url_for
 from flask_bootstrap import Bootstrap
-
-#from vi_twitter.search import get_conversation
+from vi_twitter.search import get_conversation
 import vi_twitter.search as search
 import matplotlib.pyplot as plt
 import networkx as nx

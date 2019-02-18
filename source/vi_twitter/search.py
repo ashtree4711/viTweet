@@ -280,8 +280,6 @@ def convert_list_to_dict(tweetObjectList):
     for tweetObject in tweetObjectList:
         newTweetObjectList.append(tweetObject.convert_to_new_dict())
     return newTweetObjectList
-            
-    
     
     
       
