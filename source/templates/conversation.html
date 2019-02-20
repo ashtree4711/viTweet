@@ -12,8 +12,8 @@
 			<div class="container">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="/">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/contact">Contact</a></li>
 				</ul>
 
 				<!-- basic small search -->
@@ -37,11 +37,8 @@
 	<h1>Linear Visualization of Tweet {{response['inv.tweet']['tweet_id']}}:</h1>
 
 	<div class="media">
-		<!--<div class="media-left">
-			<img src="img_avatar1.png" class="media-object" style="width:45px">
-		</div>-->
 		<div class="media-left">
-			<!-- button with number of replies (to do: number of replies) -->
+			<!-- button with number of replies -->
 			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['inv.tweet']['number_of_replies']}}</span></button>
 			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['inv.tweet']['number_of_quote_tweets']}}</span></button>
 
@@ -51,8 +48,8 @@
 				<div class="panel panel-primary">
 					<!-- main tweet -->
 					{{response['inv.tweet']['embeddingCode']|safe}}
-					<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div>
-					<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div>
+					<!--<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div> -->
+					<!--<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div> -->
 				</div>
 				
 				
