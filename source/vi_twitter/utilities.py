@@ -50,7 +50,7 @@ def json_to_xml(json_filename):
     jsonString_with_added_root_element = '{"conversation":\n' + jsonString + '\n}'    
     xmlString = xmltodict.unparse(json.loads(jsonString_with_added_root_element), pretty=True)
     
-    with open(xml_filepath, 'w') as f:
+    with open(xml_filepath, 'w', encoding="utf-8") as f:
         f.write(xmlString)
         
     return xml_filename

@@ -143,3 +143,4 @@ source/config/app_config.ini
 source/config/config.ini
 temp_files/json/
 useruploads/json/
+*.xml
