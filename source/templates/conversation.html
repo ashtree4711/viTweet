@@ -12,8 +12,8 @@
 			<div class="container">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="/">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/contact">Contact</a></li>
 				</ul>
 
 				<!-- basic small search -->
@@ -34,33 +34,38 @@
 
 
 <div class="container">
-	<h1>Linear Visualization of Tweet {{response['1.tweet']['tweet_id']}}:</h1>
-
+	<h1>Linear Visualization of Tweet {{response['export']['inv.tweet']['tweet_id']}}:</h1>
+	
+	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+	<a href="/download/json/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+		<button>Export this conversation (JSON)</button>
+	</a>
+	<a href="/download/xml/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+		<button>Export this conversation (XML)</button>
+	</a>
+	
 	<div class="media">
-		<!--<div class="media-left">
-			<img src="img_avatar1.png" class="media-object" style="width:45px">
-		</div>-->
 		<div class="media-left">
-			<!-- button with number of replies (to do: number of replies) -->
-			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['1.tweet']['number_of_replies']}}</span></button>
-			
-			Zahl der Quote Tweets: 
-			<span class="badge">{{response['1.tweet']['number_of_quote_tweets']}}</span>
-			
+			<!-- button with number of replies -->
+			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['inv.tweet']['number_of_replies']}}</span></button>
+			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['inv.tweet']['number_of_quote_tweets']}}</span></button>
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
 				<div class="panel panel-primary">
 					<!-- main tweet -->
-					<div class="panel-heading">{{response['1.tweet']['user']['user_name']}},{{response['1.tweet']['user']['screen_name']}},{{response['1.tweet']['timestamp']}}</div>
-					<div class="panel-body">{{response['1.tweet']['tweet_content']}}</div>
+
+					{{response['inv.tweet']['embeddingCode']|safe}}
+					<!--<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div> -->
+					<!--<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div> -->
+
 				</div>
 				
 				
-				
+				<!--
 				Quote Tweets:
-				{% if response['3.quote_tweets'] %}
-					{% for items in response['3.quote_tweets'] %}
+				{% if response['export']['3.quote_tweets'] %}
+					{% for items in response['export']['3.quote_tweets'] %}
 						<div>{{items['1.tweet']['tweet_id']}}</div>
 						<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
 						<div>{{items['1.tweet']['tweet_content']}}</div>
@@ -68,11 +73,11 @@
 					{% endfor %}
 				{% endif %}
 
-
+				-->
 
 				<!-- Nested media object -->
 
-				{{ render_boxes(response['2.replies']) }}
+				{{ render_boxes(response['export']['replies']) }}
 
 
 			</div>
@@ -86,15 +91,16 @@
 {% for items in replies %}
 <div class="media" id="reply" style="margin-bottom: 10px">
 	<div class="media-left">
-		<button data-toggle="collapse" data-target="#replyofreply">Replies<span class="badge">{{items['1.tweet']['number_of_replies']}}</span></button>
+		<button data-toggle="collapse" data-target="#replyofreply">Replies<span class="badge">{{items['inv.tweet']['number_of_replies']}}</span></button>
+		<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{items['inv.tweet']['number_of_quote_tweets']}}</span></button>
 	</div>
 	<div class="media-body">
 		<div class="panel panel-default">
-			<div class="panel-heading">{{ items['1.tweet']['user']['user_name'] }}, {{ items['1.tweet']['user']['screen_name']}},{{ items['1.tweet']['timestamp']}}</div>
-			<div class="panel-body">{{ items['1.tweet']['tweet_content'] }}</div>
+			<div class="panel-heading">{{ items['inv.tweet']['user']['user_name'] }}, {{ items['inv.tweet']['user']['screen_name']}},{{ items['inv.tweet']['timestamp']}}</div>
+			<div class="panel-body">{{ items['inv.tweet']['tweet_content'] }}</div>
 		</div>
-		{% if items['2.replies'] %}
-		{{ render_boxes(items['2.replies']) }}
+		{% if items['replies'] %}
+			{{ render_boxes(items['replies']) }}
 		{% endif %}
 	</div>
 
