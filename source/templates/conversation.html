@@ -47,17 +47,16 @@
 	<div class="media">
 		<div class="media-left">
 			<!-- button with number of replies -->
-			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['inv.tweet']['number_of_replies']}}</span></button>
-			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['inv.tweet']['number_of_quote_tweets']}}</span></button>
+			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['export']['inv.tweet']['number_of_replies']}}</span></button>
+			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['export']['inv.tweet']['number_of_quote_tweets']}}</span></button>
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
 				<div class="panel panel-primary">
 					<!-- main tweet -->
 
-					{{response['inv.tweet']['embeddingCode']|safe}}
-					<!--<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div> -->
-					<!--<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div> -->
+					{{response['export']['inv.tweet']['embeddingCode']|safe}}
+
 
 				</div>
 				
