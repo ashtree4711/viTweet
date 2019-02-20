@@ -31,7 +31,6 @@ class Tweet(object):
         # Geo-Location of Tweet -> https://developer.vi_twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id.html
         
         # Entities of a Tweet (Hashtags, User-Mentions, Media) -> https://developer.vi_twitter.com/en/docs/tweets/data-dictionary/overview/entities-object.html
-        
         # Reply / Quoted Tweets Information
         self.reply_to_tweet_id = api_json['in_reply_to_status_id'] # Integer
         self.reply_to_tweet_id_str = api_json['in_reply_to_status_id_str'] # String
@@ -46,6 +45,11 @@ class Tweet(object):
             self.quote_to_tweet_id_str = None #String
         self.reply_quantity = 0 # Integer
         self.quote_tweet_quantity = 0 # Integer
+        
+        
+        # List with refering Tweet-ID
+        self.replied_by_list = [] # Array
+        self.quoted_by_list = [] # Array
         
         # Embedded Tweet
         self.embedded_tweet = self.create_embedded_tweet() # String
@@ -81,7 +85,7 @@ class Tweet(object):
     
     def convert_to_new_dict(self):
             # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
-        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'number_of_quote_tweets':self.quote_tweet_quantity, 'embeddingCode':self.embedded_tweet,
+        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'replies_id':self.get_replied_by_list(), 'number_of_quote_tweets':self.quote_tweet_quantity, 'quotedTweets':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
                     'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
         
@@ -183,7 +187,12 @@ class Tweet(object):
 
     def get_retweeted_user(self):
         return self.__retweeted_user
-
+    
+    def get_replied_by_list(self):
+        return self.replied_by_list
+    
+    def get_quoted_by_list(self):
+        return self.quoted_by_list
 
     def set_timestamp(self, value):
         self.__timestamp = value
@@ -280,6 +289,12 @@ class Tweet(object):
 
     def set_retweeted_user(self, value):
         self.__retweeted_user = value
+        
+    def set_replied_by_list(self, value):
+        self.replied_by_list.append(value)
+    
+    def set_quoted_by_list(self, value):
+        self.quoted_by_list.append(value)
 
 
     def del_timestamp(self):

@@ -4,7 +4,8 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import create_response, preprocess_input, save_to_json
+from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
+    save_recursiveList, save_flatList
 import vi_twitter.TweetObject as Tweet
 import twython
 
@@ -26,11 +27,16 @@ def get_conversation(userInput, language, max_replies):
     
         # Convert the userInput to the needed Tweet-ID as an Integer
     root_id=preprocess_input(userInput)
+    flatList=[]
     
         # Initially we do need the Tweet-Object of the Root-Tweet, to call the get_replies()-function.
     rootTweet = get_tweet_by_id(root_id, twitterSession)
     #quoteTweets=get_quote_tweets(twitterSession, rootTweet, language)
-    replies=get_replies(twitterSession, rootTweet, language, max_replies)
+
+    #recursiveList=get_replies(twitterSession, rootTweet, language, max_replies)
+    flatList=get_replies(twitterSession, rootTweet, language, max_replies, flatList)
+    
+    
     
         # merging the replies dict and the quoteTweets dict
     #merged = {**quoteTweets, **replies}
@@ -38,15 +44,17 @@ def get_conversation(userInput, language, max_replies):
         # saving temporary for test purposes
     #save_to_json(replies)
     #save_to_json(quoteTweets)
-    json_filename = save_to_json(replies)
+
     
+    save_flatList(flatList)
+
     #return quoteTweets, replies
     #return response
     #return replies
-    return json_filename
+    return #json_filename
     
 
-def get_replies(twitterSession, tweet, language, max_replies):
+def get_replies(twitterSession, tweet, language, max_replies, flatList):
     """
     @param twitterSession: needs a consisting connection to twitter-api    
     @param tweet: TweetObject of Tweet for which we searching replies
@@ -64,6 +72,8 @@ def get_replies(twitterSession, tweet, language, max_replies):
     potentialReplies=[]
     replyHits= []
     previousPotentialReplies=0
+    flatList.append(tweet.convert_to_new_dict())
+    print("flatList-Size: ", len(flatList))
     
         # Query is a construction for the workaround. Because you can't explicitly search for replies in the Twitter API. 
         # All potential tweets have to be searched first. This query searches for all tweets from and to the originator of
@@ -75,18 +85,22 @@ def get_replies(twitterSession, tweet, language, max_replies):
         # We need the parameter "since_id" first, because the API will give us automatically the latest tweets
         # and we just have to take care, that no Tweet should be older than the Root Tweet.
     potentialReplies, replyHits=search_by_usermention_since_id(query, twitterSession, potentialReplies, replyHits, tweet, language)
-    
+    print("1. potentialReplies:", len(potentialReplies))
+    print("1. replyHits:", len(replyHits))
         # Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
         # So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
         # Tweet of the existing list and declare it as the max_id.
     while (len(replyHits) <= max_replies and previousPotentialReplies < len(potentialReplies) and potentialReplies[-1].get_tweet_id() > tweet.get_tweet_id()):
         previousPotentialReplies=len(potentialReplies)
         potentialReplies, replyHits=search_by_usermention_max_id(query, twitterSession, potentialReplies, replyHits, tweet, language)
-        
+        print("2. potentialReplies:", len(potentialReplies))
+        print("2. replyHits:", len(replyHits))
         # Clean the hits necessary, because within a API-Call, there could be more than the demanded score. So we reduce the quantity if we do not need all
         # replies
+    print("2. potentialReplies:", len(potentialReplies))
+    print("2. replyHits:", len(replyHits))
     replyHits=clean_hits(replyHits, max_replies)
-    
+    print("CLEAN replyHits", len(replyHits))
         # We finally know how many replies the tweet has and so save this information within the TweetObject
     #tweet.set_reply_quantity(len(replyHits))
     
@@ -94,23 +108,31 @@ def get_replies(twitterSession, tweet, language, max_replies):
     print("INFO: ", len(potentialReplies),"TWEETS BROWSED")
     print("INFO: ", tweet.get_reply_quantity(), "REPLIES IDENTIFIED")
     print("INFO: ", tweet.get_quote_tweet_quantity(), "QUOTES IDENTIFIED")
-    if len(replyHits)!=0:
-        print("INFO: FOLLOWING ID's ARE REPLIES")
-        for hit in replyHits:
-            print("------> ", hit.get_tweet_id())
-
+    print("INFO: FOLLOWING ID's ARE REPLIES")
+    for t in tweet.get_replied_by_list():
+        print("--> ", t)
+    print("INFO: FOLLOWING ID's ARE QUOTES")
+    for t in tweet.get_quoted_by_list():
+        print("--> ", t)
+            
         # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
         # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
         # with the Tweet and set the replies to null.
-    if len(replyHits)!=0:
+    '''if len(replyHits)!=0:
+        response=[]
         responseList=[]
         for hit in replyHits:
             responseList.append(get_replies(twitterSession, hit, language, max_replies))
-        response={'inv.tweet': tweet.convert_to_new_dict(), 'replies':responseList}   
+        response={'inv.tweet': tweet.convert_to_new_dict(), 'replies':responseList}  
         return response 
     else:
         response={'inv.tweet':tweet.convert_to_new_dict(), 'replies':None}
-        return response
+        return response'''
+    if len(replyHits)!=0:
+        for hit in replyHits:
+            return get_replies(twitterSession, hit, language, max_replies, flatList)
+    else:
+        return None
        
     
     
@@ -235,9 +257,11 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
                 tweetObj=Tweet.Tweet(tweet)
                 potentialReplies.append(tweetObj)
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
+                    rootTweet.set_replied_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_reply_quantity()
                     replyHits.append(tweetObj)
                 if tweetObj.get_quote_to_tweet_id()==rootTweet.get_tweet_id():
+                    rootTweet.set_quoted_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_quote_tweet_quantity()
                     replyHits.append(tweetObj)
     except twython.exceptions.TwythonRateLimitError:
@@ -265,9 +289,11 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
                 tweetObj = Tweet.Tweet(tweet)
                 potentialReplies.append(tweetObj)
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
+                    rootTweet.set_replied_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_reply_quantity()
                     replyHits.append(tweetObj)
                 if tweetObj.get_quote_to_tweet_id()==rootTweet.get_tweet_id():
+                    rootTweet.set_quoted_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_quote_tweet_quantity()
                     replyHits.append(tweetObj)      
     except twython.exceptions.TwythonRateLimitError:
