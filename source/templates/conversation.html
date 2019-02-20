@@ -34,29 +34,38 @@
 
 
 <div class="container">
-	<h1>Linear Visualization of Tweet {{response['inv.tweet']['tweet_id']}}:</h1>
-
+	<h1>Linear Visualization of Tweet {{response['export']['inv.tweet']['tweet_id']}}:</h1>
+	
+	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+	<a href="/download/json/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+		<button>Export this conversation (JSON)</button>
+	</a>
+	<a href="/download/xml/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+		<button>Export this conversation (XML)</button>
+	</a>
+	
 	<div class="media">
 		<div class="media-left">
 			<!-- button with number of replies -->
 			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['inv.tweet']['number_of_replies']}}</span></button>
 			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['inv.tweet']['number_of_quote_tweets']}}</span></button>
-
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
 				<div class="panel panel-primary">
 					<!-- main tweet -->
+
 					{{response['inv.tweet']['embeddingCode']|safe}}
 					<!--<div class="panel-heading">{{response['inv.tweet']['user']['user_name']}},{{response['inv.tweet']['user']['screen_name']}},{{response['inv.tweet']['timestamp']}}</div> -->
 					<!--<div class="panel-body">{{response['inv.tweet']['tweet_content']}}</div> -->
+
 				</div>
 				
 				
 				<!--
 				Quote Tweets:
-				{% if response['3.quote_tweets'] %}
-					{% for items in response['3.quote_tweets'] %}
+				{% if response['export']['3.quote_tweets'] %}
+					{% for items in response['export']['3.quote_tweets'] %}
 						<div>{{items['1.tweet']['tweet_id']}}</div>
 						<div>{{items['1.tweet']['user']['user_name']}},{{items['1.tweet']['user']['screen_name']}},{{items['1.tweet']['timestamp']}}</div>
 						<div>{{items['1.tweet']['tweet_content']}}</div>
@@ -68,7 +77,7 @@
 
 				<!-- Nested media object -->
 
-				{{ render_boxes(response['replies']) }}
+				{{ render_boxes(response['export']['replies']) }}
 
 
 			</div>
@@ -91,7 +100,7 @@
 			<div class="panel-body">{{ items['inv.tweet']['tweet_content'] }}</div>
 		</div>
 		{% if items['replies'] %}
-		{{ render_boxes(items['replies']) }}
+			{{ render_boxes(items['replies']) }}
 		{% endif %}
 	</div>
 

@@ -137,9 +137,9 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/python
 config/config.ini
-source/config/config.ini
 __pycache__/twitter_api.cpython-36.pyc
+.idea/workspace.xml
+source/config/app_config.ini
 source/config/config.ini
 temp_files/json/
-source/config/config.ini
-.idea/workspace.xml
+useruploads/json/

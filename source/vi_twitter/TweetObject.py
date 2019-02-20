@@ -70,7 +70,7 @@ class Tweet(object):
         time = self.timestamp
         blockquote_end = "</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>"
         self.embedded_tweet = blockquote_start+content+user+link+time+blockquote_end
-        print(self.embedded_tweet)
+        #print(self.embedded_tweet)
         return self.embedded_tweet
     
     def get_embeddeed_tweet(self):

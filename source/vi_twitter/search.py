@@ -38,11 +38,12 @@ def get_conversation(userInput, language, max_replies):
         # saving temporary for test purposes
     #save_to_json(replies)
     #save_to_json(quoteTweets)
-    save_to_json(replies)
+    json_filename = save_to_json(replies)
     
     #return quoteTweets, replies
     #return response
-    return replies
+    #return replies
+    return json_filename
     
 
 def get_replies(twitterSession, tweet, language, max_replies):
@@ -148,7 +149,7 @@ def get_replies2(tweet_id, language, max_replies=5):
     return response
 
 
-# Elli
+
 def get_quote_tweets(twitterSession, tweet, language):
     """
     @param twitterSession: Connection to Twitter-API via Twython needed
