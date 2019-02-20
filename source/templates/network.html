@@ -3,13 +3,23 @@
 {% block content %}
 
 <div class="container">
-   <body>
+<!--
+	<h1>Price Chart of tweet {{response['1.tweet']['tweet_id']}}</h1>
 
-      <h1>Price Chart of tweet {{response['1.tweet']['tweet_id']}}</h1>
+    <p>{{ name }}</p>
 
-      <p>{{ name }}</p>
+    <img src="{{ url }}" alt="Chart" height="42" width="42">
+    -->
+    
+    <img
+       src="{{ url_for('graph', nodes=nodes) }}"
+       alt="Complete Graph with {{ nodes }} nodes"
+       height="200"
+    />
 
-      <img src={{ url }} alt="Chart" height="42" width="42">
-
-   </body>
 </div>
+
+{% endblock %}
+
+
+    

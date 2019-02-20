@@ -58,8 +58,8 @@ def get_replies(twitterSession, tweet, language, max_replies):
     principle until the tweet under investigation no longer has any replies. Then a dictionary is built up, which
      recursively completes itself until all replies and their replies are contoured. 
     """
-    print("___________________________________________")
-    print("INFO: INVESTIGATING REPLIES OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
+    #print("")#print("___________________________________________")
+    #print("INFO: INVESTIGATING REPLIES OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
     potentialReplies=[]
     replyHits= []
     previousPotentialReplies=0
@@ -87,12 +87,12 @@ def get_replies(twitterSession, tweet, language, max_replies):
     tweet.set_reply_quantity(len(replyHits))
     
         # Produce some control information shown in the console
-    print("INFO: ", len(potentialReplies),"TWEETS BROWSED")
-    print("INFO: ", len(replyHits), "REPLIES IDENTIFIED")
-    if len(replyHits)!=0:
-        print("INFO: FOLLOWING ID's ARE REPLIES")
-        for hit in replyHits:
-            print("------> ", hit.get_tweet_id())
+    #print("")#print("INFO: ", len(potentialReplies),"TWEETS BROWSED")
+    #print("")#print("INFO: ", len(replyHits), "REPLIES IDENTIFIED")
+    #if len(replyHits)!=0:
+        #print("")#print("INFO: FOLLOWING ID's ARE REPLIES")
+        #for hit in replyHits:
+            #print("")#print("------> ", hit.get_tweet_id())
 
         # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
         # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
@@ -155,8 +155,8 @@ def get_quote_tweets(twitterSession, tweet, language):
     
     @desc Calls the first 100 Tweets. They have to be older than related tweet  
     """
-    print("___________________________________________")
-    print("INFO: LOOKING FOR QUOTE TWEETS OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
+    #print("")#print("___________________________________________")
+    #print("")#print("INFO: LOOKING FOR QUOTE TWEETS OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
     
     quoteTweetHits = []
     
@@ -168,7 +168,7 @@ def get_quote_tweets(twitterSession, tweet, language):
                 tweetObj=Tweet.Tweet(atweet)
                 quoteTweetHits.append(tweetObj)
     except twython.exceptions.TwythonRateLimitError:
-        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
+        print("")#print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
         
     
             # We finally know how many quote tweets the tweet has and so save this information within the TweetObject
@@ -176,11 +176,11 @@ def get_quote_tweets(twitterSession, tweet, language):
     
     
         # Produce some control information shown in the console
-    print("INFO: ", len(quoteTweetHits), "QUOTE TWEETS IDENTIFIED")
-    if len(quoteTweetHits)!=0:
-        print("INFO: FOLLOWING ID's ARE QUOTE TWEETS")
-        for hit in quoteTweetHits:
-            print("------> ", hit.get_tweet_id())
+    #print("")#print("INFO: ", len(quoteTweetHits), "QUOTE TWEETS IDENTIFIED")
+    #if len(quoteTweetHits)!=0:
+        #print("")#print("INFO: FOLLOWING ID's ARE QUOTE TWEETS")
+        #for hit in quoteTweetHits:
+            #print("")#print("------> ", hit.get_tweet_id())
             
 
         # TODO: adapt the below comment for the piece of code
@@ -232,7 +232,7 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
                     replyHits.append(tweetObj)
     except twython.exceptions.TwythonRateLimitError:
-        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
+        print("")#print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
     return potentialReplies, replyHits
 
 
@@ -258,7 +258,7 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
                     replyHits.append(tweetObj)       
     except twython.exceptions.TwythonRateLimitError:
-        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
+        print("")#print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
     return potentialReplies, replyHits
    
 def clean_hits(replyHits, max_replies):

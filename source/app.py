@@ -1,8 +1,10 @@
-from flask import Flask, request, render_template, flash, redirect, url_for
+from flask import Flask, request, render_template, flash, redirect, url_for, send_file
 from flask_bootstrap import Bootstrap
 import vi_twitter.search as search
 import matplotlib.pyplot as plt
 import networkx as nx
+from io import BytesIO
+
 
 
 app = Flask(__name__)
@@ -41,31 +43,66 @@ def network():
         twitterSession = request.form.get('tweetID') 
         requestedTweetID= request.form.get('tweetID')
         language = request.form.get('langopt')
-        num = len(search.get_conversation(requestedTweetID, language, max_replies=200))
+        
+        response = search.get_conversation(requestedTweetID, language, max_replies=200)
+        replies = ["reply1", "reply2", "reply3", "reply4", "reply5"] #replies = response['2.replies']
+        number_of_replies = len(replies)
+        quotetweets = ["quote1", "quote2"] #quote_tweets = response['3.quote_tweets']
+        number_of_quotetweets = len(quotetweets)
+        
+        num = number_of_replies + number_of_quotetweets
         G = nx.star_graph(num)
         pos = nx.spring_layout(G)
         colors = range(num)
-        nx.draw_networkx_nodes(G, pos,nodelist= [1],node_color='y',node_size=1000,alpha=0.8)
+
+        
+        # Nodes
+        nx.draw_networkx_nodes(G, pos,nodelist= [1],node_color='y',node_size=1000,alpha=0.8) #TODO: wird nicht in der Mitte gezeichnet
+        nodelist = []
         list_of_replies = []
-        for i in search.get_conversation(requestedTweetID, language, max_replies=200):
-            list_of_replies.append(i)  
-            nx.draw_networkx_nodes(G, pos,nodelist= int(list_of_replies[i]), node_color='r',node_size=500,alpha=0.8)
+        for counter, reply in enumerate(replies):
+            #Draw nodes for replies
+            nx.draw_networkx_nodes(G, pos, list_of_replies.append(replies[counter]), node_color='r', node_size=500, alpha=0.8)
+            
         list_of_quotetweets = []
-        for j in search.get_quote_tweets(twitterSession, requestedTweetID, language):
-            list_of_quotetweets.append(j)
-            nx.draw_networkx_nodes(G, pos,nodelist= int(list_of_quotetweets[i]),node_color='b',node_size=500,alpha=0.8)
-        # edges 
+        for counter, reply in enumerate(quotetweets):
+            #Draw nodes for quote tweets
+            nx.draw_networkx_nodes(G, pos, list_of_quotetweets.append(quotetweets[counter]), node_color='b', node_size=500, alpha=0.8)
+        
+        # Edges
         nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5)
-        connection1 = zip(requestedTweetID,list_of_replies)
+        connection1 = zip(requestedTweetID,list_of_replies) #TODO: requestedTweetID als erster Teil macht keinen Sinn
+        connection1 = list(connection1)
         connection2 = zip(requestedTweetID, list_of_quotetweets)
-        nx.draw_networkx_edges(G, pos,edgelist=connection1,width=8, alpha=0.5, edge_color='r')
-        nx.draw_networkx_edges(G, pos,edgelist= connection2,width=8, alpha=0.5, edge_color='b')
-        labels = {}
+        connection2 = list(connection2)
+        
+        nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5, edge_color='r') #nx.draw_networkx_edges(G, pos, edgelist=connection1, width=8.0, alpha=0.5, edge_color='r') #TODO: unverständliche Fehlermeldung
+        nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5, edge_color='b') #nx.draw_networkx_edges(G, pos, edgelist=connection2, width=8.0, alpha=0.5, edge_color='b') #TODO: unverständliche Fehlermeldung
+        
+        labels = {} #TODO: sind das Beschriftungen der Nodes?
         nx.draw_networkx_labels(G, pos, labels, font_size=16)
         plt.axis('off')
         plt.savefig('network.png')
-        return render_template('network.html', name = plt.show(), url ='network.png')   
 
+        #return render_template('network.html', nodelist=list_of_replies+list_of_quotetweets) #return render_template('network.html', name = plt.show(), url='network.png', response=response) #TODO: korrigieren; ich glaube name macht so keinen Sinn 
+        return send_file('network.png')
+
+'''@app.route('/graph/<int:nodes>')
+def graph(nodelist):
+    G = nx.complete_graph(nodelist)
+    nx.draw(G)
+
+    img = BytesIO() # file-like object for the image
+    plt.savefig(img) # save the image to the stream
+    img.seek(0) # writing moved the cursor to the end of the file, reset
+    plt.clf() # clear pyplot
+
+    return send_file(img, mimetype='image/png')'''
+
+
+'''@app.route('/png/<path:filename>', methods=['GET', 'POST'])
+def png(filename):
+    return send_from_directory('..', filename)'''
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
