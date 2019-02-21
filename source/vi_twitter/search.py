@@ -5,7 +5,7 @@ Created on 20 Nov 2018
 '''
 from vi_twitter.connector import connect_to_api
 from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
-    save_recursiveList, save_flatList, create_hList
+    save_recursiveList, save_flatList, create_rList
 import vi_twitter.TweetObject as Tweet
 import twython
 
@@ -27,40 +27,34 @@ def get_conversation(userInput, language, max_replies):
     
         # Convert the userInput to the needed Tweet-ID as an Integer
     root_id=preprocess_input(userInput)
-    flatList=[]
+    
     
         # Initially we do need the Tweet-Object of the Root-Tweet, to call the get_replies()-function.
     rootTweet = get_tweet_by_id(root_id, twitterSession)
-    #quoteTweets=get_quote_tweets(twitterSession, rootTweet, language)
-
-    #recursiveList=get_replies(twitterSession, rootTweet, language, max_replies)
-    flatList=get_replies(twitterSession, rootTweet, language, max_replies, flatList)
+        
+        # Initialize a fList (flat list), where all tweets get stored. Save it to a JSON-File
+    fList=[]
+    fList=get_replies(twitterSession, rootTweet, language, max_replies, fList)
+    save_flatList(fList)
+        # Create a rList (recursive list), which represents the structure better. Save it to a JSON-File
+    rList=create_rList(root_id, fList)
    
-    hList=create_hList(root_id, flatList)
-        # merging the replies dict and the quoteTweets dict
-    #merged = {**quoteTweets, **replies}
-    
-        # saving temporary for test purposes
-    #save_to_json(replies)
-    #save_to_json(quoteTweets)
+        #TODO: @elli, maybe u can describe why u are returning a file instead of list or dict
+    json_filename = save_recursiveList(rList)
 
-    
-    json_filename = save_flatList(flatList)
-
-    #return quoteTweets, replies
-    #return response
-    #return replies
+  
     return json_filename
     
 
-def get_replies(twitterSession, tweet, language, max_replies, flatList):
+def get_replies(twitterSession, tweet, language, max_replies, fList):
     """
     @param twitterSession: needs a consisting connection to twitter-api    
     @param tweet: TweetObject of Tweet for which we searching replies
     @param language: restricts tweets to the given language, given by an ISO 639-1 code
     @param max_replies: maximum replies per call
+    @param fList: Is the list which stores all results
     
-    @return response: Dict of Tweet with all its Replies in a list
+    @return fList: Returns updated list back to every older instance of recursive method
     
     @desc The function has a recursive structure. For each reply, the method calls itself according to the depth-first 
     principle until the tweet under investigation no longer has any replies. Then a dictionary is built up, which
@@ -108,65 +102,18 @@ def get_replies(twitterSession, tweet, language, max_replies, flatList):
         print("--> ", t)
             
         # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
-        # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
-        # with the Tweet and set the replies to null.
-    '''if len(replyHits)!=0:
-        response=[]
-        responseList=[]
-        for hit in replyHits:
-            responseList.append(get_replies(twitterSession, hit, language, max_replies))
-        response={'inv.tweet': tweet.convert_to_new_dict(), 'replies':responseList}  
-        return response 
-    else:
-        response={'inv.tweet':tweet.convert_to_new_dict(), 'replies':None}
-        return response'''
+        # construct a new Dictionary from the tweet and its replies of the current instance. 
+ 
     if len(replyHits)!=0:
         for hit in replyHits:
-            get_replies(twitterSession, hit, language, max_replies, flatList)
-        flatList.append(tweet.convert_to_new_dict())
-        return flatList
+            get_replies(twitterSession, hit, language, max_replies, fList)
+        fList.append(tweet.convert_to_new_dict())
+        return fList
     else:
-        flatList.append(tweet.convert_to_new_dict())
-        return flatList
+        fList.append(tweet.convert_to_new_dict())
+        return fList
        
-    
-    
-    
-def get_replies2(tweet_id, language, max_replies=5):
-        # tweet_id -> Twitter-URL or ID
-        # language -> Restricts tweets to the given language, given by an ISO 639-1 code. Language detection is best-effort
-        # max_replies -> maximum Replies
-        
-    twitterSession = connect_to_api() 
-    potentialReplies=[]
-    replyHits= []
-    previousPotentialReplies=0
-    
-        # Convert user input to Twitter ID Integer
-    tweet_id=preprocess_input(tweet_id)
-    
-    rootTweet = get_tweet_by_id(tweet_id, twitterSession)
-        # create from the screenname a user mention
-    userMention="to:"+rootTweet.get_user_screenname()+" OR from:"+rootTweet.get_user_screenname()+" -filter:retweets"
- 
-        # First Round: We need the parameter "since_id" first, because the API will give us automatically the latest tweets
-        #              and we just have to take care, that no Tweet should be older than the Root Tweet.
-    potentialReplies, replyHits=search_by_usermention_since_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet, language)
-        # Second Round: Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
-        #               So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
-        #               Tweet of the existing list and declare it as the max_id.
-    while (len(replyHits) <= max_replies and previousPotentialReplies < len(potentialReplies) and potentialReplies[-1].get_tweet_id() > rootTweet.get_tweet_id()):
-        previousPotentialReplies=len(potentialReplies)
-        potentialReplies, replyHits=search_by_usermention_max_id(userMention, twitterSession, potentialReplies, replyHits, rootTweet, language)
-    #latest_tweet=potentialReplies[-1].get_id()
-    #previousTweetList=0
-            # Looping as long we reached the maximum replies or there are no new Tweets
-    replyHits=clean_hits(replyHits, max_replies)
-    response=create_response(rootTweet.convert_to_new_dict(), convert_list_to_dict(replyHits))            
-    return response
-
-
-
+    #TODO: @Elli. So, we dont use this function anymore. Can we delete it? Or would like keep that?
 def get_quote_tweets(twitterSession, tweet, language):
     """
     @param twitterSession: Connection to Twitter-API via Twython needed

@@ -28,7 +28,7 @@ def save_recursiveList(dictionary):
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
     dirname = Path(__file__).parents[2]
-    filename = "recursivelist_"+now.strftime("%Y%m%d%H%M%S")
+    filename = "rList_"+now.strftime("%Y%m%d%H%M%S")
     persist_data_file = os.path.join(dirname, "temp_files/json/recursiveList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
@@ -41,7 +41,7 @@ def save_flatList(dictionary):
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
     dirname = Path(__file__).parents[2]
-    filename = "flatlist_"+now.strftime("%Y%m%d%H%M%S")
+    filename = "fList_"+now.strftime("%Y%m%d%H%M%S")
     persist_data_file = os.path.join(dirname, "temp_files/json/flatList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
@@ -94,26 +94,29 @@ def create_response(searched_Tweet, replies):
     return response
 
 
-def create_hList(root_id, flatList):
-    '''if len(replyHits)!=0:
-        response=[]
-        responseList=[]
-        for hit in replyHits:
-            responseList.append(get_replies(twitterSession, hit, language, max_replies))
-        response={'inv.tweet': tweet.convert_to_new_dict(), 'replies':responseList}  
-        return response 
-    else:
-        response={'inv.tweet':tweet.convert_to_new_dict(), 'replies':None}
-        return response'''
-    
-    for f in flatList:
-        if f.get('tweet_id') == root_id:
-            hList={'inv.tweet':f, 'replies':list}
-            return hList
-        else:
-            hList={'inv.tweet':f, 'replies':None}
-            return hList
-    
+def create_rList(tweet_id, fList):
+    #TODO: @mark describe describe describe
+    for investigatedTweet in fList:
+        if investigatedTweet.get('tweet_id') == tweet_id:
+            replyList=get_replies_from_fList(investigatedTweet, fList)
+            if len(replyList)!=0:
+                rList=[]
+                rList2=[]
+                for reply in replyList:
+                    rList2.append(create_rList(reply.get('tweet_id'), fList))
+                rList={'inv.tweet':investigatedTweet, 'replies': rList2}
+                return rList
+            else:
+                rList={'inv.tweet':investigatedTweet, 'replies':None}
+                return rList
+            
+def get_replies_from_fList(investigatedTweet, fList):
+    #TODO: @mark describe describe describe
+    replyList=[]
+    for tweet in fList:
+        if tweet.get('reply_to')==investigatedTweet.get("tweet_id"):
+            replyList.append(tweet)
+    return replyList
 
 
 
