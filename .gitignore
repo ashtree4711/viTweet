@@ -141,6 +141,7 @@ __pycache__/twitter_api.cpython-36.pyc
 .idea/workspace.xml
 source/config/app_config.ini
 source/config/config.ini
-temp_files/json/
-useruploads/json/
+temp_files/json/flatList/*.json
+temp_files/json/recursiveList/*.json
+useruploads/json/*.json
 *.xml
