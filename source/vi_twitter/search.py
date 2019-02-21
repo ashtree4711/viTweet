@@ -5,7 +5,7 @@ Created on 20 Nov 2018
 '''
 from vi_twitter.connector import connect_to_api
 from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
-    save_recursiveList, save_flatList
+    save_recursiveList, save_flatList, create_hList
 import vi_twitter.TweetObject as Tweet
 import twython
 
@@ -35,9 +35,8 @@ def get_conversation(userInput, language, max_replies):
 
     #recursiveList=get_replies(twitterSession, rootTweet, language, max_replies)
     flatList=get_replies(twitterSession, rootTweet, language, max_replies, flatList)
-    
-    
-    
+   
+    hList=create_hList(root_id, flatList)
         # merging the replies dict and the quoteTweets dict
     #merged = {**quoteTweets, **replies}
     
@@ -46,12 +45,12 @@ def get_conversation(userInput, language, max_replies):
     #save_to_json(quoteTweets)
 
     
-    save_flatList(flatList)
+    json_filename = save_flatList(flatList)
 
     #return quoteTweets, replies
     #return response
     #return replies
-    return #json_filename
+    return json_filename
     
 
 def get_replies(twitterSession, tweet, language, max_replies, flatList):
@@ -72,35 +71,28 @@ def get_replies(twitterSession, tweet, language, max_replies, flatList):
     potentialReplies=[]
     replyHits= []
     previousPotentialReplies=0
-    flatList.append(tweet.convert_to_new_dict())
-    print("flatList-Size: ", len(flatList))
     
         # Query is a construction for the workaround. Because you can't explicitly search for replies in the Twitter API. 
         # All potential tweets have to be searched first. This query searches for all tweets from and to the originator of
         # the tweet to be examined.
     query="to:"+tweet.get_user_screenname()+" OR from:"+tweet.get_user_screenname()+" OR "+"https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()
-    query2="to:"+tweet.get_user_screenname()+" OR https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()+" -filter:retweets"
     print(query)
     
         # We need the parameter "since_id" first, because the API will give us automatically the latest tweets
         # and we just have to take care, that no Tweet should be older than the Root Tweet.
     potentialReplies, replyHits=search_by_usermention_since_id(query, twitterSession, potentialReplies, replyHits, tweet, language)
-    print("1. potentialReplies:", len(potentialReplies))
-    print("1. replyHits:", len(replyHits))
+    
         # Now, we need the max_id since the every call to API will give us, as already said, the latest tweet.
         # So we do need Tweets, which are older than the already received Tweets. We get them, if we take the last
         # Tweet of the existing list and declare it as the max_id.
     while (len(replyHits) <= max_replies and previousPotentialReplies < len(potentialReplies) and potentialReplies[-1].get_tweet_id() > tweet.get_tweet_id()):
         previousPotentialReplies=len(potentialReplies)
         potentialReplies, replyHits=search_by_usermention_max_id(query, twitterSession, potentialReplies, replyHits, tweet, language)
-        print("2. potentialReplies:", len(potentialReplies))
-        print("2. replyHits:", len(replyHits))
+
         # Clean the hits necessary, because within a API-Call, there could be more than the demanded score. So we reduce the quantity if we do not need all
         # replies
-    print("2. potentialReplies:", len(potentialReplies))
-    print("2. replyHits:", len(replyHits))
     replyHits=clean_hits(replyHits, max_replies)
-    print("CLEAN replyHits", len(replyHits))
+
         # We finally know how many replies the tweet has and so save this information within the TweetObject
     #tweet.set_reply_quantity(len(replyHits))
     
@@ -110,7 +102,7 @@ def get_replies(twitterSession, tweet, language, max_replies, flatList):
     print("INFO: ", tweet.get_quote_tweet_quantity(), "QUOTES IDENTIFIED")
     print("INFO: FOLLOWING ID's ARE REPLIES")
     for t in tweet.get_replied_by_list():
-        print("--> ", t)
+            print("--> ", t)
     print("INFO: FOLLOWING ID's ARE QUOTES")
     for t in tweet.get_quoted_by_list():
         print("--> ", t)
@@ -130,9 +122,12 @@ def get_replies(twitterSession, tweet, language, max_replies, flatList):
         return response'''
     if len(replyHits)!=0:
         for hit in replyHits:
-            return get_replies(twitterSession, hit, language, max_replies, flatList)
+            get_replies(twitterSession, hit, language, max_replies, flatList)
+        flatList.append(tweet.convert_to_new_dict())
+        return flatList
     else:
-        return None
+        flatList.append(tweet.convert_to_new_dict())
+        return flatList
        
     
     

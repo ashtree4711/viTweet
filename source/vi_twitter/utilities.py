@@ -94,6 +94,27 @@ def create_response(searched_Tweet, replies):
     return response
 
 
+def create_hList(root_id, flatList):
+    '''if len(replyHits)!=0:
+        response=[]
+        responseList=[]
+        for hit in replyHits:
+            responseList.append(get_replies(twitterSession, hit, language, max_replies))
+        response={'inv.tweet': tweet.convert_to_new_dict(), 'replies':responseList}  
+        return response 
+    else:
+        response={'inv.tweet':tweet.convert_to_new_dict(), 'replies':None}
+        return response'''
+    
+    for f in flatList:
+        if f.get('tweet_id') == root_id:
+            hList={'inv.tweet':f, 'replies':list}
+            return hList
+        else:
+            hList={'inv.tweet':f, 'replies':None}
+            return hList
+    
+
 
 
 def preprocess_input(input):

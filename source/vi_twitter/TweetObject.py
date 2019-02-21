@@ -13,7 +13,7 @@ class Tweet(object):
     def __init__(self, api_json):
         # General Information of posted Tweet
         self.timestamp = api_json['created_at'] # String
-        self.tweet_id = api_json['id'] # Integer
+        self.tweet_id = int(api_json['id']) # Integer
         self.tweet_id_str= api_json['id_str'] # String
         self.tweet_content = api_json['text'] # String
         
