@@ -34,7 +34,7 @@
 
 
 <div class="container">
-	<h1>Linear Visualization of Tweet {{response['export']['inv.tweet']['tweet_id']}}:</h1>
+	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
 	
 	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
 	<a href="/download/json/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
@@ -47,15 +47,15 @@
 	<div class="media">
 		<div class="media-left">
 			<!-- button with number of replies -->
-			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['export']['inv.tweet']['number_of_replies']}}</span></button>
-			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['export']['inv.tweet']['number_of_quote_tweets']}}</span></button>
+			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
+			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
 		</div>
 		<div class="media-body">
 			<div class="panel-group">
 				<div class="panel panel-primary">
 					<!-- main tweet -->
 
-					{{response['export']['inv.tweet']['embeddingCode']|safe}}
+					{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
 
 
 				</div>
@@ -76,7 +76,7 @@
 
 				<!-- Nested media object -->
 
-				{{ render_boxes(response['export']['replies']) }}
+				{{ render_boxes(response['conversation']['replies']) }}
 
 
 			</div>
