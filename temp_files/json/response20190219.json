@@ -1,0 +1,89 @@
+{
+    "datetime": "2019-02-19 18:59",
+    "main": {
+        "number_of_quote_tweets": 0,
+        "number_of_replies": 0,
+        "timestamp": "Tue Feb 19 11:45:28 +0000 2019",
+        "tweet_content": "Medienberichte: Modesch\u00f6pfer Karl Lagerfeld ist tot https://t.co/3qvbo3Cibh",
+        "tweet_id": 1097824486550851586,
+        "user": {
+            "description": "Die Eilmeldung der tagesschau.de-Redaktion",
+            "location": "Hamburg",
+            "screen_name": "tagesschau_eil",
+            "user_id": 20577168,
+            "user_name": "tagesschau Eil"
+        }
+    },
+    "replies": [
+        {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Feb 19 11:59:36 +0000 2019",
+            "tweet_content": "@tagesschau_eil Wa geht",
+            "tweet_id": 1097828042821513217,
+            "user": {
+                "description": "",
+                "location": "",
+                "screen_name": "OveTolk",
+                "user_id": 1062444767878021120,
+                "user_name": "Ove Tolk"
+            }
+        },
+        {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Feb 19 11:55:00 +0000 2019",
+            "tweet_content": "@tagesschau_eil Love.",
+            "tweet_id": 1097826883952144384,
+            "user": {
+                "description": "",
+                "location": "",
+                "screen_name": "andantaant",
+                "user_id": 1078988018583773184,
+                "user_name": "Andantaant Klaaseesist"
+            }
+        },
+        {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Feb 19 11:51:07 +0000 2019",
+            "tweet_content": "@tagesschau_eil @hrinfo \ud83d\ude14\ud83d\ude2d\ud83d\udc94 RIP!",
+            "tweet_id": 1097825905735544832,
+            "user": {
+                "description": "Female Patriot \u2764\ufe0f\ud83c\udde9\ud83c\uddea If we're fighting the same fight, hit me up! \ud83d\ude09",
+                "location": "Deutschland",
+                "screen_name": "FuckFeminism7",
+                "user_id": 951499446554185729,
+                "user_name": "\ud83d\udc83"
+            }
+        },
+        {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Feb 19 11:46:12 +0000 2019",
+            "tweet_content": "@tagesschau_eil https://t.co/ES9v7fsCjU",
+            "tweet_id": 1097824670190047232,
+            "user": {
+                "description": "Familyguy. Human Rights Activist. MENA expert. Highway Engineer. 2x Muay Thai Champion",
+                "location": "Nairobi",
+                "screen_name": "JWreport",
+                "user_id": 1081632716683128832,
+                "user_name": "Jefferson West"
+            }
+        },
+        {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Feb 19 11:45:43 +0000 2019",
+            "tweet_content": "@tagesschau_eil Wer ist das",
+            "tweet_id": 1097824548613996545,
+            "user": {
+                "description": "Familyguy. Human Rights Activist. MENA expert. Highway Engineer. 2x Muay Thai Champion",
+                "location": "Nairobi",
+                "screen_name": "JWreport",
+                "user_id": 1081632716683128832,
+                "user_name": "Jefferson West"
+            }
+        }
+    ]
+}

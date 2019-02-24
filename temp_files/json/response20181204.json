@@ -1,0 +1,41 @@
+{
+    "datetime": "2018-12-04 16:02",
+    "main": {
+        "timestamp": "Mon Dec 03 18:32:59 +0000 2018",
+        "tweet_content": "Was soll schon schiefgehen, \u2066@politicalbeauty? \u201eTats\u00e4chlich will das ZPS beim Aufbau seiner Datenbank nach eigenen\u2026 https://t.co/RybiWxaFmN",
+        "tweet_id": 1069660787722084352,
+        "user": {
+            "description": "[sp\u026an\u02bcf\u0254c\u026d] Digital Humanities. Computational Linguistics. Bloggen. Arbeiten an der Reise nach dem Mond.",
+            "location": "K\u00f6ln",
+            "screen_name": "spinfocl",
+            "user_id": 214008538,
+            "user_name": "jhermes"
+        }
+    },
+    "replies": [
+        {
+            "timestamp": "Mon Dec 03 18:43:49 +0000 2018",
+            "tweet_content": "@spinfocl @politicalbeauty *hust* GDPR *hust*",
+            "tweet_id": 1069663514858524674,
+            "user": {
+                "description": "CYNIC, n.\r\n    A blackguard whose faulty vision sees things as they are, not as they ought to be.",
+                "location": "",
+                "screen_name": "Morticah",
+                "user_id": 59562550,
+                "user_name": "Dirk Hartmann"
+            }
+        },
+        {
+            "timestamp": "Mon Dec 03 18:38:39 +0000 2018",
+            "tweet_content": "@spinfocl @politicalbeauty Ich f\u00fcrchte leider dass dieser \u00fcberwachungs- und bespitzelungs-drive weder ironisch, sat\u2026 https://t.co/lPxcFGucPN",
+            "tweet_id": 1069662214255185921,
+            "user": {
+                "description": "like als Merker - nicht komplette Zustimmung.",
+                "location": "Deutschland",
+                "screen_name": "RosaDupre3",
+                "user_id": 977108657698758656,
+                "user_name": "rosen rot"
+            }
+        }
+    ]
+}

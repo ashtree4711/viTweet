@@ -1,0 +1,372 @@
+{
+    "datetime": "2019-02-20 19:12:54",
+    "export": {
+        "inv.tweet": {
+            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>\u201eSie spielen den Ball nach Berlin und zu RWE\u201c, sagt Oppositionsf\u00fchrer @thomaskutschaty f\u00fcr die @spd_fraktion_nw. Di\u2026 https://t.co/i3THWA5GuD</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098160599694012416?ref_src=twsrc%5Etfw'>Wed Feb 20 10:01:04 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 1,
+            "timestamp": "Wed Feb 20 10:01:04 +0000 2019",
+            "tweet_content": "\u201eSie spielen den Ball nach Berlin und zu RWE\u201c, sagt Oppositionsf\u00fchrer @thomaskutschaty f\u00fcr die @spd_fraktion_nw. Di\u2026 https://t.co/i3THWA5GuD",
+            "tweet_id": 1098160599694012416,
+            "user": {
+                "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                "location": "D\u00fcsseldorf, Deutschland",
+                "screen_name": "Westpol",
+                "user_id": 927897264651202560,
+                "user_name": "Westpol"
+            }
+        },
+        "replies": [
+            {
+                "inv.tweet": {
+                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Die SPD vermisst Strukturhilfen f\u00fcr die Steinkohle-Kraftwerke im n\u00f6rdlichen Ruhrgebiet. Das Ruhrgebiet werde beim\u2026 https://t.co/J0OSRhSuFx</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098161501343531010?ref_src=twsrc%5Etfw'>Wed Feb 20 10:04:39 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 2,
+                    "timestamp": "Wed Feb 20 10:04:39 +0000 2019",
+                    "tweet_content": "Die SPD vermisst Strukturhilfen f\u00fcr die Steinkohle-Kraftwerke im n\u00f6rdlichen Ruhrgebiet. Das Ruhrgebiet werde beim\u2026 https://t.co/J0OSRhSuFx",
+                    "tweet_id": 1098161501343531010,
+                    "user": {
+                        "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                        "location": "D\u00fcsseldorf, Deutschland",
+                        "screen_name": "Westpol",
+                        "user_id": 927897264651202560,
+                        "user_name": "Westpol"
+                    }
+                },
+                "replies": [
+                    {
+                        "inv.tweet": {
+                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Wie umgehen mit Klima-Protesten? \u201eDie Kinder wollen unsere Anerkennung und nicht unsere Geringsch\u00e4tzung\u201c, so Opposi\u2026 https://t.co/j87iycL8FE</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098163666908835840?ref_src=twsrc%5Etfw'>Wed Feb 20 10:13:15 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                            "number_of_quote_tweets": 5,
+                            "number_of_replies": 3,
+                            "timestamp": "Wed Feb 20 10:13:15 +0000 2019",
+                            "tweet_content": "Wie umgehen mit Klima-Protesten? \u201eDie Kinder wollen unsere Anerkennung und nicht unsere Geringsch\u00e4tzung\u201c, so Opposi\u2026 https://t.co/j87iycL8FE",
+                            "tweet_id": 1098163666908835840,
+                            "user": {
+                                "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                "location": "D\u00fcsseldorf, Deutschland",
+                                "screen_name": "Westpol",
+                                "user_id": 927897264651202560,
+                                "user_name": "Westpol"
+                            }
+                        },
+                        "replies": [
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz</p>&mdash; luciamertins (@luciamertins) <a href='https://twitter.com/luciamertins/status/1098248105496137728?ref_src=twsrc%5Etfw'>Wed Feb 20 15:48:47 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 15:48:47 +0000 2019",
+                                    "tweet_content": "RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz",
+                                    "tweet_id": 1098248105496137728,
+                                    "user": {
+                                        "description": "sorry f\u00fcr evtl. schreibfehler.\nh\u00e4nde u. augen wollen manchmal nicht.\ntue keinem menschen was schlechtes. \n#hambibleibt  forever!!",
+                                        "location": "nrw",
+                                        "screen_name": "luciamertins",
+                                        "user_id": 1078419185968074752,
+                                        "user_name": "luciamertins"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz</p>&mdash; Bushi \ud83d\udc3f\ufe0f\ud83d\udc3f\ufe0f\ud83d\udc3f\ufe0f (@BushcraftRhein1) <a href='https://twitter.com/BushcraftRhein1/status/1098180100221296640?ref_src=twsrc%5Etfw'>Wed Feb 20 11:18:33 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 11:18:33 +0000 2019",
+                                    "tweet_content": "RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz",
+                                    "tweet_id": 1098180100221296640,
+                                    "user": {
+                                        "description": "Wenn Recht zu Unrecht wird, wird Widerstand zur Pflicht, aber Gehorsam wird zum Verbrechen!",
+                                        "location": "Germany",
+                                        "screen_name": "BushcraftRhein1",
+                                        "user_id": 1037479006029926400,
+                                        "user_name": "Bushi \ud83d\udc3f\ufe0f\ud83d\udc3f\ufe0f\ud83d\udc3f\ufe0f"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz</p>&mdash; o je \ud83e\udde1 (@petera4711) <a href='https://twitter.com/petera4711/status/1098171703375679489?ref_src=twsrc%5Etfw'>Wed Feb 20 10:45:11 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:45:11 +0000 2019",
+                                    "tweet_content": "RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz",
+                                    "tweet_id": 1098171703375679489,
+                                    "user": {
+                                        "description": "A N A R C H I E ist machbar Frau Nachbar*in. Rassismus, Faschismus, Sexismus, Homofeindlichkeit ... in die Tonne klopfen!",
+                                        "location": "",
+                                        "screen_name": "petera4711",
+                                        "user_id": 4158191963,
+                                        "user_name": "o je \ud83e\udde1"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz</p>&mdash; tumalwas (@tumalwas) <a href='https://twitter.com/tumalwas/status/1098169424828354561?ref_src=twsrc%5Etfw'>Wed Feb 20 10:36:08 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:36:08 +0000 2019",
+                                    "tweet_content": "RT @SoliFur: \"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz",
+                                    "tweet_id": 1098169424828354561,
+                                    "user": {
+                                        "description": "Gehorchen? Nein! Denke selbst, funktioniere nicht, lerne und lebe. F\u00fchrer und Ikonen brauche ich nicht. Weltb\u00fcrger. Antinational. Nonkonformist.",
+                                        "location": "Erde ",
+                                        "screen_name": "tumalwas",
+                                        "user_id": 905920560,
+                                        "user_name": "tumalwas"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Westpol politiker, gewerkschaften und konzerne schwafeln von partikularinteressen. nicht mehr von bedeutung! Es ge\u2026 https://t.co/3zenihMKbV</p>&mdash; The Wesp (@The_Wesp) <a href='https://twitter.com/The_Wesp/status/1098169116446347265?ref_src=twsrc%5Etfw'>Wed Feb 20 10:34:55 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:34:55 +0000 2019",
+                                    "tweet_content": "@Westpol politiker, gewerkschaften und konzerne schwafeln von partikularinteressen. nicht mehr von bedeutung! Es ge\u2026 https://t.co/3zenihMKbV",
+                                    "tweet_id": 1098169116446347265,
+                                    "user": {
+                                        "description": "I am an artist & journalist. I am not impartial, I am old & angry, I reject the system, my weapon is my camera & I will not shut up. \u270a",
+                                        "location": "Deutschland",
+                                        "screen_name": "The_Wesp",
+                                        "user_id": 1040493009710837760,
+                                        "user_name": "The Wesp"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>\"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz</p>&mdash; Soli f\u00fcr Hambi \ud83c\udf33\u270a #keepitintheground (@SoliFur) <a href='https://twitter.com/SoliFur/status/1098166817565089797?ref_src=twsrc%5Etfw'>Wed Feb 20 10:25:46 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:25:46 +0000 2019",
+                                    "tweet_content": "\"Wir wollen, dass ihr handelt.\" \n- Greta Thunberg https://t.co/DWMglLjARz",
+                                    "tweet_id": 1098166817565089797,
+                                    "user": {
+                                        "description": "Hier twittern f\u00fcr euch @carlamller10 und @andreasbrinck zu Aktuellem aus dem #HambacherForst und zu Soli-Aktionen. Livestreams bei facebook. #hambibleibt \ud83c\udf33\u270a",
+                                        "location": "Hambi",
+                                        "screen_name": "SoliFur",
+                                        "user_id": 1047842743546986502,
+                                        "user_name": "Soli f\u00fcr Hambi \ud83c\udf33\u270a #keepitintheground"
+                                    }
+                                },
+                                "replies": null
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Der Chef der @CDUNRW_Fraktion @bodoloettgen attackiert SPD-Fraktionschef Kutschaty beim #Kohleausstieg als \u201eMeister\u2026 https://t.co/53M6MMEGEX</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098166562165583872?ref_src=twsrc%5Etfw'>Wed Feb 20 10:24:46 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 1,
+                                    "timestamp": "Wed Feb 20 10:24:46 +0000 2019",
+                                    "tweet_content": "Der Chef der @CDUNRW_Fraktion @bodoloettgen attackiert SPD-Fraktionschef Kutschaty beim #Kohleausstieg als \u201eMeister\u2026 https://t.co/53M6MMEGEX",
+                                    "tweet_id": 1098166562165583872,
+                                    "user": {
+                                        "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                        "location": "D\u00fcsseldorf, Deutschland",
+                                        "screen_name": "Westpol",
+                                        "user_id": 927897264651202560,
+                                        "user_name": "Westpol"
+                                    }
+                                },
+                                "replies": [
+                                    {
+                                        "inv.tweet": {
+                                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Das \u201eambitionierte Konzept\u201c\u2018 mit \u201e123 konkreten Projekten\u201c f\u00fcr den Strukturwandel im Rheinischen Revier m\u00fcsse nun u\u2026 https://t.co/n7lwhdSJ1j</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098171259257536512?ref_src=twsrc%5Etfw'>Wed Feb 20 10:43:25 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                            "number_of_quote_tweets": 0,
+                                            "number_of_replies": 1,
+                                            "timestamp": "Wed Feb 20 10:43:25 +0000 2019",
+                                            "tweet_content": "Das \u201eambitionierte Konzept\u201c\u2018 mit \u201e123 konkreten Projekten\u201c f\u00fcr den Strukturwandel im Rheinischen Revier m\u00fcsse nun u\u2026 https://t.co/n7lwhdSJ1j",
+                                            "tweet_id": 1098171259257536512,
+                                            "user": {
+                                                "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                                "location": "D\u00fcsseldorf, Deutschland",
+                                                "screen_name": "Westpol",
+                                                "user_id": 927897264651202560,
+                                                "user_name": "Westpol"
+                                            }
+                                        },
+                                        "replies": [
+                                            {
+                                                "inv.tweet": {
+                                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Scharfe Kritik im #ltnrw von @GrueneFrakNRW-Chefin @m_dueker: Laschet habe nicht zur L\u00f6sung des Konflikts um\u2026 https://t.co/OMf8MvOymA</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098173816772079616?ref_src=twsrc%5Etfw'>Wed Feb 20 10:53:35 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                    "number_of_quote_tweets": 0,
+                                                    "number_of_replies": 1,
+                                                    "timestamp": "Wed Feb 20 10:53:35 +0000 2019",
+                                                    "tweet_content": "Scharfe Kritik im #ltnrw von @GrueneFrakNRW-Chefin @m_dueker: Laschet habe nicht zur L\u00f6sung des Konflikts um\u2026 https://t.co/OMf8MvOymA",
+                                                    "tweet_id": 1098173816772079616,
+                                                    "user": {
+                                                        "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                                        "location": "D\u00fcsseldorf, Deutschland",
+                                                        "screen_name": "Westpol",
+                                                        "user_id": 927897264651202560,
+                                                        "user_name": "Westpol"
+                                                    }
+                                                },
+                                                "replies": [
+                                                    {
+                                                        "inv.tweet": {
+                                                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Auch die Gr\u00fcnen wollen den Kompromiss der #Kohlekommission \u201eeins zu eins\u201c umsetzen. Laschet m\u00fcsse nun bei der Energ\u2026 https://t.co/OjrBZHr40V</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098175313966784514?ref_src=twsrc%5Etfw'>Wed Feb 20 10:59:32 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                            "number_of_quote_tweets": 0,
+                                                            "number_of_replies": 2,
+                                                            "timestamp": "Wed Feb 20 10:59:32 +0000 2019",
+                                                            "tweet_content": "Auch die Gr\u00fcnen wollen den Kompromiss der #Kohlekommission \u201eeins zu eins\u201c umsetzen. Laschet m\u00fcsse nun bei der Energ\u2026 https://t.co/OjrBZHr40V",
+                                                            "tweet_id": 1098175313966784514,
+                                                            "user": {
+                                                                "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                                                "location": "D\u00fcsseldorf, Deutschland",
+                                                                "screen_name": "Westpol",
+                                                                "user_id": 927897264651202560,
+                                                                "user_name": "Westpol"
+                                                            }
+                                                        },
+                                                        "replies": [
+                                                            {
+                                                                "inv.tweet": {
+                                                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Westpol @GrueneFrakNRW Ahhhhhhhh mehr Winderenergie fordern die Gr\u00fcnen.\nWie bl\u00f6d muss man sein?\nNoch mehr Windr\u00e4de\u2026 https://t.co/YiXkRPmrW5</p>&mdash; Ralf (@Gagahhag1) <a href='https://twitter.com/Gagahhag1/status/1098177426931228672?ref_src=twsrc%5Etfw'>Wed Feb 20 11:07:56 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                                    "number_of_quote_tweets": 0,
+                                                                    "number_of_replies": 0,
+                                                                    "timestamp": "Wed Feb 20 11:07:56 +0000 2019",
+                                                                    "tweet_content": "@Westpol @GrueneFrakNRW Ahhhhhhhh mehr Winderenergie fordern die Gr\u00fcnen.\nWie bl\u00f6d muss man sein?\nNoch mehr Windr\u00e4de\u2026 https://t.co/YiXkRPmrW5",
+                                                                    "tweet_id": 1098177426931228672,
+                                                                    "user": {
+                                                                        "description": "\ud83c\udde9\ud83c\uddea #FDP \ud83c\uddea\ud83c\uddfa #ALDE \ud83d\udcbb #Digitalisierung \u26a1\ufe0f #Energie \ud83d\udcb6 #Wirtschaft",
+                                                                        "location": "",
+                                                                        "screen_name": "Gagahhag1",
+                                                                        "user_id": 1049138334612828160,
+                                                                        "user_name": "Ralf"
+                                                                    }
+                                                                },
+                                                                "replies": null
+                                                            },
+                                                            {
+                                                                "inv.tweet": {
+                                                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>\u201eOffenbarungseid\u201c, \u201eSelbstverzwergung\u201c - so nennt Gr\u00fcnen-Fraktionschefin die \u00c4u\u00dferungen von Ministerpr\u00e4sident Lasch\u2026 https://t.co/oaGbDP6OOI</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098177242864205824?ref_src=twsrc%5Etfw'>Wed Feb 20 11:07:12 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                                    "number_of_quote_tweets": 0,
+                                                                    "number_of_replies": 2,
+                                                                    "timestamp": "Wed Feb 20 11:07:12 +0000 2019",
+                                                                    "tweet_content": "\u201eOffenbarungseid\u201c, \u201eSelbstverzwergung\u201c - so nennt Gr\u00fcnen-Fraktionschefin die \u00c4u\u00dferungen von Ministerpr\u00e4sident Lasch\u2026 https://t.co/oaGbDP6OOI",
+                                                                    "tweet_id": 1098177242864205824,
+                                                                    "user": {
+                                                                        "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                                                        "location": "D\u00fcsseldorf, Deutschland",
+                                                                        "screen_name": "Westpol",
+                                                                        "user_id": 927897264651202560,
+                                                                        "user_name": "Westpol"
+                                                                    }
+                                                                },
+                                                                "replies": [
+                                                                    {
+                                                                        "inv.tweet": {
+                                                                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>Die Ank\u00fcndigungen von @ArminLaschet im #ltnrw zu #Kohleausstieg und #HambacherForst sowie die Reaktionen darauf fin\u2026 https://t.co/XYOVEueUJy</p>&mdash; Westpol (@Westpol) <a href='https://twitter.com/Westpol/status/1098257011899359234?ref_src=twsrc%5Etfw'>Wed Feb 20 16:24:10 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                                            "number_of_quote_tweets": 0,
+                                                                            "number_of_replies": 0,
+                                                                            "timestamp": "Wed Feb 20 16:24:10 +0000 2019",
+                                                                            "tweet_content": "Die Ank\u00fcndigungen von @ArminLaschet im #ltnrw zu #Kohleausstieg und #HambacherForst sowie die Reaktionen darauf fin\u2026 https://t.co/XYOVEueUJy",
+                                                                            "tweet_id": 1098257011899359234,
+                                                                            "user": {
+                                                                                "description": "Landespolitik | Analysen | investigative Recherchen & NRW-Politikmagazin. SO, 19:30 @WDR MI/DO, 09:20 https://t.co/x09CcN8YOB  https://t.co/BmQJhNWHay",
+                                                                                "location": "D\u00fcsseldorf, Deutschland",
+                                                                                "screen_name": "Westpol",
+                                                                                "user_id": 927897264651202560,
+                                                                                "user_name": "Westpol"
+                                                                            }
+                                                                        },
+                                                                        "replies": null
+                                                                    },
+                                                                    {
+                                                                        "inv.tweet": {
+                                                                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Westpol \"Sonst w\u00fcrde alles von RWE entschieden.\" Wieso \"w\u00fcrde\" - wird doch schon! Die Spr\u00fcche vom MP sind doch v\u00f6l\u2026 https://t.co/U5xRIJl3bR</p>&mdash; Thomas Fricke (@ThomasTomfri) <a href='https://twitter.com/ThomasTomfri/status/1098222577930125313?ref_src=twsrc%5Etfw'>Wed Feb 20 14:07:21 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                                                            "number_of_quote_tweets": 0,
+                                                                            "number_of_replies": 0,
+                                                                            "timestamp": "Wed Feb 20 14:07:21 +0000 2019",
+                                                                            "tweet_content": "@Westpol \"Sonst w\u00fcrde alles von RWE entschieden.\" Wieso \"w\u00fcrde\" - wird doch schon! Die Spr\u00fcche vom MP sind doch v\u00f6l\u2026 https://t.co/U5xRIJl3bR",
+                                                                            "tweet_id": 1098222577930125313,
+                                                                            "user": {
+                                                                                "description": "",
+                                                                                "location": "M\u00fcnsterland",
+                                                                                "screen_name": "ThomasTomfri",
+                                                                                "user_id": 458271765,
+                                                                                "user_name": "Thomas Fricke"
+                                                                            }
+                                                                        },
+                                                                        "replies": null
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Westpol Die Sch\u00fcler wollen Taten sehen.\nNur Anerkennung und zuh\u00f6ren ist der Trostpreis.\n#FridaysForFuture</p>&mdash; Roland Kayser \ud83c\udff3\ufe0f\u200d\ud83c\udf08 (@RolandKayser2) <a href='https://twitter.com/RolandKayser2/status/1098164246234480640?ref_src=twsrc%5Etfw'>Wed Feb 20 10:15:33 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:15:33 +0000 2019",
+                                    "tweet_content": "@Westpol Die Sch\u00fcler wollen Taten sehen.\nNur Anerkennung und zuh\u00f6ren ist der Trostpreis.\n#FridaysForFuture",
+                                    "tweet_id": 1098164246234480640,
+                                    "user": {
+                                        "description": "Gefolgt von niemandem, dem du folgst",
+                                        "location": "",
+                                        "screen_name": "RolandKayser2",
+                                        "user_id": 1017665313972871169,
+                                        "user_name": "Roland Kayser \ud83c\udff3\ufe0f\u200d\ud83c\udf08"
+                                    }
+                                },
+                                "replies": null
+                            }
+                        ]
+                    },
+                    {
+                        "inv.tweet": {
+                            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Westpol genau! F\u00fcr die nostalgischen Gedenkveranstaltungen und die Mettbr\u00f6tchen der Knappench\u00f6re und Bergmannskapellen.</p>&mdash; Regenschirme.com\ud83c\udf02\u2602\ufe0f (@Werbeschirme) <a href='https://twitter.com/Werbeschirme/status/1098162206120775680?ref_src=twsrc%5Etfw'>Wed Feb 20 10:07:27 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                            "number_of_quote_tweets": 0,
+                            "number_of_replies": 1,
+                            "timestamp": "Wed Feb 20 10:07:27 +0000 2019",
+                            "tweet_content": "@Westpol genau! F\u00fcr die nostalgischen Gedenkveranstaltungen und die Mettbr\u00f6tchen der Knappench\u00f6re und Bergmannskapellen.",
+                            "tweet_id": 1098162206120775680,
+                            "user": {
+                                "description": "Hersteller und Gro\u00dfh\u00e4ndler von Regenschirmen mit Werbeanbringung in Essen. Kompetente Beratung, faire Preise und kurze Lieferzeiten zeichnen uns aus.",
+                                "location": "Germany",
+                                "screen_name": "Werbeschirme",
+                                "user_id": 61501663,
+                                "user_name": "Regenschirme.com\ud83c\udf02\u2602\ufe0f"
+                            }
+                        },
+                        "replies": [
+                            {
+                                "inv.tweet": {
+                                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@Werbeschirme @Westpol Nein, f\u00fcr tausende Besch\u00e4ftigte in der Steinkohleverstromung und der von ihr abh\u00e4ngigen Verbundwirtschaft.</p>&mdash; Sebastian Watermeier (@sebwatermeier) <a href='https://twitter.com/sebwatermeier/status/1098166148372353024?ref_src=twsrc%5Etfw'>Wed Feb 20 10:23:07 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Wed Feb 20 10:23:07 +0000 2019",
+                                    "tweet_content": "@Werbeschirme @Westpol Nein, f\u00fcr tausende Besch\u00e4ftigte in der Steinkohleverstromung und der von ihr abh\u00e4ngigen Verbundwirtschaft.",
+                                    "tweet_id": 1098166148372353024,
+                                    "user": {
+                                        "description": "Mitglied des Landtags",
+                                        "location": "Gelsenkirchen, Nordrhein-Westfalen",
+                                        "screen_name": "sebwatermeier",
+                                        "user_id": 299104551,
+                                        "user_name": "Sebastian Watermeier"
+                                    }
+                                },
+                                "replies": null
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

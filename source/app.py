@@ -152,17 +152,17 @@ def network():
 
         
         # Nodes
-        nx.draw_networkx_nodes(G, pos,nodelist= [1],node_color='y',node_size=1000,alpha=0.8) #TODO: wird nicht in der Mitte gezeichnet
-        nodelist = []
+        nx.draw_networkx_nodes(G, pos,nodelist= [0], with_labels = True, node_color='y',node_size=1000,alpha=0.8) #TODO: wird nicht in der Mitte gezeichnet
+        #nodelist = []
         list_of_replies = []
         for counter, reply in enumerate(replies):
             #Draw nodes for replies
-            nx.draw_networkx_nodes(G, pos, list_of_replies.append(replies[counter]), node_color='r', node_size=500, alpha=0.8)
+            nx.draw_networkx_nodes(G, pos, nodelist= list_of_replies.append(replies[counter]), with_labels = True, node_color='r', node_size=500, alpha=0.8)
             
         list_of_quotetweets = []
         for counter, reply in enumerate(quotetweets):
             #Draw nodes for quote tweets
-            nx.draw_networkx_nodes(G, pos, list_of_quotetweets.append(quotetweets[counter]), node_color='b', node_size=500, alpha=0.8)
+            nx.draw_networkx_nodes(G, pos,nodelist = list_of_quotetweets.append(quotetweets[counter]), with_labels = True, node_color='b', node_size=500, alpha=0.8)
         
         # Edges
         nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5)
@@ -174,7 +174,11 @@ def network():
         nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5, edge_color='r') #nx.draw_networkx_edges(G, pos, edgelist=connection1, width=8.0, alpha=0.5, edge_color='r') #TODO: unverständliche Fehlermeldung
         nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5, edge_color='b') #nx.draw_networkx_edges(G, pos, edgelist=connection2, width=8.0, alpha=0.5, edge_color='b') #TODO: unverständliche Fehlermeldung
         
-        labels = {} #TODO: sind das Beschriftungen der Nodes?
+        for counter, reply in enumerate(quotetweets):
+            
+            labels = {} #TODO: sind das Beschriftungen der Nodes?
+            response = search.get_conversation(requestedTweetID, language, max_replies=200)
+            labels[counter] = ["tweet_content"]
         nx.draw_networkx_labels(G, pos, labels, font_size=16)
         plt.axis('off')
         plt.savefig('network.png')

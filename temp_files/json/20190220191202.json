@@ -1,0 +1,58 @@
+{
+    "datetime": "2019-02-20 19:12:02",
+    "export": {
+        "inv.tweet": {
+            "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>\"Jetzt ist beschlossen, die Gewinnorientierung der \u00c4rzte zu reduzieren und mit den Kammern einen Weg zu gehen, der\u2026 https://t.co/C1y37cO1fk</p>&mdash; WDR 5 (@wdr5) <a href='https://twitter.com/wdr5/status/1098197916051738624?ref_src=twsrc%5Etfw'>Wed Feb 20 12:29:21 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 2,
+            "timestamp": "Wed Feb 20 12:29:21 +0000 2019",
+            "tweet_content": "\"Jetzt ist beschlossen, die Gewinnorientierung der \u00c4rzte zu reduzieren und mit den Kammern einen Weg zu gehen, der\u2026 https://t.co/C1y37cO1fk",
+            "tweet_id": 1098197916051738624,
+            "user": {
+                "description": "Hier twittert WDR 5, das Wortprogramm des Westdeutschen Rundfunks.\r\nImpressum: http://t.co/FdEYVMHbAp",
+                "location": "NRW",
+                "screen_name": "wdr5",
+                "user_id": 1885807718,
+                "user_name": "WDR 5"
+            }
+        },
+        "replies": [
+            {
+                "inv.tweet": {
+                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@wdr5 Ah, das ARD Framing-Manual tr\u00e4gt ungewollte Fr\u00fcchte.</p>&mdash; X00471-R-3011 3\ud83c\udde9\ud83c\uddea\ud83c\udde7\ud83c\uddea\ud83c\uddea\ud83c\uddfa\ud83c\uddeb\ud83c\uddf7\ud83c\uddee\ud83c\uddf9 (@ReinoldAndreas) <a href='https://twitter.com/ReinoldAndreas/status/1098211439712579585?ref_src=twsrc%5Etfw'>Wed Feb 20 13:23:05 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Wed Feb 20 13:23:05 +0000 2019",
+                    "tweet_content": "@wdr5 Ah, das ARD Framing-Manual tr\u00e4gt ungewollte Fr\u00fcchte.",
+                    "tweet_id": 1098211439712579585,
+                    "user": {
+                        "description": "Lokalpatriot, Patriot, Katholik and then one. Retweet is not (necessarily) endorsement.",
+                        "location": "",
+                        "screen_name": "ReinoldAndreas",
+                        "user_id": 473046287,
+                        "user_name": "X00471-R-3011 3\ud83c\udde9\ud83c\uddea\ud83c\udde7\ud83c\uddea\ud83c\uddea\ud83c\uddfa\ud83c\uddeb\ud83c\uddf7\ud83c\uddee\ud83c\uddf9"
+                    }
+                },
+                "replies": null
+            },
+            {
+                "inv.tweet": {
+                    "embeddingCode": "<blockquote class='twitter-tweet' data-lang='de'><p dir='ltr'>@wdr5 Was soll denn dieser Quatsch nun wieder?</p>&mdash; Axel Feldmann (@smartie1944) <a href='https://twitter.com/smartie1944/status/1098202943201906688?ref_src=twsrc%5Etfw'>Wed Feb 20 12:49:19 +0000 2019</a></blockquote><script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>",
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Wed Feb 20 12:49:19 +0000 2019",
+                    "tweet_content": "@wdr5 Was soll denn dieser Quatsch nun wieder?",
+                    "tweet_id": 1098202943201906688,
+                    "user": {
+                        "description": "",
+                        "location": "",
+                        "screen_name": "smartie1944",
+                        "user_id": 3769471457,
+                        "user_name": "Axel Feldmann"
+                    }
+                },
+                "replies": null
+            }
+        ]
+    }
+}

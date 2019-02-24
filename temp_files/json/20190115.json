@@ -1,0 +1,21 @@
+{
+    "datetime": "2019-01-15 14:28",
+    "export": {
+        "1.tweet": {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 0,
+            "timestamp": "Tue Jan 08 12:01:43 +0000 2019",
+            "tweet_content": "@carbonara_lara @the_mark4711 @mo_za123 Die Spannung steigt!",
+            "tweet_id": 1082608282722885632,
+            "user": {
+                "description": "",
+                "location": "",
+                "screen_name": "Elli12358W",
+                "user_id": 1069882735106375685,
+                "user_name": "\ud83c\udf35 Elli"
+            }
+        },
+        "2.replies": null,
+        "3.quote_tweets": null
+    }
+}

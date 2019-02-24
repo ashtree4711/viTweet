@@ -1,0 +1,56 @@
+{
+    "datetime": "2019-02-18 21:59",
+    "export": {
+        "1.tweet": {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 2,
+            "timestamp": "Thu Feb 14 06:50:03 +0000 2019",
+            "tweet_content": "\"Wenn Sie bedenken, wie lange man heute arbeiten muss, dann ist dieses eine Jahr, das da 'verloren geht' nicht wirk\u2026 https://t.co/DajxhYCdaY",
+            "tweet_id": 1095938201175363584,
+            "user": {
+                "description": "Hier twittert WDR 2. - Impressum: https://t.co/vcsSmMLohU Datenschutz: https://t.co/BmQJhNWHay",
+                "location": "Wir sind der Westen",
+                "screen_name": "WDR2",
+                "user_id": 54837258,
+                "user_name": "WDR 2"
+            }
+        },
+        "2.replies": [
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Thu Feb 14 10:30:45 +0000 2019",
+                    "tweet_content": "@WDR2 \ud83d\udc4d\ud83c\udffc G8 war ein Fehler. Unsere Zeit ist eh schon schnellebig genug.\nWenn man dar\u00fcber nachdenkt was Sch\u00fcler eh s\u2026 https://t.co/MutDeTlwSZ",
+                    "tweet_id": 1095993743013015552,
+                    "user": {
+                        "description": "",
+                        "location": "",
+                        "screen_name": "barista_pavoni",
+                        "user_id": 939813356738875392,
+                        "user_name": "Der Ernstewolf"
+                    }
+                },
+                "2.replies": null
+            },
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Thu Feb 14 07:22:37 +0000 2019",
+                    "tweet_content": "@WDR2 Das ist auch genau richtig so - das Jahr geht nicht verloren, es wird den Sch\u00fclern wieder zur\u00fcckgegeben. \n\nIc\u2026 https://t.co/GIvyTNeFRC",
+                    "tweet_id": 1095946398888013824,
+                    "user": {
+                        "description": "Ich glaube, diese Bratwurst reimt sich, Sir!",
+                        "location": "somewhere.nrw",
+                        "screen_name": "SoerenLorensen",
+                        "user_id": 933102707828600832,
+                        "user_name": "S\u00f8ren Lorensen"
+                    }
+                },
+                "2.replies": null
+            }
+        ],
+        "3.quote_tweets": null
+    }
+}

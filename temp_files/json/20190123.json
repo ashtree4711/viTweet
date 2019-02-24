@@ -1,0 +1,74 @@
+{
+    "datetime": "2019-01-23 09:18",
+    "export": {
+        "1.tweet": {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 2,
+            "timestamp": "Tue Jan 22 12:21:39 +0000 2019",
+            "tweet_content": "Vor 40 Jahren lief die US-Serie \"Holocaust\" erstmals im deutschen Fernsehen.  Erst hagelte es Kritik an dem Format\u2026 https://t.co/qslNPiwgYy",
+            "tweet_id": 1087686732563312641,
+            "user": {
+                "description": "Hier twittert WDR 5, das Wortprogramm des Westdeutschen Rundfunks.\r\nImpressum: http://t.co/FdEYVMHbAp",
+                "location": "NRW",
+                "screen_name": "wdr5",
+                "user_id": 1885807718,
+                "user_name": "WDR 5"
+            }
+        },
+        "2.replies": [
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Tue Jan 22 15:45:05 +0000 2019",
+                    "tweet_content": "@wdr5 40 Jahre sp\u00e4ter: In @WDR5 wird nett geplaudert mit jemand, der sich liest und anh\u00f6rt wie die geistigen\u2026 https://t.co/iOppX6Wil8",
+                    "tweet_id": 1087737928225341441,
+                    "user": {
+                        "description": "#stilloptimist #notamused\nWestlicher Westfale @ Nordwestmecklenburg / Linguist / Lektor / u.v.m.",
+                        "location": "",
+                        "screen_name": "sanddrn",
+                        "user_id": 237436204,
+                        "user_name": "sanddrn"
+                    }
+                },
+                "2.replies": null
+            },
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 1,
+                    "timestamp": "Tue Jan 22 12:26:09 +0000 2019",
+                    "tweet_content": "@wdr5 Ich war da gerade 16 und kann mich noch gut erinnern. Heute wirkt die Serie auf mich eher befremdlich, da vie\u2026 https://t.co/XI7oTFZ3NV",
+                    "tweet_id": 1087687863116988416,
+                    "user": {
+                        "description": "Ich bin konservativ. \ud83c\udde9\ud83c\uddea F\u00fcr Europa als Staatenverbund. Ich diskutiere gerne mit jedem. CDU affin. Katholisch. Extremisten kann ich nicht leiden.",
+                        "location": "Wuppertal",
+                        "screen_name": "panemetc62",
+                        "user_id": 942849893827334145,
+                        "user_name": "Michael Thenissen"
+                    }
+                },
+                "2.replies": [
+                    {
+                        "1.tweet": {
+                            "number_of_quote_tweets": 0,
+                            "number_of_replies": 0,
+                            "timestamp": "Tue Jan 22 12:33:37 +0000 2019",
+                            "tweet_content": "@panemetc62 @wdr5 Kommt noch, das lieben doch die linksgr\u00fcnen Halbmenschen?\nSatire off",
+                            "tweet_id": 1087689743524073472,
+                            "user": {
+                                "description": "bayr. Patriot, Opa, Akademiker (nix Asoziales), Manager, Demokrat, #fckantifa, #fckgr\u00fcne\nKatzenfreund, liebe Kinder (nicht auf gr\u00fcne Art)",
+                                "location": "Regensburg, Bayern",
+                                "screen_name": "ThomasReichelHB",
+                                "user_id": 958332832618876929,
+                                "user_name": "Da Obapfeiza \ud83c\udde9\ud83c\uddea\ud83d\udda4\u2764\ud83d\udc9b"
+                            }
+                        },
+                        "2.replies": null
+                    }
+                ]
+            }
+        ],
+        "3.quote_tweets": null
+    }
+}

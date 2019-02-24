@@ -1,0 +1,126 @@
+{
+    "datetime": "2019-02-08 16:24",
+    "export": {
+        "1.tweet": {
+            "number_of_quote_tweets": 0,
+            "number_of_replies": 4,
+            "timestamp": "Fri Feb 08 12:22:51 +0000 2019",
+            "tweet_content": "\"Sento la responsabilit\u00e0 del lavoro e delle speranze di tanta gente, in primis quelle dei cantanti. Continuo a pens\u2026 https://t.co/VkDfUNTNT1",
+            "tweet_id": 1093847624451530752,
+            "user": {
+                "description": "Very Normal People - In RADIOVISIONE (canale 36 del digitale terrestre e 750 di Sky), in streaming su https://t.co/mNLPyByZlo e sull'App ufficiale.",
+                "location": "Italy",
+                "screen_name": "rtl1025",
+                "user_id": 56341776,
+                "user_name": "RTL 102.5"
+            }
+        },
+        "2.replies": [
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 1,
+                    "timestamp": "Fri Feb 08 13:02:49 +0000 2019",
+                    "tweet_content": "@rtl1025 @ClaudioBaglioni Era dedicata a striscia e Co. \ud83d\udc4f\ud83d\udc4d",
+                    "tweet_id": 1093857684644872192,
+                    "user": {
+                        "description": "finche'porterai un sogno nel cuore non perderai mai il senso della vita",
+                        "location": "Genova, Liguria",
+                        "screen_name": "mgrazia1961",
+                        "user_id": 1134560528,
+                        "user_name": "m.grazia croce"
+                    }
+                },
+                "2.replies": [
+                    {
+                        "1.tweet": {
+                            "number_of_quote_tweets": 0,
+                            "number_of_replies": 1,
+                            "timestamp": "Fri Feb 08 13:19:08 +0000 2019",
+                            "tweet_content": "@mgrazia1961 @rtl1025 @ClaudioBaglioni Mi hanno interrotto proprio quando rispondeva sul tapiro, hai sentito tu?",
+                            "tweet_id": 1093861790251958272,
+                            "user": {
+                                "description": "Una Veneta innamorata del sud \u2600\ufe0f",
+                                "location": "",
+                                "screen_name": "Orietta396",
+                                "user_id": 433246317,
+                                "user_name": "Ori 396"
+                            }
+                        },
+                        "2.replies": [
+                            {
+                                "1.tweet": {
+                                    "number_of_quote_tweets": 0,
+                                    "number_of_replies": 0,
+                                    "timestamp": "Fri Feb 08 13:20:22 +0000 2019",
+                                    "tweet_content": "@Orietta396 @rtl1025 @ClaudioBaglioni Si!",
+                                    "tweet_id": 1093862102085877761,
+                                    "user": {
+                                        "description": "finche'porterai un sogno nel cuore non perderai mai il senso della vita",
+                                        "location": "Genova, Liguria",
+                                        "screen_name": "mgrazia1961",
+                                        "user_id": 1134560528,
+                                        "user_name": "m.grazia croce"
+                                    }
+                                },
+                                "2.replies": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Fri Feb 08 12:41:15 +0000 2019",
+                    "tweet_content": "@rtl1025 @ClaudioBaglioni 'ma roba",
+                    "tweet_id": 1093852258234699776,
+                    "user": {
+                        "description": "",
+                        "location": "",
+                        "screen_name": "mikyb51",
+                        "user_id": 440387531,
+                        "user_name": "Michael Bartucci"
+                    }
+                },
+                "2.replies": null
+            },
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Fri Feb 08 12:27:48 +0000 2019",
+                    "tweet_content": "@rtl1025 @ClaudioBaglioni Grande uomo @ClaudioBaglioni \ud83e\udd47",
+                    "tweet_id": 1093848874085695488,
+                    "user": {
+                        "description": "e non vogliamo andare in paradiso se l\u00ec non si vede il mare... @claudiobaglioni",
+                        "location": "Napul'\u00e8",
+                        "screen_name": "chiaiadiluna",
+                        "user_id": 1421605586,
+                        "user_name": "silvia \ud83c\udf38"
+                    }
+                },
+                "2.replies": null
+            },
+            {
+                "1.tweet": {
+                    "number_of_quote_tweets": 0,
+                    "number_of_replies": 0,
+                    "timestamp": "Fri Feb 08 12:24:02 +0000 2019",
+                    "tweet_content": "@rtl1025 @ClaudioBaglioni Credevo fosse la dichiarazione del nuovo Papa",
+                    "tweet_id": 1093847924809912320,
+                    "user": {
+                        "description": "",
+                        "location": "",
+                        "screen_name": "dashamir",
+                        "user_id": 14627253,
+                        "user_name": "dashamir"
+                    }
+                },
+                "2.replies": null
+            }
+        ],
+        "3.quote_tweets": null
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "datetime": "2018-12-19 17:19",
+    "main": {
+        "timestamp": "Wed Dec 19 03:46:39 +0000 2018",
+        "tweet_content": "Trump signed letter of intent for Trump Tower Moscow project despite Giuliani insisting he didn't @CNN https://t.co/PXTolkqURe",
+        "tweet_id": 1075235937897070592,
+        "user": {
+            "description": "CNN Anchor of @TheLeadCNN and @CNNSOTU and Chief Washington Correspondent; author of the NYT best-selling novel @TheHellfireClub and non fiction @TheOutpostBook",
+            "location": "",
+            "screen_name": "jaketapper",
+            "user_id": 14529929,
+            "user_name": "Jake Tapper"
+        }
+    },
+    "replies": [
+        {
+            "timestamp": "Wed Dec 19 16:00:28 +0000 2018",
+            "tweet_content": "@jaketapper @CNN Tzar Trump\u00ae\ufe0f",
+            "tweet_id": 1075420612116578305,
+            "user": {
+                "description": "Writing songs, jokes, and letters. Economics, politics, religion, minimalism, exercise, non-fiction, nutrition, ideas, taxes. I'm JEFF9K on YouTube.",
+                "location": "Northern Ohio",
+                "screen_name": "YouTubeJEFF9K",
+                "user_id": 88568050,
+                "user_name": "JEFF"
+            }
+        }
+    ]
+}
