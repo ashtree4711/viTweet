@@ -86,7 +86,7 @@ class Tweet(object):
     def convert_to_new_dict(self):
             # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
         new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'replies_id':self.get_replied_by_list(), 'number_of_quote_tweets':self.quote_tweet_quantity, 'quotedTweets':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
-                    'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
+                    'reply_to':self.reply_to_tweet_id, 'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
         
         return new_dict
