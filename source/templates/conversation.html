@@ -32,8 +32,7 @@
 	</div>
 </nav>
 
-
-<div class="container">
+<div>
 	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
 	
 	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
@@ -43,29 +42,43 @@
 	<a href="/download/xml/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
 		<button>Export this conversation (XML)</button>
 	</a>
-	
-	<div class="media">
-		<div class="media-left">
-			<!-- button with number of replies -->
-			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
-			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
-		</div>
-		<div class="media-body">
-			<div class="panel-group">
-				<div class="panel panel-primary">
-					<!-- main tweet -->
-					{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
+</div>
+
+<div class="container" id="listTweets">
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="media">
+				<div class="media-left">
+					<!-- button with number of replies -->
+					<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
+					<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
+				</div>
+				<div class="media-body">
+					<div class="panel-group">
+						<div class="panel panel-primary">
+							<!-- main tweet -->
+							{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
+						</div>
+
+						<!-- Nested media object -->
+
+						{{ render_boxes(response['conversation']['replies']) }}
+
+					</div>
 				</div>
 
-				<!-- Nested media object -->
-
-				{{ render_boxes(response['conversation']['replies']) }}
-
 			</div>
+
+		</div>
+
+		<div class="col-sm-4" style="background-color: rebeccapurple">
+			<p>noch mehr</p>
 		</div>
 
 	</div>
+
 </div>
+
 {% endblock %}
 
 {% macro render_boxes(replies) %}
@@ -80,11 +93,9 @@
 			{{items['inv.tweet']['embeddingCode']|safe}}
 		</div>
 		{% if items['replies'] %}
-			{{ render_boxes(items['replies']) }}
+		{{ render_boxes(items['replies']) }}
 		{% endif %}
 	</div>
-
 </div>
-
 {% endfor %}
 {% endmacro %}
