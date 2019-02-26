@@ -3,7 +3,7 @@ Created on 20 Nov 2018
 
 @author: markeschweiler
 '''
-import datetime, os, json, xmltodict
+import datetime, os, json, xmltodict, random
 from pathlib import Path
 from builtins import int
 
@@ -13,7 +13,7 @@ def save_to_json(dictionary):
         Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
     '''
     now = datetime.datetime.now()
-    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'export':dictionary}
+    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
     dirname = Path(__file__).parents[2]
     filename = now.strftime("%Y%m%d%H%M%S")
     persist_data_file = os.path.join(dirname, "temp_files/json/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
@@ -23,7 +23,30 @@ def save_to_json(dictionary):
         
     return filename
 
+def save_recursiveList(dictionary):
 
+    now = datetime.datetime.now()
+    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
+    dirname = Path(__file__).parents[2]
+    filename = "rList_"+now.strftime("%Y%m%d%H%M%S")
+    persist_data_file = os.path.join(dirname, "temp_files/json/recursiveList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
+    with open(persist_data_file, 'w') as outfile:
+        json.dump(persist_data, outfile, indent=4, sort_keys=True)
+    print ("SAVE RECURSIVE LIST TO:", persist_data_file)
+        
+    return filename
+
+def save_flatList(dictionary):
+
+    now = datetime.datetime.now()
+    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
+    dirname = Path(__file__).parents[2]
+    filename = "fList_"+now.strftime("%Y%m%d%H%M%S")
+    persist_data_file = os.path.join(dirname, "temp_files/json/flatList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
+    with open(persist_data_file, 'w') as outfile:
+        json.dump(persist_data, outfile, indent=4, sort_keys=True)
+    print ("SAVE FLAT LIST TO:", persist_data_file)
+    return filename
 
 def json_to_dictionary(mode, requested_file):
     if mode == 'search':
@@ -70,6 +93,30 @@ def create_response(searched_Tweet, replies):
     print ("SAVE JSON TO:", created_json_file)
     return response
 
+
+def create_rList(tweet_id, fList):
+    #TODO: @mark describe describe describe
+    for investigatedTweet in fList:
+        if investigatedTweet.get('tweet_id') == tweet_id:
+            replyList=get_replies_from_fList(investigatedTweet, fList)
+            if len(replyList)!=0:
+                rList=[]
+                rList2=[]
+                for reply in replyList:
+                    rList2.append(create_rList(reply.get('tweet_id'), fList))
+                rList={'inv.tweet':investigatedTweet, 'replies': rList2}
+                return rList
+            else:
+                rList={'inv.tweet':investigatedTweet, 'replies':None}
+                return rList
+            
+def get_replies_from_fList(investigatedTweet, fList):
+    #TODO: @mark describe describe describe
+    replyList=[]
+    for tweet in fList:
+        if tweet.get('reply_to')==investigatedTweet.get("tweet_id"):
+            replyList.append(tweet)
+    return replyList
 
 
 
