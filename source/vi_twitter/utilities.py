@@ -23,7 +23,7 @@ def save_to_json(dictionary):
         
     return filename
 
-def save_recursiveList(dictionary):
+def save_rList(dictionary):
 
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
@@ -36,8 +36,10 @@ def save_recursiveList(dictionary):
         
     return filename
 
-def save_flatList(dictionary):
-
+def save_fList(dictionary):
+    '''
+    
+    '''
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
     dirname = Path(__file__).parents[2]
@@ -50,7 +52,7 @@ def save_flatList(dictionary):
 
 def json_to_dictionary(mode, requested_file):
     if mode == 'search':
-        json_file = open('../temp_files/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
+        json_file = open('../temp_files/json/recursiveList/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
     elif mode == 'upload':
         json_file = open('../useruploads/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
     json_str = json_file.read()
@@ -61,7 +63,9 @@ def json_to_dictionary(mode, requested_file):
 
 
 def json_to_xml(json_filename):
-    # Transform a file from JSON to XML, using the library xmltodict
+    '''
+    Transform a file from JSON to XML, using the library xmltodict
+    '''
     
         # Specify file names and paths
     xml_filename = json_filename

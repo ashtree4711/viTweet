@@ -5,7 +5,7 @@ Created on 20 Nov 2018
 '''
 from vi_twitter.connector import connect_to_api
 from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
-    save_recursiveList, save_flatList, create_rList
+    save_rList, save_fList, create_rList
 import vi_twitter.TweetObject as Tweet
 import twython
 
@@ -35,12 +35,12 @@ def get_conversation(userInput, language, max_replies):
         # Initialize a fList (flat list), where all tweets get stored. Save it to a JSON-File
     fList=[]
     fList=get_replies(twitterSession, rootTweet, language, max_replies, fList)
-    save_flatList(fList)
+    save_fList(fList)
         # Create a rList (recursive list), which represents the structure better. Save it to a JSON-File
     rList=create_rList(root_id, fList)
    
         #TODO: @elli, maybe u can describe why u are returning a file instead of list or dict
-    json_filename = save_recursiveList(rList)
+    json_filename = save_rList(rList)
 
   
     return json_filename
