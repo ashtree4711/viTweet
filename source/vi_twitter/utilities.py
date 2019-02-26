@@ -118,11 +118,9 @@ def get_replies_from_fList(investigatedTweet, fList):
     #TODO: @mark describe describe describe
     replyList=[]
     for tweet in fList:
-        if tweet.get('reply_to')==investigatedTweet.get("tweet_id"):
+        if tweet.get('reply_to')==investigatedTweet.get("tweet_id") or tweet.get('quote_to')==investigatedTweet.get("tweet_id"):
             replyList.append(tweet)
     return replyList
-
-
 
 def preprocess_input(input):
     '''
