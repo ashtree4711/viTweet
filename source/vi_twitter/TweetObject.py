@@ -67,7 +67,7 @@ class Tweet(object):
     
     def create_embedded_tweet(self):
             # Constructs html-blockquote and Script to create a embeddeed tweet
-        blockquote_start = "<blockquote class='twitter-tweet' data-lang='de'>"
+        blockquote_start = "<blockquote class='twitter-tweet' data-lang='de' data-conversation='none' data-width='550' data-align='center'>"
         content = "<p dir='ltr'>"+self.tweet_content+"</p>"
         user = "&mdash; "+self.user_name+" (@"+self.user_screenname+") "
         link = "<a href='https://twitter.com/"+self.user_screenname+"/status/"+self.tweet_id_str+"?ref_src=twsrc%5Etfw'>"
@@ -85,8 +85,8 @@ class Tweet(object):
     
     def convert_to_new_dict(self):
             # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
-        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'number_of_replies':self.reply_quantity, 'replies_id':self.get_replied_by_list(), 'number_of_quote_tweets':self.quote_tweet_quantity, 'quotedTweets':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
-                    'reply_to':self.reply_to_tweet_id, 'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
+        new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'reply_to':self.reply_to_tweet_id, 'quote_to':self.quote_to_tweet_id, 'number_of_replies':self.reply_quantity, 'replied_by':self.get_replied_by_list(), 'isQuote': self.reply_isQuote ,'number_of_quote_tweets':self.quote_tweet_quantity, 'quotedTweets':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
+                     'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
         
         return new_dict
