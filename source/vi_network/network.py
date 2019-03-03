@@ -100,8 +100,15 @@ def extract_nodes_edges(flatList_dict):
         type_of_node.append('quote_tweet')
     print("type_of_node (", len(type_of_node), "):", type_of_node)
     
-    
-    return all_tweet_nodes, all_tweet_pairs, type_of_node
+    all_tweet_contents= []
+    for i,val in enumerate(flatList_dict['conversation']):
+        all_tweet_contents.append(val['tweet_content'])
+    start_tweet_contents = all_tweet_contents[-1]
+    all_tweet_contents.insert(0, start_tweet_contents)
+    all_tweet_contents = all_tweet_contents[:-1]
+    print("Tweet contents (",len(all_tweet_contents), "):", all_tweet_contents) 
+            
+    return all_tweet_nodes, all_tweet_pairs, type_of_node, all_tweet_contents
 
 
 
@@ -110,20 +117,30 @@ def draw_network(flatList_filename):
     
     
         # Extract the nodes and edges from the flat file used as basis for the visualization
-    all_tweet_nodes, all_tweet_pairs, type_of_node = extract_nodes_edges(flatList_dict)
+    all_tweet_nodes, all_tweet_pairs, type_of_node, all_tweet_contents = extract_nodes_edges(flatList_dict)
 
-
+        
         # Undirected graph
     #G = nx.Graph()
         # Directed graph
     G = nx.DiGraph()
+    
         # Star graph --> TODO: Der hat alle Replies und Quotetweets in einer Ebene, lässt sich das korrigieren?
     #num=len(all_tweet_nodes)-1
     #G = nx.star_graph(n=num, create_using=nx.Graph())
     
+    all_labels=[] 
+    for a, b in zip(all_tweet_nodes,all_tweet_contents):
+        string = str(a)+ ": " + b
+        all_labels.append(string)
+    print('Labels:', all_labels)
+    
+        #nodes labels
+    labels = dict(zip(all_tweet_nodes, all_labels))
+       
     
         # Add nodes from list 'all_tweet_nodes' 
-    G.add_nodes_from(all_tweet_nodes)
+    G.add_nodes_from(labels)
         # Add edges from list 'all_tweet_pairs'
     G.add_edges_from(all_tweet_pairs)
     
@@ -131,6 +148,7 @@ def draw_network(flatList_filename):
         # Define colors for each type of node
     color_for_nodetype = []
     size_for_nodetype = []
+    
     for x in type_of_node:
         if x == 'start':
             color_for_nodetype.append('red')
@@ -146,8 +164,7 @@ def draw_network(flatList_filename):
             
         
         # TODO: Let nodes have meaningful positions / choose a better layout!
-    #pos = nx.spring_layout(G)
-    
+    pos = nx.shell_layout(G)
     
         # TODO: evtl. besser wieder mit nx.draw_networkx_edges / _nodes / _labels arbeiten?
         
@@ -158,11 +175,11 @@ def draw_network(flatList_filename):
     #nx.draw_spring(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     #nx.draw_circular(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     #nx.draw_kamada_kawai(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
-    #nx.draw_shell(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
-    nx.draw_spectral(G, with_labels=False, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
-
-
-
+    nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
+    #nx.draw_spectral(G,  with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
+    
+    nx.draw_networkx_labels(G, pos, labels, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
+    
         # Save the drawing to a PNG file and return the file
     plt.axis('off')
     plt.savefig('network.png')
