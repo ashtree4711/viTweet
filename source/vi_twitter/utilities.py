@@ -3,7 +3,7 @@ Created on 20 Nov 2018
 
 @author: markeschweiler
 '''
-import datetime, os, json#,xmltodict, random
+import datetime, os, json, xmltodict#, random
 from pathlib import Path
 from builtins import int
 
@@ -49,8 +49,12 @@ def save_flatList(dictionary):
     return filename
 
 def json_to_dictionary(mode, requested_file):
-    if mode == 'search':
-        json_file = open('../temp_files/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
+    if mode == 'search' or mode == 'visualize':
+            #TODO: Pfad stattdessen aus config-Datei entnehmen / eleganter lösen?
+        if requested_file[0] == 'r':
+            json_file = open('../temp_files/json/recursiveList/' + requested_file + '.json')
+        elif requested_file[0] == 'f':
+            json_file = open('../temp_files/json/flatList/' + requested_file + '.json') 
     elif mode == 'upload':
         json_file = open('../useruploads/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
     json_str = json_file.read()
@@ -94,8 +98,12 @@ def create_response(searched_Tweet, replies):
     return response
 
 
-def create_rList(tweet_id, fList):
+def create_rList(tweet_id, fList_filename):
     #TODO: @mark describe describe describe
+    
+        #Use the flat list of tweets inside 'conversation' 
+    fList = json_to_dictionary(mode='search', requested_file=fList_filename)['conversation']
+    
     for investigatedTweet in fList:
         if investigatedTweet.get('tweet_id') == tweet_id:
             replyList=get_replies_from_fList(investigatedTweet, fList)
@@ -103,7 +111,7 @@ def create_rList(tweet_id, fList):
                 rList=[]
                 rList2=[]
                 for reply in replyList:
-                    rList2.append(create_rList(reply.get('tweet_id'), fList))
+                    rList2.append(create_rList(reply.get('tweet_id'), fList_filename))
                 rList={'inv.tweet':investigatedTweet, 'replies': rList2}
                 return rList
             else:
