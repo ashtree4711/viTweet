@@ -69,7 +69,7 @@ def get_replies(twitterSession, tweet, language, max_replies, fList):
         # Query is a construction for the workaround. Because you can't explicitly search for replies in the Twitter API. 
         # All potential tweets have to be searched first. This query searches for all tweets from and to the originator of
         # the tweet to be examined.
-    query="to:"+tweet.get_user_screenname()+" OR from:"+tweet.get_user_screenname()+" OR "+"https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()
+    query="to:"+tweet.get_user_screenname()+" OR from:"+tweet.get_user_screenname()+" OR "+"https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()+ " -filter:retweets"
     print(query)
     
         # We need the parameter "since_id" first, because the API will give us automatically the latest tweets
