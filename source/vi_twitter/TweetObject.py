@@ -67,7 +67,7 @@ class Tweet(object):
     
     def create_embedded_tweet(self):
             # Constructs html-blockquote and Script to create a embeddeed tweet
-        blockquote_start = "<blockquote class='twitter-tweet' data-lang='de' data-conversation='none' data-width='550' data-align='center'>"
+        blockquote_start = "<blockquote class='twitter-tweet' data-lang='de' data-conversation='none' data-width='400' data-align='center'>"
         content = "<p dir='ltr'>"+self.tweet_content+"</p>"
         user = "&mdash; "+self.user_name+" (@"+self.user_screenname+") "
         link = "<a href='https://twitter.com/"+self.user_screenname+"/status/"+self.tweet_id_str+"?ref_src=twsrc%5Etfw'>"

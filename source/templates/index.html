@@ -2,6 +2,9 @@
 
 {% block content %}
 
+<script src="{{url_for('static', filename='response.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='design.css')}}">
+
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="navbar-header">
@@ -22,6 +25,7 @@
     <div class="jumbotron">
         <h1>Welcome to viTweet!</h1>
         <div class="container" id="mainSearch">
+            <div id="loading"></div>
             <form method="POST" action="/conversation">
                 <!-- main search with input field and submit button -->
                 <div class="form-group">
@@ -29,7 +33,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="search" placeholder="URL or Tweet-ID" name="tweetID">
                         <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
+                            <button class="btn btn-default" type="submit" onclick="loading()">
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
                         </div>
@@ -47,7 +51,7 @@
 
                     <!-- allows the user to choose between two different visualization types-->
                     <div class="input-group-check">
-                        <label class="radio-right"><input type="radio" name="visopt" value="list"> List</label>
+                        <label class="radio-right"><input type="radio" name="visopt" value="list" checked> List</label>
                         <label class="radio-right"><input type="radio" name="visopt" value="graph"> Network</label>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
 {% extends "bootstrap/base.html" %}
 
-<script src="listconversation.js"></script>
-
 {% block content %}
+
+<script src="{{url_for('static', filename='response.js')}}"></script>
 
 <!-- Navigation on top of the website -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,7 +34,7 @@
 	</div>
 </nav>
 
-<div>
+<div class="container" style="margin-bottom: 50px">
 	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
 	
 	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
@@ -46,25 +46,21 @@
 	</a>
 </div>
 
-<button onclick="myFunction()">Try it</button>
-
-
-<div class="container" id="listTweets">
-	<div class="media">
-		<div class="media-left">
+<div class="container" id="listTweets" style="overflow-x: scroll">
+	<div class="container" style="max-width: 550px">
+		<div>
 			<!-- button with number of replies -->
-			<button data-toggle="collapse" data-target="#reply">Replies<span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
-			<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
+			<button onclick="showReplies()">Replies <span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
+			<button onclick="showQuotes()">Quotes <span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
 		</div>
-		<div class="media-body">
-			<div class="panel-group">
-				<div class="panel panel-primary">
-					<!-- main tweet -->
-					{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
-				</div>
-				<!-- Nested media object -->
-				{{ render_boxes(response['conversation']['replies']) }}
-			</div>
+
+		<div style="background-color: deepskyblue">
+			<!-- main tweet -->
+			{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
+		</div>
+		<div>
+			<!-- Nested object -->
+			{{ render_boxes(response['conversation']['replies']) }}
 		</div>
 	</div>
 </div>
@@ -73,15 +69,15 @@
 
 {% macro render_boxes(replies) %}
 {% for items in replies %}
-<div class="media" id="reply" style="margin-bottom: 10px">
-	<div class="media-left">
-		<button data-toggle="collapse" data-target="#replyofreply">Replies<span class="badge">{{items['inv.tweet']['number_of_replies']}}</span></button>
-		<button data-toggle="collapse" data-target="#reply">Quotes<span class="badge">{{items['inv.tweet']['number_of_quote_tweets']}}</span></button>
+<div class="container" style="background-color: lightcyan">
+	<div>
+		<span class="badge">{{items['inv.tweet']['number_of_replies']}} Replies </span>
+		<span class="badge">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
 	</div>
-	<div class="media-body">
-		<div class="panel panel-default">
-			{{items['inv.tweet']['embeddingCode']|safe}}
-		</div>
+	<div>
+		{{items['inv.tweet']['embeddingCode']|safe}}
+	</div>
+	<div>
 		{% if items['replies'] %}
 		{{ render_boxes(items['replies']) }}
 		{% endif %}
@@ -89,3 +85,4 @@
 </div>
 {% endfor %}
 {% endmacro %}
+
