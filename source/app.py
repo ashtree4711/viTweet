@@ -7,8 +7,7 @@ import vi_twitter.utilities as utilities
 import vi_network.network as network
 
 
-
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.config.from_pyfile('config/app_config.ini')
 app.secret_key = app.config['APP_SECRET_KEY']
 Bootstrap(app)
@@ -120,20 +119,26 @@ def graph_visualization():
         basis = request.args['basis']
         basis = session['current_session']
         
+        #network.draw_network(basis)
+        #return render_template('graph.html', response=utilities.json_to_dictionary(mode, basis))
         return network.draw_network(basis)
 
-            # TODO: @Lara: Hier stattdessen Template für Graph-Ansicht aufrufen, oder?
-        #return render_template('conversation.html', response=utilities.json_to_dictionary(mode, basis))
     else:
         return 'Error while retrieving session information. Please start a new search.'
-    
 
 
+@app.route('/graph', methods=['POST', 'GET'])
+def graph_json():
+    #return send_file('../temp_files/json/graph/graph1.json')
+    return send_file('static/graph1.json')
+    #return send_file(url_for('static', filename='graph1.json'))
+
+
+# TODO: Fix import and export now that there are flat and recursive output files to choose from
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
         # Take the requested file from the path specified in the config; serve file at /download/[...].json
     return send_from_directory(app.config['TEMP_JSON_FILES'], json_filename  + '.json')
-
 
 
 @app.route('/download/xml/<path:create_xml_filename>', methods=['GET'])
