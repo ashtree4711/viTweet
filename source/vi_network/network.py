@@ -19,17 +19,17 @@ def extract_nodes_edges(flatList_dict):
     tweet_reply_child=[]
     for i, val in enumerate(flatList_dict['conversation']):
         tweet_reply_parent.append(val['tweet_id'])
-        if val['replies_id']: # If the list 'replies_id' contains something...
-            if len(val['replies_id'])==1: # If the list 'replies_id' contains only one reply...
-                tweet_reply_child.append(val['replies_id'][0]) # Use the first (and only) element in the list 'replies_id'
-            else: # If the list 'replies_id' contains more than one reply...
-                for reply_i, reply_val in enumerate(val['replies_id']): # Go through the whole list 'replies_id'
+        if val['replied_by']: # If the list 'replied_by' contains something...
+            if len(val['replied_by'])==1: # If the list 'replied_by' contains only one reply...
+                tweet_reply_child.append(val['replied_by'][0]) # Use the first (and only) element in the list 'replied_by'
+            else: # If the list 'replied_by' contains more than one reply...
+                for reply_i, reply_val in enumerate(val['replied_by']): # Go through the whole list 'replied_by'
                     if reply_i>0:
                         tweet_reply_parent.append(val['tweet_id']) # Keep using the value of the tweet/tweet_reply_parent for all the replies/tweet_reply_children
-                    tweet_reply_child.append(val['replies_id'][reply_i])
-        else: # If the list 'replies_id' is empty, do not add this pair to the list
+                    tweet_reply_child.append(val['replied_by'][reply_i])
+        else: # If the list 'replied_by' is empty, do not add this pair to the list
             tweet_reply_parent.pop()
-        '''else: # If the list 'replies_id' is empty, give it the value 'no_replies'
+        '''else: # If the list 'replied_by' is empty, give it the value 'no_replies'
             tweet_reply_child.append('no_replies')'''
     
     tweet_reply_pairs = list(zip(tweet_reply_parent, tweet_reply_child))
@@ -41,17 +41,17 @@ def extract_nodes_edges(flatList_dict):
     tweet_quotetweet_child=[]
     for i, val in enumerate(flatList_dict['conversation']):
         tweet_quotetweet_parent.append(val['tweet_id'])
-        if val['quotedTweets']: # If the list 'quotedTweets' contains something...
-            if len(val['quotedTweets'])==1: # If the list 'quotedTweets' contains only one reply...
-                tweet_quotetweet_child.append(val['quotedTweets'][0]) # Use the first (and only) element in the list 'quotedTweets'
-            else: # If the list 'replies_id' contains more than one reply...
-                for quotetweet_i, quotetweet_val in enumerate(val['quotedTweets']): # Go through the whole list 'quotedTweets'
+        if val['quoted_by']: # If the list 'quoted_by' contains something...
+            if len(val['quoted_by'])==1: # If the list 'quoted_by' contains only one reply...
+                tweet_quotetweet_child.append(val['quoted_by'][0]) # Use the first (and only) element in the list 'quoted_by'
+            else: # If the list 'quoted_by' contains more than one reply...
+                for quotetweet_i, quotetweet_val in enumerate(val['quoted_by']): # Go through the whole list 'quoted_by'
                     if reply_i>0:
                         tweet_quotetweet_parent.append(val['tweet_id']) # Keep using the value of the tweet/tweet_parent_id for all the replies/tweet_child_idren
-                    tweet_quotetweet_child.append(val['quotedTweets'][quotetweet_i])
-        else: # If the list 'quotedTweets' is empty, do not add this pair to the list
+                    tweet_quotetweet_child.append(val['quoted_by'][quotetweet_i])
+        else: # If the list 'quoted_by' is empty, do not add this pair to the list
             tweet_quotetweet_parent.pop()
-        '''else: # If the list 'quotedTweets' is empty, give it the value 'no_quote_tweets'
+        '''else: # If the list 'quoted_by' is empty, give it the value 'no_quote_tweets'
             tweet_quotetweet_child.append('no_quote_tweets')'''
 
     tweet_quotetweet_pairs = list(zip(tweet_quotetweet_parent, tweet_quotetweet_child))

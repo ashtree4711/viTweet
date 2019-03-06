@@ -36,11 +36,11 @@ def get_conversation(userInput, language, max_replies):
     fList=[]
     fList=get_replies(twitterSession, rootTweet, language, max_replies, fList)
 
-    fList_filename = save_flatList(fList)
+    fList_filename = save_fList(fList)
     
         # Create a rList (recursive list), which represents the structure better. Save it to a JSON-File
     rList=create_rList(root_id, fList_filename)
-    rList_filename = save_recursiveList(rList)
+    rList_filename = save_rList(rList)
     
         # Return the filenames for the recursive and flat list, so they can be used to create the requested visualisations
         # This way, no new request to the Twitter API has to be made when reloading the page or switching visualisation types 
