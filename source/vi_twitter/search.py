@@ -5,7 +5,7 @@ Created on 20 Nov 2018
 '''
 from vi_twitter.connector import connect_to_api
 from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
-    save_recursiveList, save_flatList, create_rList
+    save_rList, save_fList, create_rList
 import vi_twitter.TweetObject as Tweet
 import twython
 
@@ -35,6 +35,7 @@ def get_conversation(userInput, language, max_replies):
         # Initialize a fList (flat list), where all tweets get stored. Save it to a JSON-File
     fList=[]
     fList=get_replies(twitterSession, rootTweet, language, max_replies, fList)
+
     fList_filename = save_flatList(fList)
     
         # Create a rList (recursive list), which represents the structure better. Save it to a JSON-File
@@ -44,6 +45,7 @@ def get_conversation(userInput, language, max_replies):
         # Return the filenames for the recursive and flat list, so they can be used to create the requested visualisations
         # This way, no new request to the Twitter API has to be made when reloading the page or switching visualisation types 
     json_filename = {'recursive': rList_filename, 'flat': fList_filename}
+
 
   
     return json_filename
@@ -72,7 +74,7 @@ def get_replies(twitterSession, tweet, language, max_replies, fList):
         # Query is a construction for the workaround. Because you can't explicitly search for replies in the Twitter API. 
         # All potential tweets have to be searched first. This query searches for all tweets from and to the originator of
         # the tweet to be examined.
-    query="to:"+tweet.get_user_screenname()+" OR from:"+tweet.get_user_screenname()+" OR "+"https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()
+    query="to:"+tweet.get_user_screenname()+" OR from:"+tweet.get_user_screenname()+" OR "+"https://twitter.com/" + tweet.get_user_screenname() + "/status/" + tweet.get_tweet_id_str()+ " -filter:retweets"
     print(query)
     
         # We need the parameter "since_id" first, because the API will give us automatically the latest tweets

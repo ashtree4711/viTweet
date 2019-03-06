@@ -2,6 +2,9 @@
 
 {% block content %}
 
+<script src="{{url_for('static', filename='response.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='design.css')}}">
+
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="navbar-header">
@@ -22,6 +25,7 @@
     <div class="jumbotron">
         <h1>Welcome to viTweet!</h1>
         <div class="container" id="mainSearch">
+            <div id="loading"></div>
             <form method="POST" action="/conversation">
                 <!-- main search with input field and submit button -->
                 <div class="form-group">
@@ -29,7 +33,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="search" placeholder="URL or Tweet-ID" name="tweetID" autofocus>
                         <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
+                            <button class="btn btn-default" type="submit" onclick="loading()">
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
                         </div>
@@ -47,8 +51,10 @@
 
                     <!-- allows the user to choose between two different visualization types-->
                     <div class="input-group-check">
+
                         <label class="radio-right"><input type="radio" name="visopt" value="list" required> List</label>
                         <label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Network</label>
+
                     </div>
                 </div>
             </form>
@@ -56,6 +62,7 @@
         <p>viTweet kann Gesprächsverläufe, die auf Twitter via Retweets und Replies realisiert werden, in einem dynamischen grafischen Netzwerk visualisieren. Da Twitter selbst ausschließlich Replies als Teil der Konversation anzeigt und diese auch lediglich linear darstellt, soll es mit der Applikation, durch einen Webservice bereitgestellt, Nutzer*innen ermöglicht werden, Gesprächsverläufe besser zu verfolgen. Gleichzeitig können die Visualisierungen bzw. das leichtere Verständnis der Gespräche als Grundlage für weitere Forschungen dienen.</p>
     </div>
 </div> 
+
 
 <!-- TODO: Handle whether the user is uploading a flat or recursive file -->
 <div class="container" id="uploadOption"> 
