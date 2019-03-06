@@ -119,9 +119,9 @@ def graph_visualization():
         basis = request.args['basis']
         basis = session['current_session']
         
-        #network.draw_network(basis)
-        #return render_template('graph.html', response=utilities.json_to_dictionary(mode, basis))
-        return network.draw_network(basis)
+        network.draw_network(basis)
+        return render_template('graph.html', response=utilities.json_to_dictionary(mode, basis))
+        #return network.draw_network(basis)
 
     else:
         return 'Error while retrieving session information. Please start a new search.'
@@ -129,9 +129,9 @@ def graph_visualization():
 
 @app.route('/graph', methods=['POST', 'GET'])
 def graph_json():
-    #return send_file('../temp_files/json/graph/graph1.json')
-    return send_file('static/graph1.json')
-    #return send_file(url_for('static', filename='graph1.json'))
+    #return send_file('../temp_files/json/graph/graph.json')
+    return send_file('static/graph.json')
+    #return send_file(url_for('static', filename='graph.json'))
 
 
 # TODO: Fix import and export now that there are flat and recursive output files to choose from

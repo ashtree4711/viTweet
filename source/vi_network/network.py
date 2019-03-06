@@ -80,24 +80,22 @@ def extract_nodes_edges(flatList_dict):
     print("all_tweet_nodes (", len(all_tweet_nodes), "): ", all_tweet_nodes)
     
     
-    '''
         # Save all tweets as nodes in the format {'A TWEET ID': {'tweet_id': 'A TWEET ID', 'node_label': 'BLABLABLA', ...}}
         # TODO: This does not have (explicit) information about the type of node (like 'start', 'reply', or 'quote_tweet')
     nodes = {}
     for i, val in enumerate(flatList_dict['conversation']):
         nodes[val['tweet_id']] = {}
             # Create labels for the nodes (instead the elements could also be taken one by one by the D3 script
-        nodes[val['tweet_id']]['node_label'] = flatList_dict['conversation'][i]['tweet_content'] + "\n—" + flatList_dict['conversation'][i]['user']['user_name'] + "(" + flatList_dict['conversation'][i]['user']['screen_name'] + ")"
+        nodes[val['tweet_id']]['node_label'] = flatList_dict['conversation'][i]['tweet_content'] + "\n—" + flatList_dict['conversation'][i]['user']['user_name'] + "(@" + flatList_dict['conversation'][i]['user']['screen_name'] + ")"
         nodes[val['tweet_id']].update(flatList_dict['conversation'][i])        
     print("Nodes (= tweets): ", nodes)
     
     
-       # Save the node labels separately
+        # Save the node labels separately
     labels = {}
-    for i, val in enumerate(all_tweet_nodes):
-        labels[val] = all_tweet_nodes[val]['node_label']
+    for i, val in enumerate(nodes):
+        labels[val] = nodes[val]['node_label']
     print("Labels: ", labels)
-    '''
     
     
         # Types of nodes ('start', 'reply', or 'quote_tweet')
@@ -126,7 +124,7 @@ def extract_nodes_edges(flatList_dict):
     print("Tweet contents (",len(all_tweet_contents), "):", all_tweet_contents)
     
     
-    return all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, edges, types_of_nodes, all_tweet_contents
+    return nodes, labels, all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, edges, types_of_nodes, all_tweet_contents
 
 
 
@@ -134,7 +132,7 @@ def draw_network(flatList_filename):
     flatList_dict = utilities.json_to_dictionary(mode='visualize', requested_file=flatList_filename)
         
         # Extract the nodes and edges from the flat file used as basis for the visualization
-    all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict) #all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict)
+    nodes, labels, all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict) #all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict)
 
 
         # Undirected graph
@@ -153,11 +151,11 @@ def draw_network(flatList_filename):
         all_labels.append(string)
     print('Labels:', all_labels)
 
-         #nodes labels
-    labels = dict(zip(all_tweet_nodes, all_labels))
+        #nodes labels
+    labels2 = dict(zip(all_tweet_nodes, all_labels))
     
         # Add the nodes to the graph
-    G.add_nodes_from(all_tweet_nodes)
+    G.add_nodes_from(nodes) #G.add_nodes_from(all_tweet_nodes)
     
         # Add the edges from the list 'edges' to the graph
     G.add_edges_from(edges)
@@ -197,7 +195,7 @@ def draw_network(flatList_filename):
     #nx.draw_spectral(G,  with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     
     
-    nx.draw_networkx_labels(G, pos, labels, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
+    nx.draw_networkx_labels(G, pos, labels=labels2, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
     
     
         # Save the drawing to a PNG file and return the file
@@ -206,25 +204,24 @@ def draw_network(flatList_filename):
     
     
         # Interactive graph
-    '''i=0
+    i=0
     for n in G:
         G.node[n]['tweet_id'] = n
         G.node[n]['tweet_content'] = all_tweet_contents[i]
-        G.node[n]['node_type'] = types_of_nodes[i]
+        G.node[n]['node_type'] = types_of_nodes[i] # TODO: I think this association of nodes and nodetypes is not working correctly
         i=i+1
-        
-        print(G.node[n])'''
+    
     
         # Give other attributes besides an ID to the graph's list of nodes
-    '''for n in all_tweet_nodes:
-        G.node[n]['label'] = all_tweet_nodes[n]['node_label']'''
+    for n in nodes: #for n in all_tweet_nodes:
+        G.node[n]['label'] = nodes[n]['node_label'] #G.node[n]['label'] = all_tweet_nodes[n]['node_label']
         
         # Write the 'node_link_data' into a JSON file, this will contain the attributes added above
         # The JSON file can then be loaded with D3 to create an interactive graph in the browsesr
     d = json_graph.node_link_data(G)
     print("d: ", d)
     #graph_filename = '../temp_files/json/graph/graph_' + flatList_filename[6:] + '.json'
-    graph_filename = 'static/graph1.json'
+    graph_filename = 'static/graph.json'
     print("graph_filename: ", graph_filename)
     json.dump(d, open(graph_filename,'w'))
     

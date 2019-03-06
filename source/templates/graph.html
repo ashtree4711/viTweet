@@ -1,0 +1,52 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='graph.css') }}"/>
+
+
+{% block content %}
+
+<!-- Navigation on top of the website -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container">
+		<div class="navbar-header">
+			<!-- place for our brand logo, clicking the logo will always bring you back to index page -->
+			<a class="navbar-brand" href="/">viTweet</a>
+
+			<div class="container">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="/">Home</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/contact">Contact</a></li>
+				</ul>
+
+				<!-- basic small search -->
+				<form class="navbar-form navbar-right" method="POST" action="/conversation">
+					<div class="input-group">
+						<input type="text" class="form-control" id="smallSearch" placeholder="Search" name="tweetID">
+						<div class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div>
+	<h1>Dynamic Graph Visualization of Tweet</h1>
+	   
+	<svg id="svg-ding" width="960" height="600"></svg>
+    
+  
+</div>
+
+{% endblock %}
+
+
+<script src="{{ url_for('static', filename='graph.js') }}"></script>
+
+
+{% extends "bootstrap/base.html" %}
+<!-- TODO: hier führt die Bootstrap-Zeile dazu, dass der ganze Blockcontent zweimal erscheint, aber wenn sie vor den Script-Tags steht, dann werden diese nicht geladen -->
