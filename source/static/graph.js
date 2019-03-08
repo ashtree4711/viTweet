@@ -27,29 +27,44 @@ d3.json("/static/graph.json", function (error, graph) {
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
-
+    
     var node = svg.append("g")
         .attr("class", "nodes")
         .selectAll("circle")
         .data(graph.nodes)
         .enter().append("circle")
-        .attr("r", 7)
+        .attr("r", 10)
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
-
-    node.append("title")
-        .text(function (d) {
-   	        //Hier Label statt ID als Titel (z.B. beim Hovern) aus der JSON entnommen 
-            return d.label;//return d.id; 
-        });
-
+	
+	var label = svg.selectAll(null)
+		.data(graph.nodes)
+		.enter()
+		.append("text")
+		.text(function (d) { return d.label; })
+		.style("text-anchor", "middle")
+		.style("fill", "#555")
+		.style("font-family", "Arial")
+		.style("font-size", 8);
+		
+	
+	
+    	// TODO: image is still not working
+	node.append("image")
+		.attr("xlink:href", "https://github.com/favicon.ico")
+		.attr("x", -8)
+		.attr("y", -8)
+		.attr("width", 16)
+		.attr("height", 16);
+		
     simulation
         .nodes(graph.nodes)
         .on("tick", ticked);
 
-    simulation.force("link")
+    simulation
+   		.force("link")
         .links(graph.links);
 
     function ticked() {
