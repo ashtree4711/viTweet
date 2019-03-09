@@ -207,14 +207,17 @@ def draw_network(flatList_filename):
     i=0
     for n in G:
         G.node[n]['tweet_id'] = n
-        G.node[n]['tweet_content'] = all_tweet_contents[i]
-        G.node[n]['node_type'] = types_of_nodes[i] # TODO: I think this association of nodes and nodetypes is not working correctly
+        G.node[n]['tweet_content'] = nodes[G.node[n]['tweet_id']]['tweet_content']
+        G.node[n]['node_type'] = types_of_nodes[i] # TODO: the association of nodes and nodetypes is oncorrect
+            # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/[screen_name]/profile_image?size=normal (for a small version; use "size=original" for a larger version)
+        profile_picture = 'https://twitter.com/' + nodes[G.node[n]['tweet_id']]['user']['screen_name'] + '/profile_image?size=normal'
+        G.node[n]['profile_picture'] = profile_picture
         i=i+1
     
     
         # Give other attributes besides an ID to the graph's list of nodes
     for n in nodes: #for n in all_tweet_nodes:
-        G.node[n]['label'] = nodes[n]['node_label'] #G.node[n]['label'] = all_tweet_nodes[n]['node_label']
+        G.node[n]['label'] = nodes[n]['node_label'] #G.node[n]['label'] = all_tweet_nodes[n]['node_label'] # TODO: is this adding the correct labels?
         
         # Write the 'node_link_data' into a JSON file, this will contain the attributes added above
         # The JSON file can then be loaded with D3 to create an interactive graph in the browsesr

@@ -1,9 +1,6 @@
-// Quelle: https://github.com/networkx/networkx/tree/master/examples/javascript
-// Nur leicht adaptiert
-// TODO: Eigenen, passenden D3-Code schreiben
+// Based on https://github.com/networkx/networkx/tree/master/examples/javascript / https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
+// and https://bl.ocks.org/mbostock/950642
 
-
-// This is adapted from https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
 
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
@@ -11,7 +8,7 @@ var svg = d3.select("svg"),
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) {
-        console.log("d.id 1: ", d.id) // TODO: Aus irgendeinem Grund werden durch diese Funktion die letzten drei Stellen der Tweet_IDs gerundet 
+        console.log("d.id 1: ", d.id) // TODO: Aus irgendeinem Grund werden durch diese Funktion die letzten drei Stellen der Tweet_IDs gerundet
         return d.id;
     }))
     .force("charge", d3.forceManyBody())
@@ -27,45 +24,36 @@ d3.json("/static/graph.json", function (error, graph) {
         .selectAll("line")
         .data(graph.links)
         .enter().append("line");
-    
-    var node = svg.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(graph.nodes)
-        .enter().append("circle")
-        .attr("r", 10)
+
+    var node = svg.selectAll(".node")
+          .data(graph.nodes)
+        .enter().append("g")
+        .attr("class", "node")
         .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
-	
-	var label = svg.selectAll(null)
-		.data(graph.nodes)
-		.enter()
-		.append("text")
-		.text(function (d) { return d.label; })
-		.style("text-anchor", "middle")
-		.style("fill", "#555")
-		.style("font-family", "Arial")
-		.style("font-size", 8);
-		
-	
-	
-    	// TODO: image is still not working
-	node.append("image")
-		.attr("xlink:href", "https://github.com/favicon.ico")
-		.attr("x", -8)
-		.attr("y", -8)
-		.attr("width", 16)
-		.attr("height", 16);
-		
+              .on("start", dragstarted)
+              .on("drag", dragged)
+              .on("end", dragended));
+
+    node.append("image") // Use images for nodes instead of circles
+      	  .attr("xlink:href", function (d) { return d.profile_picture; })
+      		.attr("x", -8)
+      		.attr("y", -8)
+      		.attr("width", 20)
+      		.attr("height", 20);
+
+    node.append("text")
+        .attr("dx", 12)
+        .attr("dy", ".35em")
+        .text(function(d) { return d.tweet_content });
+
+
     simulation
         .nodes(graph.nodes)
         .on("tick", ticked);
 
     simulation
    		.force("link")
-        .links(graph.links);
+      .links(graph.links);
 
     function ticked() {
         link
@@ -83,11 +71,8 @@ d3.json("/static/graph.json", function (error, graph) {
             });
 
         node
-            .attr("cx", function (d) {
-                return d.x;
-            })
-            .attr("cy", function (d) {
-                return d.y;
+            .attr("transform", function(d) {
+                return "translate(" + d.x + "," + d.y + ")";
             });
     }
 });
@@ -96,7 +81,7 @@ d3.json("/static/graph.json", function (error, graph) {
 // Ein Test for onClick
 svg.on("click", function() {
 	var coords = d3.mouse(this);
-    console.log("coords: ", coords)     
+    console.log("coords: ", coords)
 })
 
 
@@ -116,5 +101,3 @@ function dragended(d) {
     d.fx = null;
     d.fy = null;
 }
-
-
