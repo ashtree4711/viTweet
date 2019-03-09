@@ -1,7 +1,6 @@
 // Based on https://github.com/networkx/networkx/tree/master/examples/javascript / https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
 // and https://bl.ocks.org/mbostock/950642
-
-
+    
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -46,29 +45,31 @@ d3.json("/static/graph.json", function (error, graph) {
         .attr("dx", 12)
         .attr("dy", ".35em")
         .text(function(d) { return d.tweet_content });
-
+      
 	var setEvents = node
           .on( 'click', function (d) {
               d3.select("h2").html(d.label);   
            })
 
-          .on( 'mouseenter', function() {
-            // select element in current context
-            d3.select( this )
-              .transition()
-              .attr("x", function(d) { return -20;})
-              .attr("y", function(d) { return -20;})
-              .attr("height", 50)
-              .attr("width", 50);
+          .on( 'mouseover', function(d) {
+			// select element in current context
+           	d3.select( this).select("image")
+            	.transition()
+              	.duration(200)
+              	.attr("x", function(d) { return -20;})
+             	.attr("y", function(d) { return -20;})
+              	.attr("height", 50)
+              	.attr("width", 50);
           })
           // set back
-          .on( 'mouseleave', function() {
-            d3.select( this )
-              .transition()
-              .attr("x", function(d) { return -8;})
-              .attr("y", function(d) { return -8;})
-              .attr("height", 20)
-              .attr("width",20);
+          .on( 'mouseout', function(d) {
+			d3.select( this).select("image")
+              	.transition()
+              	.duration(200)
+              	.attr("x", function(d) { return -8;})
+              	.attr("y", function(d) { return -8;})
+              	.attr("height", 20)
+              	.attr("width",20);
           });
 
     simulation
@@ -125,3 +126,5 @@ function dragended(d) {
     d.fx = null;
     d.fy = null;
 }
+
+
