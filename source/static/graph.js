@@ -35,17 +35,41 @@ d3.json("/static/graph.json", function (error, graph) {
               .on("end", dragended));
 
     node.append("image") // Use images for nodes instead of circles
-      	  .attr("xlink:href", function (d) { return d.profile_picture; })
-      		.attr("x", -8)
-      		.attr("y", -8)
-      		.attr("width", 20)
-      		.attr("height", 20);
+		.attr("xlink:href", function (d) { return d.profile_picture; })
+      	.attr("x", -8)
+      	.attr("y", -8)
+      	.attr("width", 20)
+      	.attr("height", 20);
+      		
 
     node.append("text")
         .attr("dx", 12)
         .attr("dy", ".35em")
         .text(function(d) { return d.tweet_content });
 
+	var setEvents = node
+          .on( 'click', function (d) {
+              d3.select("h2").html(d.label);   
+           })
+
+          .on( 'mouseenter', function() {
+            // select element in current context
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -20;})
+              .attr("y", function(d) { return -20;})
+              .attr("height", 50)
+              .attr("width", 50);
+          })
+          // set back
+          .on( 'mouseleave', function() {
+            d3.select( this )
+              .transition()
+              .attr("x", function(d) { return -8;})
+              .attr("y", function(d) { return -8;})
+              .attr("height", 20)
+              .attr("width",20);
+          });
 
     simulation
         .nodes(graph.nodes)
