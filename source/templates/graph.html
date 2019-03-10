@@ -35,6 +35,10 @@
 </nav>
 
 <div>
+	<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
+	<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
+		<button>Switch to Linear Visualization</button>
+	</a>
 	<h1>Dynamic Graph Visualization of Tweet</h1>
 	   
 	<svg id="svg-ding" width="960" height="600"></svg>

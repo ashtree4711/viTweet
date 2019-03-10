@@ -35,6 +35,10 @@
 </nav>
 
 <div class="container" style="margin-bottom: 50px">
+	<!-- Show the graph visualization and switch from currently used rList to fList, on which the graph is based -->
+	<a href="/conversation/graph?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
+		<button>Switch to Graph Visualization</button>
+	</a>
 	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
 	
 	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->

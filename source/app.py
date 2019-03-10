@@ -5,6 +5,7 @@ import datetime
 import vi_twitter.search as search
 import vi_twitter.utilities as utilities
 import vi_network.network as network
+#from pandas.conftest import other_closed
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -29,39 +30,46 @@ def contact():
 
 
 @app.route('/conversation', methods=['POST'])
-def conversation():
-        # Start a new session for searching
-    session['current_session'] = '' # empty the current session, in case someone uses both the search and upload options after each other
-    session['session_type'] = 'search'
-    
+def conversation():    
         # Save parameters from form input
     requestedTweetID = request.form.get('tweetID')
     language = request.form.get('langopt')
     visualization_type = request.form.get('visopt')
     
-        # Search for the conversation, save it as a JSON, return the filename of the JSON as 'basis' for the visualization
-    print('INFO: Searching for the conversation')
+        # Start a new cookie session for searching
+    #session['current_basis'] = '' #TODO: @elli ? ---> # empty the current basis, in case someone uses both the search and upload options after each other
+    session['session_type'] = 'search'
     mode = session['session_type']
-        # Call get_conversation() which executes the query and saves the result in a JSON file; 
-        # Then later use the created JSON file to do something with the search results
     
+        # Search for the conversation, save it as a JSON, return the filename of the JSON as 'basis' for the visualization
+    print('INFO: Searching for the conversation starting from Tweet ', requestedTweetID)
+        # Search for the conversation:
+        # Call get_conversation() which executes the query and saves the result in a flat and a recursive JSON file
+        # Then later use those JSON files to do something with the search results
+    basis = search.get_conversation(requestedTweetID, language, max_replies=200)
+    print("basis: ", basis)
+    
+        # Complete data of cookie session with the JSON filenames
+        # TODO: @elli more èxplanation?
+    basis_recursive = basis['recursive']
+    basis_flat = basis['flat']
+    session['r'] = basis_recursive
+    session['f'] = basis_flat
+    #session['basis'] = basis
+    print("SESSION INFORMATION conversation(): ", session)
+
         # Depending on the type of visualization selected, redirect to the corresponding URL and pass along the values 'mode' and 'basis'
     if visualization_type=='list':
-            # Call get_conversation() which executes the query and saves the result in a flat and a recursive JSON file; 
-            # Then use the recursive JSON filename
-        basis = search.get_conversation(requestedTweetID, language, max_replies=200)['recursive']
-        print("\nBASIS FILE: ", basis)
-        session['current_session'] = basis
-        print("SESSION INFORMATION: ", session)
-        return redirect(url_for('list_visualization', mode=mode, basis=basis), code=307)
+            # Use recursive list as basis for list visualizations
+        session['current_basis'] = 'recursive'
+        print("SESSION INFORMATION (for list): ", session)
+            # session[session['current_session']] in this case is the value of 'basis_r', i.e. the filename of the recursive list
+        return redirect(url_for('list_visualization', mode=mode, use_basis=basis_recursive, other_basis=basis_flat))#), code=307)
     elif visualization_type=='graph':
-            # Call get_conversation() which executes the query and saves the result in a flat and a recursive JSON file; 
-            # Then use the flat JSON filename
-        basis = search.get_conversation(requestedTweetID, language, max_replies=200)['flat']
-        print("\nBASIS FILE: ", basis)
-        session['current_session'] = basis
-        print("SESSION INFORMATION: ", session)
-        return redirect(url_for('graph_visualization', mode=mode, basis=basis), code=307)
+            # Use flat list as basis for graph visualizations
+        session['current_basis'] = 'flat'
+        print("SESSION INFORMATION (for graph): ", session)
+        return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))#), code=307)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -98,29 +106,33 @@ def upload():
         return redirect(url_for('graph_visualization', mode=mode, basis=basis), code=307)
 
 
-@app.route('/conversation/list', methods=['POST'])
+@app.route('/conversation/list', methods=['POST','GET'])
 def list_visualization():
-    if 'current_session' in session:
+    if 'current_basis' in session:
             # Request the arguments that were passed with the redirect
         mode = request.args['mode']
-        basis = request.args['basis']
-        basis = session['current_session']
+        use_basis = request.args['use_basis']
+        other_basis = request.args['other_basis']
+        print("SESSION INFORMATION for list_visualization(): ", session)
+        #print("mode: ", mode)
+        #print("basis: ", basis)
             # TODO: @Lara: Hier stattdessen Template für Listen-Ansicht aufrufen, oder? (bzw. das bisher conversation.html heißende Template dazu nutzen)
-        return render_template('conversation.html', response=utilities.json_to_dictionary(mode, basis))
+        return render_template('conversation.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis)
     else:
         return 'Error while retrieving session information. Please start a new search.'
 
 
 @app.route('/conversation/graph', methods=['POST','GET'])
 def graph_visualization():
-    if 'current_session' in session:
+    if 'current_basis' in session:
             # Request the arguments that were passed with the redirect
         mode = request.args['mode']
-        basis = request.args['basis']
-        basis = session['current_session']
+        use_basis = request.args['use_basis']
+        other_basis = request.args['other_basis']
+        print("SESSION INFORMATION for graph_visualization(): ", session)
         
-        network.draw_network(basis)
-        return render_template('graph.html', response=utilities.json_to_dictionary(mode, basis))
+        network.draw_network(use_basis)
+        return render_template('graph.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis)
         #return network.draw_network(basis)
 
     else:
@@ -134,11 +146,10 @@ def graph_json():
     #return send_file(url_for('static', filename='graph.json'))
 
 
-# TODO: Fix import and export now that there are flat and recursive output files to choose from
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
         # Take the requested file from the path specified in the config; serve file at /download/[...].json
-    return send_from_directory(app.config['TEMP_JSON_FILES'], json_filename  + '.json')
+    return send_from_directory(app.config['TEMP_JSON_FLATLIST'], json_filename  + '.json')
 
 
 @app.route('/download/xml/<path:create_xml_filename>', methods=['GET'])
