@@ -1,6 +1,6 @@
 // Based on https://github.com/networkx/networkx/tree/master/examples/javascript / https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
 // and https://bl.ocks.org/mbostock/950642
-    
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -16,7 +16,7 @@ var simulation = d3.forceSimulation()
 //d3.json("../temp_files/json/graph/graph.json", function (error, graph) {
 d3.json("/static/graph.json", function (error, graph) {
     if (error) throw error;
-	
+
     var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
@@ -31,42 +31,87 @@ d3.json("/static/graph.json", function (error, graph) {
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
-			
-   
-    node.append("image") // Use images for nodes instead of circles
-		.attr("xlink:href", function (d) { return d.profile_picture; })
-      	.attr("x", -8)
-      	.attr("y", -8)
-      	.attr("width", 20)
-      	.attr("height", 20);
-      		
-	//Text is hidden
+
+
+
+        // Append a "defs" element to SVG
+        var defs = svg.append("defs").attr("id", "imgdefs")
+
+        // Store an element called "clipPath#clip-circle" in defs, which can be used at a later time
+        var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
+                .append("circle")
+                .attr("r", 24)
+                .attr("cx", 14)
+                .attr("cy", 14);
+
+        // Use images (profile pictures) to display the nodes
+        node.append("image")
+        		    .attr("xlink:href", function (d) { return d.profile_picture; })
+              	.attr("x", -10)
+              	.attr("y", -10)
+              	.attr("width", 48)
+              	.attr("height", 48)
+                // Clip images to a circle shape using the previously defined #clip-circle
+                .attr("clip-path", "url(#clip-circle)");
+
+    // Add label texts to nodes
     node.append("text")
-        .attr("dx", 12)
-        .attr("dy", ".35em") 
-        .style("visibility","hidden")   
-        .text(function(d) { return d.tweet_content;
-        });
-	
-        	
+        .attr("dx", 38)
+        .attr("dy", ".35em")
+        // Text is hidden
+        .style("visibility","hidden")
+        .text(function(d) { return d.tweet_content;});
+
+
 	var setEvents = node
           .on( 'click', function (d) {
-              d3.select("h2").html(d.label);   
+              d3.select("h2").html(d.label);
            })
-	
-		//mouseover shows the hidden text
+
+
 		.on("mouseover", function(d)
 		 {
-    		 d3.select(this).select("text").style("visibility","visible")
+          // Mouseover enlarges image
+          d3.select(this).select("image")
+            	.transition()
+              	.duration(200)
+              	.attr("x", -10*2)
+             	  .attr("y", -10*2)
+              	.attr("height", 48*1.5)
+              	.attr("width", 48*1.5);
+          d3.select(this).select("#clip-circle") // Does not work
+            .transition()
+              .duration(200)
+              .attr("r", 24*1.5)
+              .attr("cx", 14*2)
+              .attr("cy", 14*2);
+
+          // Mouseover shows the hidden text
+    		  d3.select(this).select("text").style("visibility","visible")
 		 })
-		 
-		//with mouseout the text is again hidden
+
 		.on("mouseout", function(d)
  		{
-   			  d3.select(this).select("text").style("visibility","hidden")
+        // On mouseout the image becomes smaller again
+        d3.select(this).select("image")
+          .transition()
+            .duration(200)
+            .attr("x", -10)
+            .attr("y", -10)
+            .attr("height", 48)
+            .attr("width", 48);
+        d3.select(this).select("#clip-circle")
+        .transition()
+          .duration(200)
+          .attr("r", 24)
+          .attr("cx", 14)
+          .attr("cy", 14);
+
+        // On mouseout the text is again hidden
+   			d3.select(this).select("text").style("visibility","hidden")
  		})
-		
-	
+
+
     simulation
         .nodes(graph.nodes)
         .on("tick", ticked);
@@ -74,6 +119,7 @@ d3.json("/static/graph.json", function (error, graph) {
     simulation
    		.force("link")
       .links(graph.links);
+
 
     function ticked() {
         link
@@ -121,5 +167,3 @@ function dragended(d) {
     d.fx = null;
     d.fy = null;
 }
-
-
