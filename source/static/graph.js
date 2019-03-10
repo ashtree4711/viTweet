@@ -9,15 +9,14 @@ var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) {
         console.log("d.id 1: ", d.id) // TODO: Aus irgendeinem Grund werden durch diese Funktion die letzten drei Stellen der Tweet_IDs gerundet
         return d.id;
-    }))
+    }).distance(100).strength(1))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
-
 
 //d3.json("../temp_files/json/graph/graph.json", function (error, graph) {
 d3.json("/static/graph.json", function (error, graph) {
     if (error) throw error;
-
+	
     var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
@@ -32,7 +31,8 @@ d3.json("/static/graph.json", function (error, graph) {
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
-
+			
+   
     node.append("image") // Use images for nodes instead of circles
 		.attr("xlink:href", function (d) { return d.profile_picture; })
       	.attr("x", -8)
@@ -40,38 +40,33 @@ d3.json("/static/graph.json", function (error, graph) {
       	.attr("width", 20)
       	.attr("height", 20);
       		
-
+	//Text is hidden
     node.append("text")
         .attr("dx", 12)
-        .attr("dy", ".35em")
-        .text(function(d) { return d.tweet_content });
-      
+        .attr("dy", ".35em") 
+        .style("visibility","hidden")   
+        .text(function(d) { return d.tweet_content;
+        });
+	
+        	
 	var setEvents = node
           .on( 'click', function (d) {
               d3.select("h2").html(d.label);   
            })
-
-          .on( 'mouseover', function(d) {
-			// select element in current context
-           	d3.select( this).select("image")
-            	.transition()
-              	.duration(200)
-              	.attr("x", function(d) { return -20;})
-             	.attr("y", function(d) { return -20;})
-              	.attr("height", 50)
-              	.attr("width", 50);
-          })
-          // set back
-          .on( 'mouseout', function(d) {
-			d3.select( this).select("image")
-              	.transition()
-              	.duration(200)
-              	.attr("x", function(d) { return -8;})
-              	.attr("y", function(d) { return -8;})
-              	.attr("height", 20)
-              	.attr("width",20);
-          });
-
+	
+		//mouseover shows the hidden text
+		.on("mouseover", function(d)
+		 {
+    		 d3.select(this).select("text").style("visibility","visible")
+		 })
+		 
+		//with mouseout the text is again hidden
+		.on("mouseout", function(d)
+ 		{
+   			  d3.select(this).select("text").style("visibility","hidden")
+ 		})
+		
+	
     simulation
         .nodes(graph.nodes)
         .on("tick", ticked);
