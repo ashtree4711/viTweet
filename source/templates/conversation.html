@@ -30,23 +30,27 @@
 					</div>
 				</form>
 			</div>
+			<div id="export-container" class="container">
+				<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+				<a href="/download/json/fList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (flat JSON)</button>
+				</a>
+				<a href="/download/json/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (hierarchical JSON)</button>
+				</a>
+				<a href="/download/xml/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (XML)</button>
+				</a>
+			</div>
 		</div>
 	</div>
 </nav>
 
 <div class="container" style="margin-bottom: 50px">
-	<!-- Show the graph visualization and switch from currently used rList to fList, on which the graph is based -->
+	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
+	<!-- Link to show the graph visualization and switch from currently used rList to fList, on which the graph is based -->
 	<a href="/conversation/graph?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
 		<button>Switch to Graph Visualization</button>
-	</a>
-	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
-	
-	<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
-	<a href="/download/json/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-		<button>Export this conversation (JSON)</button>
-	</a>
-	<a href="/download/xml/{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-		<button>Export this conversation (XML)</button>
 	</a>
 </div>
 

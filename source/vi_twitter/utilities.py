@@ -3,11 +3,20 @@ Created on 20 Nov 2018
 
 @author: markeschweiler
 '''
-import datetime, os, json#, xmltodict#, random
+import datetime, os, json, xmltodict#, random
 from pathlib import Path
 from builtins import int
+import configparser
 
 
+    # Instantiate configparser and say which INI file to read the configurations from 
+    # (The configparser is used to access the file paths defined in an INI file. 
+    # Therefore the paths can be updated in the INI file at any time without requiring any changes here.)
+config = configparser.ConfigParser()
+config.read('config/app_config.ini')
+
+
+# TODO: @mark: I (Elli)  think this function is not being used --> check again, and if so, I think it can be deleted
 def save_to_json(dictionary):
     '''
         Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
@@ -50,33 +59,36 @@ def save_fList(dictionary):
     print ("SAVE FLAT LIST TO:", persist_data_file)
     return filename
 
+
 def json_to_dictionary(mode, requested_file):
 
     if mode == 'search' or mode == 'visualize':
-            #TODO: Pfad stattdessen aus config-Datei entnehmen / eleganter lösen?
         if requested_file[0] == 'r':
-            json_file = open('../temp_files/json/recursiveList/' + requested_file + '.json')
+            json_file = open(config['FILES']['TEMP_JSON_RECURSIVELIST'] + requested_file + '.json')
         elif requested_file[0] == 'f':
-            json_file = open('../temp_files/json/flatList/' + requested_file + '.json') 
+            json_file = open(config['FILES']['TEMP_JSON_FLATLIST'] + requested_file + '.json') 
 
+        # TODO: Use separate directory "config['FILES']['USERUPLOAD_JSON_FILES']" instead?
     elif mode == 'upload':
-        json_file = open('../useruploads/json/' + requested_file + '.json') #TODO: Pfad stattdessen aus config-Datei entnehmen
+        if requested_file[0] == 'r':
+            json_file = open(config['FILES']['TEMP_JSON_RECURSIVELIST'] + requested_file + '.json')
+        elif requested_file[0] == 'f':
+            json_file = open(config['FILES']['TEMP_JSON_FLATLIST'] + requested_file + '.json')
+
     json_str = json_file.read()
     dictionary = json.loads(json_str)
     
     return dictionary
 
 
-
 def json_to_xml(json_filename):
     '''
     Transform a file from JSON to XML, using the library xmltodict
     '''
-    
         # Specify file names and paths
     xml_filename = json_filename
-    json_filepath = '../temp_files/json/' + json_filename + '.json' #TODO: Pfad stattdessen aus config-Datei entnehmen
-    xml_filepath = '../temp_files/xml/' + xml_filename + '.xml' #TODO: Pfad stattdessen aus config-Datei entnehmen
+    json_filepath = config['FILES']['TEMP_JSON_RECURSIVELIST'] + json_filename + '.json' #TODO: korrekt???
+    xml_filepath = config['FILES']['TEMP_XML_FILES'] + xml_filename + '.xml' #TODO: korrekt???
     
     with open(json_filepath, 'r') as f:
         jsonString = f.read()
@@ -89,7 +101,7 @@ def json_to_xml(json_filename):
     return xml_filename
 
 
-
+# TODO: @mark: I (Elli)  think this function is not being used --> check again, and if so, I think it can be deleted
 def create_response(searched_Tweet, replies):
     '''
         Creates the response after searching and filtering Tweets
@@ -107,7 +119,7 @@ def create_response(searched_Tweet, replies):
 def create_rList(tweet_id, fList_filename):
     #TODO: @mark describe describe describe
     
-        #Use the flat list of tweets inside 'conversation' 
+        #Use the flat list of tweets inside 'conversation'
     fList = json_to_dictionary(mode='search', requested_file=fList_filename)['conversation']
     
     for investigatedTweet in fList:
@@ -123,7 +135,8 @@ def create_rList(tweet_id, fList_filename):
             else:
                 rList={'inv.tweet':investigatedTweet, 'replies':None}
                 return rList
-            
+
+
 def get_replies_from_fList(investigatedTweet, fList):
     #TODO: @mark describe describe describe
     replyList=[]
@@ -131,6 +144,7 @@ def get_replies_from_fList(investigatedTweet, fList):
         if tweet.get('reply_to')==investigatedTweet.get("tweet_id") or tweet.get('quote_to')==investigatedTweet.get("tweet_id"):
             replyList.append(tweet)
     return replyList
+
 
 def preprocess_input(input):
     '''

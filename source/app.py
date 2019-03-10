@@ -5,12 +5,18 @@ import datetime
 import vi_twitter.search as search
 import vi_twitter.utilities as utilities
 import vi_network.network as network
-#from pandas.conftest import other_closed
+
+import configparser
+
+    # Instantiate configparser and say which INI file to read the configurations from 
+    # (The configparser is used to access the file paths defined in an INI file. 
+    # Therefore the paths can be updated in the INI file at any time without requiring any changes here.)
+config = configparser.ConfigParser()
+config.read('config/app_config.ini')
 
 
 app = Flask(__name__, static_url_path='/static')
-app.config.from_pyfile('config/app_config.ini')
-app.secret_key = app.config['APP_SECRET_KEY']
+app.secret_key = config['FLASKAPP']['APP_SECRET_KEY'] #app.config['APP_SECRET_KEY']
 Bootstrap(app)
 
 
@@ -37,7 +43,6 @@ def conversation():
     visualization_type = request.form.get('visopt')
     
         # Start a new cookie session for searching
-    #session['current_basis'] = '' #TODO: @elli ? ---> # empty the current basis, in case someone uses both the search and upload options after each other
     session['session_type'] = 'search'
     mode = session['session_type']
     
@@ -64,46 +69,63 @@ def conversation():
         session['current_basis'] = 'recursive'
         print("SESSION INFORMATION (for list): ", session)
             # session[session['current_session']] in this case is the value of 'basis_r', i.e. the filename of the recursive list
-        return redirect(url_for('list_visualization', mode=mode, use_basis=basis_recursive, other_basis=basis_flat))#), code=307)
+        return redirect(url_for('list_visualization', mode=mode, use_basis=basis_recursive, other_basis=basis_flat))
     elif visualization_type=='graph':
             # Use flat list as basis for graph visualizations
         session['current_basis'] = 'flat'
         print("SESSION INFORMATION (for graph): ", session)
-        return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))#), code=307)
+        return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-        # Start a new session with an uploaded file
-    session['current_session'] = '' # Empty the current session, in case someone uses both the search and upload options after each other
-    session['session_type'] = 'upload'
-    
         # Save parameters from form input
     visualization_type = request.form.get('visopt')
+    
+        # Start a new session with an uploaded file
+    session['session_type'] = 'upload'
+    mode = session['session_type']
 
         # Save the JSON file uploaded by the user
         #TODO: Zuerst überprüfen, ob es eine valide Datei ist?
         #TODO: Handle whether the user is uploading a flat or recursive file
     f = request.files['file']
-    new_filename = 'import_' + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    f.save(app.config['USERUPLOAD_JSON_FILES'] + '/' + new_filename + '.json', buffer_size=16384)
-    print('UPLOADED FILE SAVED AS: ', app.config['USERUPLOAD_JSON_FILES'] + '/' + new_filename + '.json')
+    import_filename = 'fList_import_' + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        # TODO: Use separate directory "config['FILES']['USERUPLOAD_JSON_FILES']" instead?
+    f.save(config['FILES']['TEMP_JSON_FLATLIST'] + '/' + import_filename + '.json', buffer_size=16384)
+    print('UPLOADED FILE SAVED AS: ', config['FILES']['TEMP_JSON_FLATLIST'] + import_filename + '.json')
     
         # Load the conversation from the imported file instead of performing a search; use the filename of the JSON as 'basis' for the visualization
     print('INFO: Using an imported JSON file to load the conversation')
-    mode = session['session_type']
+    
+    root_id = utilities.json_to_dictionary(mode, import_filename)['conversation'][0]['tweet_id']
+    print("root_id: ", root_id)
+    
         # Use the uploaded JSON file to do something with the results saved in it
-    basis = new_filename
+        # Complete data of cookie session with the JSON filenames
+        # TODO: @elli more èxplanation?
+    rList = utilities.create_rList(root_id, import_filename)
+    print("rList: ", rList)
+    basis_recursive = utilities.save_rList(rList)
+    print("basis_recursive: ", basis_recursive)
+    basis_flat = import_filename
+    session['r'] = basis_recursive
+    session['f'] = basis_flat
+    #session['basis'] = basis
+    print("SESSION INFORMATION conversation(): ", session)
 
         # Depending on the type of visualization selected, redirect to the corresponding URL and pass along the values 'mode' and 'basis'
     if visualization_type=='list':
-        session['current_session'] = basis
-        print("SESSION INFORMATION: ", session)
-        return redirect(url_for('list_visualization', mode=mode, basis=basis), code=307)
+            # Use recursive list as basis for list visualizations
+        session['current_basis'] = 'recursive'
+        print("SESSION INFORMATION (for list): ", session)
+            # session[session['current_session']] in this case is the value of 'basis_r', i.e. the filename of the recursive list
+        return redirect(url_for('list_visualization', mode=mode, use_basis=basis_recursive, other_basis=basis_flat))
     elif visualization_type=='graph':
-        session['current_session'] = basis
-        print("SESSION INFORMATION: ", session)
-        return redirect(url_for('graph_visualization', mode=mode, basis=basis), code=307)
+            # Use flat list as basis for graph visualizations
+        session['current_basis'] = 'flat'
+        print("SESSION INFORMATION (for graph): ", session)
+        return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))
 
 
 @app.route('/conversation/list', methods=['POST','GET'])
@@ -149,7 +171,12 @@ def graph_json():
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
         # Take the requested file from the path specified in the config; serve file at /download/[...].json
-    return send_from_directory(app.config['TEMP_JSON_FLATLIST'], json_filename  + '.json')
+    if json_filename[0:6] == 'fList_':
+        return send_from_directory(config['FILES']['TEMP_JSON_FLATLIST'], json_filename  + '.json')
+    elif json_filename[0:6] == 'rList_':
+        return send_from_directory(config['FILES']['TEMP_JSON_RECURSIVELIST'], json_filename  + '.json')
+    else:
+        return print("Download Error")
 
 
 @app.route('/download/xml/<path:create_xml_filename>', methods=['GET'])
@@ -158,7 +185,7 @@ def download_xml(create_xml_filename):
     xml_filename = utilities.json_to_xml(create_xml_filename)
         # Take the requested file from the path specified in the config; serve file at /download/[...].xml
         # TODO: Aus irgendeinem Grund fehlt der heruntergeladenen Datei die Endung '.xml'???
-    return send_from_directory(app.config['TEMP_XML_FILES'], xml_filename + '.xml')
+    return send_from_directory(config['FILES']['TEMP_XML_FILES'], xml_filename + '.xml')
 
 
 
