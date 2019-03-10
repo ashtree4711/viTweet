@@ -33,27 +33,28 @@ d3.json("/static/graph.json", function (error, graph) {
               .on("end", dragended));
 
 
-
         // Append a "defs" element to SVG
         var defs = svg.append("defs").attr("id", "imgdefs")
 
         // Store an element called "clipPath#clip-circle" in defs, which can be used at a later time
         var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
                 .append("circle")
-                .attr("r", 24)
-                .attr("cx", 14)
-                .attr("cy", 14);
+                .attr("r", 12)
+                .attr("cx", 7)
+                .attr("cy", 7);
 
         // Use images (profile pictures) to display the nodes
         node.append("image")
-        		    .attr("xlink:href", function (d) { return d.profile_picture; })
-              	.attr("x", -10)
-              	.attr("y", -10)
-              	.attr("width", 48)
-              	.attr("height", 48)
+        		.attr("xlink:href", function (d) { 
+        		return d.profile_picture; })
+              	.attr("x", -5)
+              	.attr("y", -5)
+              	.attr("width", 24)
+              	.attr("height", 24)
+              
                 // Clip images to a circle shape using the previously defined #clip-circle
                 .attr("clip-path", "url(#clip-circle)");
-
+				
     // Add label texts to nodes
     node.append("text")
         .attr("dx", 38)
@@ -65,7 +66,7 @@ d3.json("/static/graph.json", function (error, graph) {
 
 	var setEvents = node
           .on( 'click', function (d) {
-              d3.select("h2").html(d.label);
+              d3.select("h3").html(d.label);
            })
 
 
@@ -75,16 +76,16 @@ d3.json("/static/graph.json", function (error, graph) {
           d3.select(this).select("image")
             	.transition()
               	.duration(200)
-              	.attr("x", -10*2)
-             	  .attr("y", -10*2)
-              	.attr("height", 48*1.5)
-              	.attr("width", 48*1.5);
+              	.attr("x", -5*2)
+             	  .attr("y", -5*2)
+              	.attr("height", 24*1.5)
+              	.attr("width", 24*1.5);
           d3.select(this).select("#clip-circle") // Does not work
             .transition()
               .duration(200)
-              .attr("r", 24*1.5)
-              .attr("cx", 14*2)
-              .attr("cy", 14*2);
+              .attr("r", 12*1.5)
+              .attr("cx", 7*2)
+              .attr("cy", 7*2);
 
           // Mouseover shows the hidden text
     		  d3.select(this).select("text").style("visibility","visible")
@@ -96,16 +97,16 @@ d3.json("/static/graph.json", function (error, graph) {
         d3.select(this).select("image")
           .transition()
             .duration(200)
-            .attr("x", -10)
-            .attr("y", -10)
-            .attr("height", 48)
-            .attr("width", 48);
+            .attr("x", -5)
+            .attr("y", -5)
+            .attr("height", 24)
+            .attr("width", 24);
         d3.select(this).select("#clip-circle")
         .transition()
           .duration(200)
-          .attr("r", 24)
-          .attr("cx", 14)
-          .attr("cy", 14);
+          .attr("r", 12)
+          .attr("cx", 7)
+          .attr("cy", 7);
 
         // On mouseout the text is again hidden
    			d3.select(this).select("text").style("visibility","hidden")
