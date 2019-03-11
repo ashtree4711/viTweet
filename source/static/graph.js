@@ -36,28 +36,35 @@ d3.json("/static/graph.json", function (error, graph) {
         // Append a "defs" element to SVG
         var defs = svg.append("defs").attr("id", "imgdefs")
 
-        // Store an element called "clipPath#clip-circle" in defs, which can be used at a later time
-        var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
+        // Store an element called "clipPath#clip-circle-small" in defs, which can be used at a later time
+        var clipPath = defs.append('clipPath').attr('id', 'clip-circle-small')
                 .append("circle")
                 .attr("r", 12)
-                .attr("cx", 7)
-                .attr("cy", 7);
+                .attr("cx", 0)
+                .attr("cy", 0);
+
+        // "clipPath#clip-circle-large" is needed when images are enlarged on mouseover
+        clipPath = defs.append('clipPath').attr('id', 'clip-circle-large')
+                .append("circle")
+                .attr("r", 12*1.5)
+                .attr("cx", 0)
+                .attr("cy", 0);
 
         // Use images (profile pictures) to display the nodes
         node.append("image")
-        		.attr("xlink:href", function (d) { 
+        		.attr("xlink:href", function (d) {
         		return d.profile_picture; })
-              	.attr("x", -5)
-              	.attr("y", -5)
+              	.attr("x", -12)
+              	.attr("y", -12)
               	.attr("width", 24)
               	.attr("height", 24)
-              
-                // Clip images to a circle shape using the previously defined #clip-circle
-                .attr("clip-path", "url(#clip-circle)");
-				
+
+                // Clip images to a circle shape using #clip-circle-small
+                .attr("clip-path", "url(#clip-circle-small)");
+
     // Add label texts to nodes
     node.append("text")
-        .attr("dx", 38)
+        .attr("dx", 12*1.5+2)
         .attr("dy", ".35em")
         // Text is hidden
         .style("visibility","hidden")
@@ -65,50 +72,38 @@ d3.json("/static/graph.json", function (error, graph) {
 
 
 	var setEvents = node
-          .on( 'click', function (d) {
-              d3.select("h3").html(d.label);
-           })
+    .on( 'click', function (d) {
+          d3.select("h3").html(d.label);
+    })
 
-
-		.on("mouseover", function(d)
-		 {
+		.on("mouseover", function(d) {
           // Mouseover enlarges image
           d3.select(this).select("image")
             	.transition()
               	.duration(200)
-              	.attr("x", -5*2)
-             	  .attr("y", -5*2)
+                .attr("x", -12*1.5)
+              	.attr("y", -12*1.5)
+              	.attr("width", 24*1.5)
               	.attr("height", 24*1.5)
-              	.attr("width", 24*1.5);
-          d3.select(this).select("#clip-circle") // Does not work
-            .transition()
-              .duration(200)
-              .attr("r", 12*1.5)
-              .attr("cx", 7*2)
-              .attr("cy", 7*2);
+                // Clip images to the larger circle shape using #clip-circle-large
+                .attr("clip-path", "url(#clip-circle-large)");
 
           // Mouseover shows the hidden text
     		  d3.select(this).select("text").style("visibility","visible")
 		 })
 
-		.on("mouseout", function(d)
- 		{
+		.on("mouseout", function(d)	{
         // On mouseout the image becomes smaller again
         d3.select(this).select("image")
           .transition()
             .duration(200)
-            .attr("x", -5)
-            .attr("y", -5)
+            .attr("x", -12)
+            .attr("y", -12)
+            .attr("width", 24)
             .attr("height", 24)
-            .attr("width", 24);
-        d3.select(this).select("#clip-circle")
-        .transition()
-          .duration(200)
-          .attr("r", 12)
-          .attr("cx", 7)
-          .attr("cy", 7);
+            .attr("clip-path", "url(#clip-circle-small)");
 
-        // On mouseout the text is again hidden
+        // On mouseout the text is hidden again
    			d3.select(this).select("text").style("visibility","hidden")
  		})
 
