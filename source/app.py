@@ -1,12 +1,13 @@
-from flask import Flask, redirect, render_template, request, send_from_directory, session, url_for
+from flask import Flask, redirect, render_template, request, send_file, send_from_directory, session, url_for
 from flask_bootstrap import Bootstrap
 import datetime
 
 import vi_twitter.search as search
 import vi_twitter.utilities as utilities
+import vi_network.network as network
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.config.from_pyfile('config/app_config.ini')
 app.secret_key = app.config['APP_SECRET_KEY']
 Bootstrap(app)
@@ -28,7 +29,7 @@ def contact():
 
 
 @app.route('/conversation', methods=['POST'])
-def conversation():  
+def conversation():
         # Start a new session for searching
     session['current_session'] = '' # empty the current session, in case someone uses both the search and upload options after each other
     session['session_type'] = 'search'
@@ -43,14 +44,21 @@ def conversation():
     mode = session['session_type']
         # Call get_conversation() which executes the query and saves the result in a JSON file; 
         # Then later use the created JSON file to do something with the search results
-    basis = search.get_conversation(requestedTweetID, language, max_replies=200)
     
         # Depending on the type of visualization selected, redirect to the corresponding URL and pass along the values 'mode' and 'basis'
     if visualization_type=='list':
+            # Call get_conversation() which executes the query and saves the result in a flat and a recursive JSON file; 
+            # Then use the recursive JSON filename
+        basis = search.get_conversation(requestedTweetID, language, max_replies=200)['recursive']
+        print("\nBASIS FILE: ", basis)
         session['current_session'] = basis
         print("SESSION INFORMATION: ", session)
         return redirect(url_for('list_visualization', mode=mode, basis=basis), code=307)
     elif visualization_type=='graph':
+            # Call get_conversation() which executes the query and saves the result in a flat and a recursive JSON file; 
+            # Then use the flat JSON filename
+        basis = search.get_conversation(requestedTweetID, language, max_replies=200)['flat']
+        print("\nBASIS FILE: ", basis)
         session['current_session'] = basis
         print("SESSION INFORMATION: ", session)
         return redirect(url_for('graph_visualization', mode=mode, basis=basis), code=307)
@@ -67,6 +75,7 @@ def upload():
 
         # Save the JSON file uploaded by the user
         #TODO: Zuerst überprüfen, ob es eine valide Datei ist?
+        #TODO: Handle whether the user is uploading a flat or recursive file
     f = request.files['file']
     new_filename = 'import_' + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     f.save(app.config['USERUPLOAD_JSON_FILES'] + '/' + new_filename + '.json', buffer_size=16384)
@@ -102,19 +111,30 @@ def list_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
-@app.route('/conversation/graph', methods=['POST'])
+@app.route('/conversation/graph', methods=['POST','GET'])
 def graph_visualization():
     if 'current_session' in session:
             # Request the arguments that were passed with the redirect
         mode = request.args['mode']
         basis = request.args['basis']
         basis = session['current_session']
-            # TODO: @Lara: Hier stattdessen Template für Graph-Ansicht aufrufen, oder?
-        return render_template('conversation.html', response=utilities.json_to_dictionary(mode, basis))
+        
+        network.draw_network(basis)
+        return render_template('graph.html', response=utilities.json_to_dictionary(mode, basis))
+        #return network.draw_network(basis)
+
     else:
         return 'Error while retrieving session information. Please start a new search.'
 
 
+@app.route('/graph', methods=['POST', 'GET'])
+def graph_json():
+    #return send_file('../temp_files/json/graph/graph.json')
+    return send_file('static/graph.json')
+    #return send_file(url_for('static', filename='graph.json'))
+
+
+# TODO: Fix import and export now that there are flat and recursive output files to choose from
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
         # Take the requested file from the path specified in the config; serve file at /download/[...].json
@@ -128,6 +148,7 @@ def download_xml(create_xml_filename):
         # Take the requested file from the path specified in the config; serve file at /download/[...].xml
         # TODO: Aus irgendeinem Grund fehlt der heruntergeladenen Datei die Endung '.xml'???
     return send_from_directory(app.config['TEMP_XML_FILES'], xml_filename + '.xml')
+
 
 
 if __name__ == "__main__":

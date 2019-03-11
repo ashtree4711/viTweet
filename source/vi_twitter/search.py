@@ -35,12 +35,17 @@ def get_conversation(userInput, language, max_replies):
         # Initialize a fList (flat list), where all tweets get stored. Save it to a JSON-File
     fList=[]
     fList=get_replies(twitterSession, rootTweet, language, max_replies, fList)
-    save_fList(fList)
+
+    fList_filename = save_fList(fList)
+    
         # Create a rList (recursive list), which represents the structure better. Save it to a JSON-File
-    rList=create_rList(root_id, fList)
-   
-        #TODO: @elli, maybe u can describe why u are returning a file instead of list or dict
-    json_filename = save_rList(rList)
+    rList=create_rList(root_id, fList_filename)
+    rList_filename = save_rList(rList)
+    
+        # Return the filenames for the recursive and flat list, so they can be used to create the requested visualisations
+        # This way, no new request to the Twitter API has to be made when reloading the page or switching visualisation types 
+    json_filename = {'recursive': rList_filename, 'flat': fList_filename}
+
 
   
     return json_filename
