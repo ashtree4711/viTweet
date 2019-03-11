@@ -19,6 +19,9 @@ import configparser
 
     # Initializing Twitter Session
 def connect_to_api():
+    '''
+        @desc To connect to the Twitter-API with developer keys
+    '''
         # Create relative Path
     dirname = Path(__file__).parents[1]
     config_path = os.path.join(dirname, 'config/config.ini')

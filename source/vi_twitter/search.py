@@ -53,17 +53,17 @@ def get_conversation(userInput, language, max_replies):
 
 def get_replies(twitterSession, tweet, language, max_replies, fList):
     """
-    @param twitterSession: needs a consisting connection to twitter-api    
-    @param tweet: TweetObject of Tweet for which we searching replies
-    @param language: restricts tweets to the given language, given by an ISO 639-1 code
-    @param max_replies: maximum replies per call
-    @param fList: Is the list which stores all results
-    
-    @return fList: Returns updated list back to every older instance of recursive method
-    
-    @desc The function has a recursive structure. For each reply, the method calls itself according to the depth-first 
-    principle until the tweet under investigation no longer has any replies. Then a dictionary is built up, which
-     recursively completes itself until all replies and their replies are contoured. 
+        @param twitterSession: needs a consisting connection to twitter-api    
+        @param tweet: TweetObject of Tweet for which we searching replies
+        @param language: restricts tweets to the given language, given by an ISO 639-1 code
+        @param max_replies: maximum replies per call
+        @param fList: Is the list which stores all results
+        
+        @return fList: Returns updated list back to every older instance of recursive method. The list is flat, not hierarchical.
+        
+        @desc The function has a recursive structure. For each reply, the method calls itself according to the depth-first 
+        principle until the tweet under investigation no longer has any replies. Then a dictionary is built up, which
+         recursively completes itself until all replies and their replies are contoured. 
     """
     print("___________________________________________")
     print("INFO: INVESTIGATING REPLIES OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
@@ -118,68 +118,14 @@ def get_replies(twitterSession, tweet, language, max_replies, fList):
         fList.append(tweet.convert_to_new_dict())
         return fList
        
-    #TODO: @Elli. So, we dont use this function anymore. Can we delete it? Or would like keep that?
-def get_quote_tweets(twitterSession, tweet, language):
-    """
-    @param twitterSession: Connection to Twitter-API via Twython needed
-    @param rootTweet: Tweet(Object) for which we seek quotes
-    @param language: 
-    
-    @return Updated lists of potentialReplies & replyHits. These are the latest tweets
-    
-    @desc Calls the first 100 Tweets. They have to be older than related tweet  
-    """
-    print("___________________________________________")
-    print("INFO: LOOKING FOR QUOTE TWEETS OF TWEET", tweet.get_tweet_id(), " (", tweet.get_user_screenname(),")")
-    
-    quoteTweetHits = []
-    
-    try:
-        newTweets=twitterSession.search(q='https://twitter.com/' + tweet.get_user_screenname() + '/status/' + tweet.get_tweet_id_str() + ' -filter:retweets', count=100, lang=language)
-            # (re)construct the tweet URL of the root tweet / tweet for which quote tweets are searched
-        if newTweets.get('statuses'):
-            for atweet in newTweets['statuses']: # TODO: wie hier diesen Iterator nennen?
-                tweetObj=Tweet.Tweet(atweet)
-                quoteTweetHits.append(tweetObj)
-    except twython.exceptions.TwythonRateLimitError:
-        print("... ATTENTION: Twitter only allows a limited number of requests. Please wait a few minutes.")
-        
-    
-            # We finally know how many quote tweets the tweet has and so save this information within the TweetObject
-    tweet.set_quote_tweet_quantity(len(quoteTweetHits))
-    
-    
-        # Produce some control information shown in the console
-    print("INFO: ", len(quoteTweetHits), "QUOTE TWEETS IDENTIFIED")
-    if len(quoteTweetHits)!=0:
-        print("INFO: FOLLOWING ID's ARE QUOTE TWEETS")
-        for hit in quoteTweetHits:
-            print("------> ", hit.get_tweet_id())
-            
-
-        # TODO: adapt the below comment for the piece of code
-        # If the replyHits-list in this instance is not 0, go through the list and call a new instance for every hit. After that,
-        # construct a new Dictionary with the tweet and its replies of the current instance. Else, just construct a new Dictionary
-        # with the Tweet and set the replies to null.
-    if len(quoteTweetHits)!=0:
-        quoteTweetList = []
-        for hit in quoteTweetHits:
-            quoteTweetList.append(get_quote_tweets(twitterSession, hit, language))
-            quoteTweets={'1.tweet': tweet.convert_to_new_dict(), '3.quote_tweets':quoteTweetList}   
-        return quoteTweets
-    else:
-        quoteTweets={'1.tweet': tweet.convert_to_new_dict(), '3.quote_tweets':None}
-        return quoteTweets
-
-
 
 def get_tweet_by_id(tweet_id, session):
     """
-    @param tweet_id: Tweet-ID as Integer
-    @params session: needs a consisting connection to twitter-api
-    
-    @return tweet: Returns a Tweet as TweetObject
-    @desc Gets just one Tweet by its ID and constructs 
+        @param tweet_id: Tweet-ID as Integer
+        @params session: needs a consisting connection to twitter-api
+        
+        @return tweet: Returns a Tweet as TweetObject
+        @desc Gets just one Tweet by its ID and constructs 
     """
     twitterTweet = session.show_status(id=tweet_id)
     tweet = Tweet.Tweet(twitterTweet)
@@ -187,15 +133,15 @@ def get_tweet_by_id(tweet_id, session):
 
 def search_by_usermention_since_id(userMention, session, potentialReplies, replyHits, rootTweet, language):
     """
-    @param userMention: '@user'-String expecting
-    @param session: Connection to Twitter-API via Twython needed
-    @param potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
-    @param replyHits: List of all hitted Reply-Tweets(Object)
-    @param rootTweet: Tweet(Object) for which we seek replies #
-    
-    @return Updated lists of potentialReplies & replyHits. These are the latest tweets
-    
-    @desc Calls the first 100 Tweets. They have to be older than related tweet  
+        @param userMention: '@user'-String expecting
+        @param session: Connection to Twitter-API via Twython needed
+        @param potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
+        @param replyHits: List of all hitted Reply-Tweets(Object)
+        @param rootTweet: Tweet(Object) for which we seek replies #
+        
+        @return Updated lists of potentialReplies & replyHits. These are the latest tweets
+        
+        @desc Calls the first 100 Tweets. They have to be older than related tweet  
     """
     try:
         newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', since_id=rootTweet.get_tweet_id())
@@ -218,16 +164,16 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
 
 def search_by_usermention_max_id(userMention, session, potentialReplies, replyHits, rootTweet, language):
     """ 
-    @param userMention: '@user'-String expecting
-    @param session: Connection to Twitter-API via Twython needed
-    @param potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
-    @param replyHits: List of all hitted Reply-Tweets(Object)
-    @param rootTweet: Tweet(Object) for which we seek replies 
-    @return Updated lists of potentialReplies & replyHits
-    
-    @desc After we got the first 100 tweets, which are the latest, we need the next 100 tweets that should be older than the
-    last of the potentialReplies-list. But the tweets are not allowed to be older than rootTweet, so we dont browser tweets where 
-    replies are not possible.
+        @param userMention: '@user'-String expecting
+        @param session: Connection to Twitter-API via Twython needed
+        @param potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
+        @param replyHits: List of all hitted Reply-Tweets(Object)
+        @param rootTweet: Tweet(Object) for which we seek replies 
+        @return Updated lists of potentialReplies & replyHits
+        
+        @desc After we got the first 100 tweets, which are the latest, we need the next 100 tweets that should be older than the
+        last of the potentialReplies-list. But the tweets are not allowed to be older than rootTweet, so we dont browser tweets where 
+        replies are not possible.
     """
     try:
         newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', max_id=potentialReplies[-1].get_tweet_id()-1)
@@ -249,12 +195,12 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
    
 def clean_hits(replyHits, max_replies):
     """
-    @param replyHits: List of all Replies
-    @param max_replies: The maximum parameter
-    
-    @return newReplyHits: to the maximum reduced list
-    
-    @desc If we got more replies than we need, we reduced the list to maximum
+        @param replyHits: List of all Replies
+        @param max_replies: The maximum parameter
+        
+        @return newReplyHits: to the maximum reduced list
+        
+        @desc If we got more replies than we need, we reduced the list to maximum
     """
     newReplyHits=[]
     for reply in replyHits[0:max_replies]:
@@ -262,6 +208,11 @@ def clean_hits(replyHits, max_replies):
     return newReplyHits
 
 def convert_list_to_dict(tweetObjectList):
+    '''
+        @param tweetObjectList: a list with tweet-object
+        @return newTweetObjectList: a list with tweet-objects as dictionaries
+        @desc Each tweet object is written to a Dictionary so that the Web service can read it.
+    '''
     newTweetObjectList=[]
     for tweetObject in tweetObjectList:
         newTweetObjectList.append(tweetObject.convert_to_new_dict())

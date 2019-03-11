@@ -6,11 +6,17 @@ Created on 19 Nov 2018
 
 class Tweet(object):
     '''
-    classdocs
+        The 'Tweet' class is viTweet's own object class consisting of the useful attributes of the tweets provided by the 
+        Twitter API. All attributes are callable via setters and getters
     '''
 
 
     def __init__(self, api_json):
+        '''
+          @param api_json: The Tweet-Information from Twitter
+          
+          @desc We construct for every useful information an attribute within an object  
+        '''
         # General Information of posted Tweet
         self.timestamp = api_json['created_at'] # String
         self.tweet_id = int(api_json['id']) # Integer
@@ -25,8 +31,6 @@ class Tweet(object):
         self.user_location = api_json['user']['location'] # String
         self.user_url = api_json['user']['url'] # String
         self.user_desc = api_json['user']['description'] # String
-        
-        
         
         # Geo-Location of Tweet -> https://developer.vi_twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id.html
         
@@ -84,7 +88,9 @@ class Tweet(object):
         return self.__convertedTweetStructure
     
     def convert_to_new_dict(self):
-            # Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
+        '''
+            @desc Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
+        ''' 
         new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'reply_to':self.reply_to_tweet_id, 'quote_to':self.quote_to_tweet_id, 'number_of_replies':self.reply_quantity, 'replied_by':self.get_replied_by_list(), 'isQuote': self.reply_isQuote ,'number_of_quote_tweets':self.quote_tweet_quantity, 'quoted_by':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
                      'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}

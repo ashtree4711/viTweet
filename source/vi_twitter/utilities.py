@@ -3,14 +3,15 @@ Created on 20 Nov 2018
 
 @author: markeschweiler
 '''
-import datetime, os, json#, xmltodict#, random
+import datetime, os, json, xmltodict, random
 from pathlib import Path
 from builtins import int
 
 
 def save_to_json(dictionary):
     '''
-        Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
+        @param dictionary: saves a Python dictionary within a JSON-file
+        @desc Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
     '''
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
@@ -20,11 +21,13 @@ def save_to_json(dictionary):
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
     print ("SAVE JSON TO:", persist_data_file)
-        
     return filename
 
 def save_rList(dictionary):
-
+    '''
+        @param dictionary: saves a Python dictionary within a JSON-file for recursive list in the folder
+        @desc Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
+    '''
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
     dirname = Path(__file__).parents[2]
@@ -33,12 +36,12 @@ def save_rList(dictionary):
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
     print ("SAVE RECURSIVE LIST TO:", persist_data_file)
-        
     return filename
 
 def save_fList(dictionary):
     '''
-    
+        @param dictionary: saves a Python dictionary within a JSON-file for recursive list in the folder
+        @desc Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
     '''
     now = datetime.datetime.now()
     persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
@@ -105,11 +108,18 @@ def create_response(searched_Tweet, replies):
 
 
 def create_rList(tweet_id, fList_filename):
-    #TODO: @mark describe describe describe
-    
-        #Use the flat list of tweets inside 'conversation' 
+    '''
+        @param tweet_id: the id of the investigated tweet
+        @param fList_filename: the flat list of all tweets. All tweets are on the top level and are related per specific lists
+        within the tweet
+        @return rList: a list, where replied tweets are within the related tweet
+        @desc: To simplify human reading, the flat tweet list should be recursively converted into a hierarchical list. Answers 
+        or QuotedTweets to a certain tweet can be found within the examined tweet. These in turn possess answers or QuotedTweeets 
+        themselves, which in turn should lie within them. The result is a list or dictionary in a tree structure. The function is 
+        structured recursively according to the Depth-First schema. 
+    '''
+        # Use the flat list of tweets inside 'conversation' 
     fList = json_to_dictionary(mode='search', requested_file=fList_filename)['conversation']
-    
     for investigatedTweet in fList:
         if investigatedTweet.get('tweet_id') == tweet_id:
             replyList=get_replies_from_fList(investigatedTweet, fList)
@@ -125,7 +135,13 @@ def create_rList(tweet_id, fList_filename):
                 return rList
             
 def get_replies_from_fList(investigatedTweet, fList):
-    #TODO: @mark describe describe describe
+    '''
+        @param investigatedTweet: to Tweet for which we searching replies and quoted tweets
+        @param fList: the complete list of all candidates
+        @return replyList: a list with a tweets, which are replies or quoted tweets
+        @desc Sub-function of create_rList. All replies and quoted tweets of the examined tweet are collected from the entire fList 
+        using object parameters and packed into a separate list.
+    '''
     replyList=[]
     for tweet in fList:
         if tweet.get('reply_to')==investigatedTweet.get("tweet_id") or tweet.get('quote_to')==investigatedTweet.get("tweet_id"):
@@ -134,7 +150,9 @@ def get_replies_from_fList(investigatedTweet, fList):
 
 def preprocess_input(input):
     '''
-        Checks if the input is the required tweet_id as an Integer and changes if it is not so. 
+        @param input: the raw  user-input
+        @return input: investigated and parsed input as Integer (not String)
+        @desc Checks if the input is the required tweet_id as an Integer and changes if it is not so. 
     '''
     if isinstance(input, int):
         print("input: ", input)
