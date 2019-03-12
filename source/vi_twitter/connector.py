@@ -3,13 +3,12 @@ Created on 16 Nov 2018
 
 @author: markeschweiler
 '''
-import time
 from pathlib import Path
 from os.path import os
 '''
 # Created on 18.08.2018
-# Hier werden Suchanfragen über die Twitter-API geregelt
-# Die Zugriffe auf die Twitter-API sind begrenzt. Die 15 Zugriffe pro Viertelstunde können aber meist überschritten werden.
+# This is where Twitter API searches are handled
+# Access to the Twitter API is limited. 450 accesses are allowed with a free developer account.
 # @author: Mark Eschweiler
 '''
 

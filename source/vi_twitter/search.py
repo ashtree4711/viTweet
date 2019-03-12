@@ -1,10 +1,10 @@
 '''
 Created on 20 Nov 2018
-
+    The search.py module constructs the search query, initiates access to the Twitter API and processes the results. 
 @author: markeschweiler
 '''
 from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import create_response, preprocess_input, save_to_json,\
+from vi_twitter.utilities import preprocess_input,\
     save_rList, save_fList, create_rList
 import vi_twitter.TweetObject as Tweet
 import twython
