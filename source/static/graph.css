@@ -13,5 +13,12 @@
   pointer-events: none;
   font-family: Arial;
   font-size: 10pt;
-  stroke-width: 0;
+}
+
+.node text.text-user {
+  font-weight: bold;
+}
+
+.node text.text-content {
+
 }

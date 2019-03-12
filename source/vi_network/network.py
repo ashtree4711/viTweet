@@ -191,7 +191,7 @@ def draw_network(flatList_filename):
     #nx.draw_spring(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     #nx.draw_circular(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     #nx.draw_kamada_kawai(G, with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
-    nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_shape='s', alpha=0.8) #nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)    #nx.draw_spectral(G,  with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
+    nx.draw_shell(G) #nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_shape='s', alpha=0.8) #nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)    #nx.draw_spectral(G,  with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     
     
     nx.draw_networkx_labels(G, pos, labels=labels2, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
@@ -207,6 +207,9 @@ def draw_network(flatList_filename):
     for n in G:
         G.node[n]['tweet_id'] = n
         G.node[n]['tweet_content'] = nodes[n]['tweet_content']
+        G.node[n]['user_name'] = nodes[n]['user']['user_name']
+        G.node[n]['screen_name'] = nodes[n]['user']['screen_name']
+        G.node[n]['timestamp'] = nodes[n]['timestamp']
         
             # Save Tweet types, depending on the values of 'reply_to' and 'quote_to' for each Tweet
         if nodes[n]['reply_to'] != None:

@@ -6,10 +6,8 @@ var svg = d3.select("svg"),
     height = +svg.attr("height");
 
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) {
-        console.log("d.id 1: ", d.id) // TODO: Aus irgendeinem Grund werden durch diese Funktion die letzten drei Stellen der Tweet_IDs gerundet
-        return d.id;
-    }).distance(100).strength(1))
+    .force("link", d3.forceLink().id(function (d) { return d.id;})
+    .distance(100).strength(1))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -24,7 +22,7 @@ d3.json("/static/graph.json", function (error, graph) {
         .enter().append("line");
 
     var node = svg.selectAll(".node")
-          .data(graph.nodes)
+        .data(graph.nodes)
         .enter().append("g")
         .attr("class", "node")
         .attr("node_type", function(d) { return d.tweet_type;}) // Tweet type is stored in attribute 'node_type'
@@ -32,6 +30,10 @@ d3.json("/static/graph.json", function (error, graph) {
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
+
+    svg.selectAll("line")
+        .attr("node_type", function(d, i){
+          return graph.nodes[i].tweet_type;});
 
     // The color of the links is decided based on the tweet_type of the target of the link
     svg.selectAll("line").style("stroke", function(d, i){
@@ -88,19 +90,32 @@ d3.json("/static/graph.json", function (error, graph) {
                   else return "url(#clip-circle-small)";
                 });
 
-                node.attr("stroke", function(d, i){
+        link.attr("stroke", function(d, i){
                   if(graph.nodes[i].tweet_type == 'reply') return 'blue';
                   else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
-                  })
+                });
 
     // Add label texts to the nodes
     node.append("text")
-        .attr("dx", 12*1.5+2)
-        .attr("dy", ".35em")
+        .attr("class", "text-user")
+        .attr("dx", function(d, i){
+          if (graph.nodes[i].tweet_type == 'root_tweet') return 12*1.5+10;
+          else return 12*1.5+2})
+        .attr("dy", "-0.95em")
+        // Text is hidden
+        .style("visibility","hidden")
+        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;});
+
+    node.append("text")
+        .attr("class", "text-content")
+        .attr("dx", function(d, i){
+          if (graph.nodes[i].tweet_type == 'root_tweet') return 12*1.5+10;
+          else return 12*1.5+2})
+        .attr("dy", "0.35em")
         // Text is hidden
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
-		.call(wrap, 30);
+		.call(wrap, 400);
 
 	function wrap(text, width) {
     text.each(function () {
@@ -126,7 +141,7 @@ d3.json("/static/graph.json", function (error, graph) {
                 tspan.text(line.join(" "));
                 line = [word];
                 tspan = text.append("tspan")
-                            .attr("x", 0)
+                            .attr("x", 18)
                             .attr("y", y)
                             .attr("dy", lineHeight + "em")
                             .text(word);
@@ -146,15 +161,31 @@ d3.json("/static/graph.json", function (error, graph) {
           d3.select(this).select("image")
             	.transition()
               	.duration(200)
-                .attr("x", -12*1.5)
-              	.attr("y", -12*1.5)
-              	.attr("width", 24*1.5)
-              	.attr("height", 24*1.5)
+                .attr("x", function(d) {
+                  if (d.tweet_type == 'root_tweet') return -24;
+                  else return -12*1.5})
+                .attr("y", function(d) {
+                  if (d.tweet_type == 'root_tweet') return -24;
+                  else return -12*1.5})
+                .attr("width", function(d) {
+                  if (d.tweet_type == 'root_tweet') return 48;
+                  else return 24*1.5})
+                .attr("height", function(d) {
+                  if (d.tweet_type == 'root_tweet') return 48;
+                  else return 24*1.5})
+
                 // Clip images to the larger circle shape using #clip-circle-large
-                .attr("clip-path", "url(#clip-circle-large)");
+                .attr("clip-path", function(d) {
+                  if (d.tweet_type == 'root_tweet') return "url(#clip-circle-root)";
+                  else return "url(#clip-circle-large)";
+                });
 
           // Mouseover shows the hidden text
-    		  d3.select(this).select("text").style("visibility","visible")
+          if (document.getElementById("toggle-labels").value == "Display Tweet labels"){
+            d3.select(this).selectAll("text")
+            .style("visibility", "visible");
+          }
+
 		 })
 
 		.on("mouseout", function(d)	{
@@ -178,8 +209,11 @@ d3.json("/static/graph.json", function (error, graph) {
               if (d.tweet_type == 'root_tweet') return "url(#clip-circle-root)";
               else return "url(#clip-circle-small)";
             });
-        // On mouseout the text is hidden again
-   			d3.select(this).select("text").style("visibility","hidden")
+        // On mouseout the text is hidden again (except if the labels have been toggled on with the button#toggle-labels)
+        if (document.getElementById("toggle-labels").value == "Display Tweet labels"){
+          d3.select(this).selectAll("text")
+          .style("visibility", "hidden");
+        }
  		})
 
 
@@ -237,4 +271,17 @@ function dragended(d) {
     if (!d3.event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
+}
+
+function toggle_labels(toggle_button){
+  if(toggle_button.value == "Display Tweet labels") {
+    toggle_button.value = "Don't display Tweet labels";
+    d3.selectAll(".node").selectAll(".text-content")
+      .style("visibility","visible");
+  }
+  else if (toggle_button.value == "Don't display Tweet labels"){
+    toggle_button.value = "Display Tweet labels";
+    d3.selectAll(".node").selectAll(".text-content")
+      .style("visibility","hidden");
+  }
 }

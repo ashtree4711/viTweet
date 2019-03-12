@@ -34,10 +34,15 @@
 	</div>
 </nav>
 
-<div>
+<div id="svg-container" >
 	<h1>Dynamic Graph Visualization of Tweet</h1>
 	<h3>Click on the picture to visualize here the Tweet</h3>
-	<svg id="svg-ding" width="960" height="600"></svg>
+
+	<form action="">
+		<input type="button" id="toggle-labels" value="Display Tweet labels" onclick="toggle_labels(this);">
+	</form>
+	
+	<svg width="960" height="600"></svg>
 		
 </div>
 
