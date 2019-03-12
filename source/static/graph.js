@@ -27,11 +27,17 @@ d3.json("/static/graph.json", function (error, graph) {
           .data(graph.nodes)
         .enter().append("g")
         .attr("class", "node")
+        .attr("node_type", function(d) { return d.tweet_type;}) // Tweet type is stored in attribute 'node_type'
         .call(d3.drag()
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended));
 
+    // The color of the links is decided based on the tweet_type of the target of the link
+    svg.selectAll("line").style("stroke", function(d, i){
+      if(graph.nodes[i].tweet_type == 'reply') return 'blue';
+      else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
+      })
 
         // Append a "defs" element to SVG
         var defs = svg.append("defs").attr("id", "imgdefs")
@@ -50,19 +56,44 @@ d3.json("/static/graph.json", function (error, graph) {
                 .attr("cx", 0)
                 .attr("cy", 0);
 
+        // "clipPath#clip-circle-root" is needed for root_tweet
+        clipPath = defs.append('clipPath').attr('id', 'clip-circle-root')
+                .append("circle")
+                .attr("r", 12*2)
+                .attr("cx", 0)
+                .attr("cy", 0);
+
         // Use images (profile pictures) to display the nodes
         node.append("image")
-        		.attr("xlink:href", function (d) {
-        		return d.profile_picture; })
-              	.attr("x", -12)
-              	.attr("y", -12)
-              	.attr("width", 24)
-              	.attr("height", 24)
+                .attr("node_type", function(d) { return d.tweet_type;}) // Tweet type is stored in attribute 'type'
+        		    .attr("xlink:href", function (d) { return d.profile_picture; })
 
-                // Clip images to a circle shape using #clip-circle-small
-                .attr("clip-path", "url(#clip-circle-small)");
+                // Set size of image (all small, except for the root_tweet which is larger)
+              	.attr("x", function(d) {
+                  if (d.tweet_type == 'root_tweet') return -24;
+                  else return -12})
+              	.attr("y", function(d) {
+                  if (d.tweet_type == 'root_tweet') return -24;
+                  else return -12})
+              	.attr("width", function(d) {
+                  if (d.tweet_type == 'root_tweet') return 48;
+                  else return 24})
+              	.attr("height", function(d) {
+                  if (d.tweet_type == 'root_tweet') return 48;
+                  else return 24})
 
-    // Add label texts to nodes
+                // Clip images to a circle shape using #clip-circle-small / for root_tweet use #clip-circle-root
+                .attr("clip-path", function(d) {
+                  if (d.tweet_type == 'root_tweet') return "url(#clip-circle-root)";
+                  else return "url(#clip-circle-small)";
+                });
+
+                node.attr("stroke", function(d, i){
+                  if(graph.nodes[i].tweet_type == 'reply') return 'blue';
+                  else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
+                  })
+
+    // Add label texts to the nodes
     node.append("text")
         .attr("dx", 12*1.5+2)
         .attr("dy", ".35em")
@@ -70,15 +101,15 @@ d3.json("/static/graph.json", function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
 		.call(wrap, 30);
-	
+
 	function wrap(text, width) {
     text.each(function () {
-        var text = d3.select(this),	
+        var text = d3.select(this),
             words = text.text().split(/\s+/).reverse(),
             word,
             line = [],
             lineNumber = 0,
-            lineHeight = 1.2, 
+            lineHeight = 1.2,
             x = text.attr("x"),
             y = text.attr("y"),
             dy = parseFloat(text.attr("dy")),
@@ -103,6 +134,7 @@ d3.json("/static/graph.json", function (error, graph) {
         }
     });
 }
+
 
 	var setEvents = node
     .on( 'click', function (d) {
@@ -130,12 +162,22 @@ d3.json("/static/graph.json", function (error, graph) {
         d3.select(this).select("image")
           .transition()
             .duration(200)
-            .attr("x", -12)
-            .attr("y", -12)
-            .attr("width", 24)
-            .attr("height", 24)
-            .attr("clip-path", "url(#clip-circle-small)");
-
+            .attr("x", function(d) {
+              if (d.tweet_type == 'root_tweet') return -24;
+              else return -12})
+            .attr("y", function(d) {
+              if (d.tweet_type == 'root_tweet') return -24;
+              else return -12})
+            .attr("width", function(d) {
+              if (d.tweet_type == 'root_tweet') return 48;
+              else return 24})
+            .attr("height", function(d) {
+              if (d.tweet_type == 'root_tweet') return 48;
+              else return 24})
+            .attr("clip-path", function(d) {
+              if (d.tweet_type == 'root_tweet') return "url(#clip-circle-root)";
+              else return "url(#clip-circle-small)";
+            });
         // On mouseout the text is hidden again
    			d3.select(this).select("text").style("visibility","hidden")
  		})

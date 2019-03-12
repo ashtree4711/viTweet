@@ -1,20 +1,17 @@
-// Quelle: https://github.com/networkx/networkx/tree/master/examples/javascript
-
 
 .nodes {
     cursor: pointer;
 }
 
-
 .links line {
     fill: none;
-    stroke: #337ab7;
+    /*stroke: #337ab7;*/
     stroke-width: 3px;
 }
 
 .node text {
   pointer-events: none;
   font-family: Arial;
-  font-size: 12;
+  font-size: 10pt;
+  stroke-width: 0;
 }
-

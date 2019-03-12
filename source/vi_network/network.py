@@ -203,15 +203,23 @@ def draw_network(flatList_filename):
     
     
         # Interactive graph
-    i=0
+    #i=0
     for n in G:
         G.node[n]['tweet_id'] = n
-        G.node[n]['tweet_content'] = nodes[G.node[n]['tweet_id']]['tweet_content']
-        G.node[n]['node_type'] = types_of_nodes[i] # TODO: the association of nodes and nodetypes is oncorrect
+        G.node[n]['tweet_content'] = nodes[n]['tweet_content']
+        
+            # Save Tweet types, depending on the values of 'reply_to' and 'quote_to' for each Tweet
+        if nodes[n]['reply_to'] != None:
+            G.node[n]['tweet_type'] = 'reply'
+        elif nodes[n]['quote_to'] != None:
+            G.node[n]['tweet_type'] = 'quote_tweet'
+        else:
+            G.node[n]['tweet_type'] = 'root_tweet'
+        
             # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/[screen_name]/profile_image?size=normal (for a small version; use "size=original" for a larger version)
-        profile_picture = 'https://twitter.com/' + nodes[G.node[n]['tweet_id']]['user']['screen_name'] + '/profile_image?size=normal'
+        profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
         G.node[n]['profile_picture'] = profile_picture
-        i=i+1
+        #i=i+1
     
     
         # Give other attributes besides an ID to the graph's list of nodes
