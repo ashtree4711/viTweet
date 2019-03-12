@@ -4,6 +4,8 @@
 
 function loading() {
    $("#loading").show();
+   $("#content").hide();
+   $("#uploadOption").hide();
     
 }
 
@@ -12,5 +14,5 @@ function showReplies() {
 }
 
 function showQuotes() {
-    alert("test");
+    
 }
