@@ -1,7 +1,53 @@
 div#loading {
-    width: 35px;
-    height: 35px;
     display: none;
-    background: url(/ajax-loader.gif) no-repeat;
     cursor: wait;
+}
+
+#listTweets {
+    max-width: 1000px;
+    overflow-x: scroll;
+    overflow-y: hidden
+}
+
+#mainTweet {
+    background-color: deepskyblue;
+    width: 450px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#numreplies {
+    background-color: lightcyan;
+    margin-bottom: 20px;
+}
+
+#numquotes {
+    background-color: aquamarine;
+    margin-bottom: 20px;
+}
+
+.reply {
+    background-color: lightcyan;
+    width: 450px;
+    margin-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.quote {
+    background-color: aquamarine;
+    width: 450px;
+    margin-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#hidequotenumber {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#hidereplynumber {
+    margin-bottom: 10px;
+    margin-top: 10px;
 }

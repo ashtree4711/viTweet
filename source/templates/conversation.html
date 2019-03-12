@@ -1,8 +1,12 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script src="{{url_for('static', filename='response.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='design.css')}}">
 {% extends "bootstrap/base.html" %}
+
 
 {% block content %}
 
-<script src="{{url_for('static', filename='response.js')}}"></script>
+
 
 <!-- Navigation on top of the website -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,6 +32,7 @@
 							</button>
 						</div>
 					</div>
+					<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
 				</form>
 			</div>
 		</div>
@@ -46,19 +51,19 @@
 	</a>
 </div>
 
-<div class="container" id="listTweets" style="overflow-x: scroll">
-	<div class="container" style="max-width: 550px">
+<div class="container" id="listTweets">
+	<div class="container">
 		<div>
 			<!-- button with number of replies -->
-			<button onclick="showReplies()">Replies <span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
-			<button onclick="showQuotes()">Quotes <span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
+			<button onclick="showReplies()" id="numreplies">Replies <span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
+			<button onclick="showQuotes()" id="numquotes">Quotes <span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
 		</div>
 
-		<div style="background-color: deepskyblue">
+		<div id="mainTweet">
 			<!-- main tweet -->
 			{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
 		</div>
-		<div>
+		<div id="replyTweet">
 			<!-- Nested object -->
 			{{ render_boxes(response['conversation']['replies']) }}
 		</div>
@@ -67,16 +72,25 @@
 
 {% endblock %}
 
+
+
 {% macro render_boxes(replies) %}
 {% for items in replies %}
-<div class="container" style="background-color: lightcyan">
+<div class="container">
 	<div>
-		<span class="badge">{{items['inv.tweet']['number_of_replies']}} Replies </span>
-		<span class="badge">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
+		<span class="badge" id="hidereplynumber">{{items['inv.tweet']['number_of_replies']}} Replies </span>
+		<span class="badge" id="hidequotenumber">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
 	</div>
-	<div>
+	{% if items['inv.tweet']['isQuote'] %}
+	<div class="quote">
 		{{items['inv.tweet']['embeddingCode']|safe}}
 	</div>
+	{% else %}
+	<div class="reply">
+		{{items['inv.tweet']['embeddingCode']|safe}}
+	</div>
+	{% endif %}
+	<!-- replies -->
 	<div>
 		{% if items['replies'] %}
 		{{ render_boxes(items['replies']) }}
