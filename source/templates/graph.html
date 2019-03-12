@@ -30,12 +30,28 @@
 					</div>
 				</form>
 			</div>
+			<div id="export-container" class="container">
+				<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+				<a href="/download/json/fList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (flat JSON)</button>
+				</a>
+				<a href="/download/json/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (hierarchical JSON)</button>
+				</a>
+				<a href="/download/xml/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
+					<button>Export conversation (XML)</button>
+				</a>
+			</div>
 		</div>
 	</div>
 </nav>
 
 <div>
 	<h1>Dynamic Graph Visualization of Tweet</h1>
+	<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
+	<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
+		<button>Switch to Linear Visualization</button>
+	</a>
 	   
 	<svg id="svg-ding" width="960" height="600"></svg>
     
