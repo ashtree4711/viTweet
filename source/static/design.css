@@ -1,5 +1,4 @@
 div#loading {
-    align-content: center;
     display: none;
     cursor: wait;
 }
@@ -12,20 +11,43 @@ div#loading {
 
 #mainTweet {
     background-color: deepskyblue;
-}
-
-#replyTweet {
-     background-color: lightcyan;
- }
-
-#quoteTweet {
-    background-color: lightyellow;
+    width: 450px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 #numreplies {
-    background-color: yellow;
+    background-color: lightcyan;
+    margin-bottom: 20px;
 }
 
 #numquotes {
-    background-color: greenyellow;
+    background-color: aquamarine;
+    margin-bottom: 20px;
+}
+
+.reply {
+    background-color: lightcyan;
+    width: 450px;
+    margin-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.quote {
+    background-color: aquamarine;
+    width: 450px;
+    margin-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#hidequotenumber {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#hidereplynumber {
+    margin-bottom: 10px;
+    margin-top: 10px;
 }

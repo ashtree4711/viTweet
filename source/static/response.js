@@ -10,9 +10,11 @@ function loading() {
 }
 
 function showReplies() {
-    alert("test");
+    $(".quote").hide();
+    $("#hidequotenumber").hide();
 }
 
 function showQuotes() {
-    
+    $(".reply").hide();
+    $("#hidereplynumber").hide();
 }

@@ -32,6 +32,7 @@
 							</button>
 						</div>
 					</div>
+					<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
 				</form>
 			</div>
 		</div>
@@ -77,12 +78,18 @@
 {% for items in replies %}
 <div class="container">
 	<div>
-		<span class="badge">{{items['inv.tweet']['number_of_replies']}} Replies </span>
-		<span class="badge">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
+		<span class="badge" id="hidereplynumber">{{items['inv.tweet']['number_of_replies']}} Replies </span>
+		<span class="badge" id="hidequotenumber">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
 	</div>
-	<div>
+	{% if items['inv.tweet']['isQuote'] %}
+	<div class="quote">
 		{{items['inv.tweet']['embeddingCode']|safe}}
 	</div>
+	{% else %}
+	<div class="reply">
+		{{items['inv.tweet']['embeddingCode']|safe}}
+	</div>
+	{% endif %}
 	<!-- replies -->
 	<div>
 		{% if items['replies'] %}
