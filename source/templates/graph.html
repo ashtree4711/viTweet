@@ -1,7 +1,6 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='graph.css') }}"/>
 
-
 {% block content %}
 
 <!-- Navigation on top of the website -->
@@ -57,7 +56,7 @@
 	<h3>Click on the picture to visualize here the Tweet</h3>
 
 	<form action="">
-		<input type="button" id="toggle-labels" value="Display Tweet labels" onclick="toggle_labels(this);">
+		<input type="button" id="toggle-labels" value="Display user names" onclick="toggle_labels(this);">
 	</form>
 	
 	<svg width="960" height="600"></svg>

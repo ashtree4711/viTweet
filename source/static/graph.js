@@ -2,8 +2,16 @@
 // and https://bl.ocks.org/mbostock/950642
 
 var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+    width = +svg.attr("width")
+    height = +svg.attr("height");   			
+  
+var borderPath = svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("height", height)
+    .attr("width", width)
+    .style("stroke", "blue")
+    .style("fill", "none");
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id;})
@@ -95,6 +103,15 @@ d3.json("/static/graph.json", function (error, graph) {
                   else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
                 });
 
+ 	node.append("text")
+        .attr("class", "text-screenname")
+        .attr("dx", function(d, i){
+          if (graph.nodes[i].tweet_type == 'root_tweet') return 12*1.5+10;
+          else return 12*1.5+2})
+        .attr("dy", "0.35em")
+        .style("visibility","hidden")
+        .text(function(d) { return "@" + d.screen_name;});
+	
     // Add label texts to the nodes
     node.append("text")
         .attr("class", "text-user")
@@ -181,11 +198,17 @@ d3.json("/static/graph.json", function (error, graph) {
                 });
 
           // Mouseover shows the hidden text
-          if (document.getElementById("toggle-labels").value == "Display Tweet labels"){
-            d3.select(this).selectAll("text")
-            .style("visibility", "visible");
+          if (document.getElementById("toggle-labels").value == "Display user names"){
+            d3.select(this).selectAll(".text-content")
+          	.style("visibility", "visible");   
+          	d3.select(this).selectAll(".text-user")
+          	.style("visibility", "visible");  
+          	// User name is always hidden (except if the labels have been toggled on with the button#toggle-labels)    
+            d3.select(this).selectAll(".text-screenname")
+          	.style("visibility", "hidden"); 
           }
-
+		  
+          
 		 })
 
 		.on("mouseout", function(d)	{
@@ -210,8 +233,12 @@ d3.json("/static/graph.json", function (error, graph) {
               else return "url(#clip-circle-small)";
             });
         // On mouseout the text is hidden again (except if the labels have been toggled on with the button#toggle-labels)
-        if (document.getElementById("toggle-labels").value == "Display Tweet labels"){
-          d3.select(this).selectAll("text")
+        if (document.getElementById("toggle-labels").value == "Display user names"){
+          d3.select(this).selectAll(".text-content")
+          .style("visibility", "hidden");
+          d3.select(this).selectAll(".text-user")
+          .style("visibility", "hidden");
+          d3.select(this).selectAll(".text-screenname")
           .style("visibility", "hidden");
         }
  		})
@@ -274,14 +301,14 @@ function dragended(d) {
 }
 
 function toggle_labels(toggle_button){
-  if(toggle_button.value == "Display Tweet labels") {
-    toggle_button.value = "Don't display Tweet labels";
-    d3.selectAll(".node").selectAll(".text-content")
+  if(toggle_button.value == "Display user names") {
+    toggle_button.value = "Don't display user names";
+    d3.selectAll(".node").selectAll(".text-screenname")
       .style("visibility","visible");
   }
-  else if (toggle_button.value == "Don't display Tweet labels"){
-    toggle_button.value = "Display Tweet labels";
-    d3.selectAll(".node").selectAll(".text-content")
+  else if (toggle_button.value == "Don't display user names"){
+    toggle_button.value = "Display user names";
+    d3.selectAll(".node").selectAll(".text-screenname")
       .style("visibility","hidden");
   }
 }

@@ -15,10 +15,14 @@
   font-size: 10pt;
 }
 
+.node text.text-content {
+  
+}
+
 .node text.text-user {
   font-weight: bold;
 }
 
-.node text.text-content {
-
+.node text.text-screenname {
+  font-weight: bold;
 }
