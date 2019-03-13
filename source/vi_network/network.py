@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
+import datetime
 
 import vi_twitter.utilities as utilities
+from app import config
 
 
 
@@ -234,13 +236,13 @@ def draw_network(flatList_filename):
     d = json_graph.node_link_data(G)
     print("d: ", d)
     #graph_filename = '../temp_files/json/graph/graph_' + flatList_filename[6:] + '.json'
-    graph_filename = 'static/graph.json'
+    graph_filename = "graph_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") #'static/graph.json'
     print("graph_filename: ", graph_filename)
-    json.dump(d, open(graph_filename,'w'))
+    json.dump(d, open(config['FILES']['TEMP_JSON_GRAPH'] + graph_filename + ".json",'w'))
     
     
         # Closing the plot prevents problems of a new graph getting added on top of the existing graph (for example, when refreshing the page)
     plt.close()
     #return render_template('network.html', nodelist=list_of_replies+list_of_quotetweets) #return render_template('network.html', name = plt.show(), url='network.png', response=response) #TODO: korrigieren; ich glaube name macht so keinen Sinn 
-    return send_file('../temp_files/png/network.png')
-    
+    #return send_file('../temp_files/png/network.png')
+    return graph_filename

@@ -19,8 +19,14 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-//d3.json("../temp_files/json/graph/graph.json", function (error, graph) {
-d3.json("/static/graph.json", function (error, graph) {
+// Get the file containing the data for the requested graph: The filename is passed from the attribute 'data' of the <script> tag in the HTML
+var graph_data_file = document.currentScript.getAttribute('data');
+
+// The URL where the file is delivered by the webservice
+var graph_data_url = "/graph-data/" + graph_data_file;
+
+// Use the d3.json() method to load data from the JSON file containing the data for the requested graph
+d3.json(graph_data_url, function (error, graph) {
     if (error) throw error;
 
     var link = svg.append("g")

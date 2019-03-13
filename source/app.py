@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, send_file, send_from_directory, session, url_for
+from flask import Flask, make_response, redirect, render_template, request, send_from_directory, session, url_for
 from flask_bootstrap import Bootstrap
 import datetime
 
@@ -8,9 +8,9 @@ import vi_network.network as network
 
 import configparser
 
-    # Instantiate configparser and say which INI file to read the configurations from 
-    # (The configparser is used to access the file paths defined in an INI file. 
-    # Therefore the paths can be updated in the INI file at any time without requiring any changes here.)
+    # Instantiate configparser and say which INI file to read the configurations from
+    # (The config is used to access for example the file paths defined in an INI file. 
+    # Therefore the paths can be updated in the INI file at any time without requiring any changes elsewhere.)
 config = configparser.ConfigParser()
 config.read('config/app_config.ini')
 
@@ -153,18 +153,20 @@ def graph_visualization():
         other_basis = request.args['other_basis']
         print("SESSION INFORMATION for graph_visualization(): ", session)
         
-        network.draw_network(use_basis)
-        return render_template('graph.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis)
-        #return network.draw_network(basis)
+            # Call the function which plots the graph; the return value is the name of the JSON file storing the graph
+        graph_data_filename = network.draw_network(use_basis)
+        
+        return render_template('graph.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis, graph_data_filename=graph_data_filename)
 
     else:
         return 'Error while retrieving session information. Please start a new search.'
 
 
-@app.route('/graph', methods=['POST', 'GET'])
-def graph_json():
+@app.route('/graph-data/<path:graph_data_filename>', methods=['POST', 'GET'])
+def graph_data(graph_data_filename):
     #return send_file('../temp_files/json/graph/graph.json')
-    return send_file('static/graph.json')
+    #return send_file('static/graph.json')
+    return send_from_directory(config['FILES']['TEMP_JSON_GRAPH'], graph_data_filename  + '.json') #return send_file(config['FILES']['TEMP_JSON_GRAPH'] + graph_data_filename + ".json")
     #return send_file(url_for('static', filename='graph.json'))
 
 
