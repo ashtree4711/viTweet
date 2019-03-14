@@ -4,7 +4,7 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 
-import datetime, os, json, xmltodict, random
+import datetime, os, json, xmltodict
 from pathlib import Path
 from builtins import int
 import configparser
@@ -17,21 +17,7 @@ config = configparser.ConfigParser()
 config.read('config/app_config.ini')
 
 
-# TODO: @mark: I (Elli)  think this function is not being used --> check again, and if so, I think it can be deleted
-def save_to_json(dictionary):
-    '''
-        @param dictionary: saves a Python dictionary within a JSON-file
-        @desc Saves Dictionaries to JSON -> Dictionaries: https://www.python-kurs.eu/dictionaries.php
-    '''
-    now = datetime.datetime.now()
-    persist_data = { 'datetime': now.strftime("%Y-%m-%d %H:%M:%S"),'conversation':dictionary}
-    dirname = Path(__file__).parents[2]
-    filename = now.strftime("%Y%m%d%H%M%S")
-    persist_data_file = os.path.join(dirname, "temp_files/json/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
-    with open(persist_data_file, 'w') as outfile:
-        json.dump(persist_data, outfile, indent=4, sort_keys=True)
-    print ("SAVE JSON TO:", persist_data_file)
-    return filename
+
 
 def save_rList(dictionary):
     '''

@@ -147,12 +147,17 @@ def search_by_usermention_since_id(userMention, session, potentialReplies, reply
         newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', since_id=rootTweet.get_tweet_id())
         if newTweets.get('statuses'):
             for tweet in newTweets['statuses']:
+                    # create a tweet object
                 tweetObj=Tweet.Tweet(tweet)
+                    # remind all potential hits
                 potentialReplies.append(tweetObj)
+                    # if the potential hit has in its attribute "reply_to_tweet_id" the same number as the tweet_id of investigated tweet.
+                    # put the information into the investigated tweet object, raise the counter and append to list of hits.
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
                     rootTweet.set_replied_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_reply_quantity()
                     replyHits.append(tweetObj)
+                    # same as above, just with quoted tweets
                 if tweetObj.get_quote_to_tweet_id()==rootTweet.get_tweet_id():
                     rootTweet.set_quoted_by_list(tweetObj.get_tweet_id())
                     rootTweet.raise_quote_tweet_quantity()
@@ -179,6 +184,7 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
         newTweets=session.search(q=userMention, count=100, lang=language, result_type='recent', max_id=potentialReplies[-1].get_tweet_id()-1)
         if newTweets.get('statuses'):
             for tweet in newTweets['statuses']:
+                    # detailed information in search_by_usermention_since_id()
                 tweetObj = Tweet.Tweet(tweet)
                 potentialReplies.append(tweetObj)
                 if tweetObj.get_reply_to_tweet_id()==rootTweet.get_tweet_id():
