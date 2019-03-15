@@ -109,6 +109,7 @@ d3.json(graph_data_url, function (error, graph) {
                   else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
                 });
 
+	//Add user name to the node
  	node.append("text")
         .attr("class", "text-screenname")
         .attr("dx", function(d, i){
@@ -116,8 +117,9 @@ d3.json(graph_data_url, function (error, graph) {
           else return 12*1.5+2})
         .attr("dy", "0.35em")
         .style("visibility","hidden")
-        .text(function(d) { return "@" + d.screen_name;});
-	
+        .text(function(d) { return "@" + d.screen_name;})
+        
+		
     // Add label texts to the nodes
     node.append("text")
         .attr("class", "text-user")
@@ -127,8 +129,9 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("dy", "-0.95em")
         // Text is hidden
         .style("visibility","hidden")
-        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;});
-
+        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;})		
+		.call(getBB);
+		
     node.append("text")
         .attr("class", "text-content")
         .attr("dx", function(d, i){
@@ -138,7 +141,21 @@ d3.json(graph_data_url, function (error, graph) {
         // Text is hidden
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
-		.call(wrap, 400);
+		.call(wrap, 350);
+		
+	node.insert("rect","text")
+		.attr("x", function(d, i){
+          if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 1.5;
+          else return d.bbox.x})
+    	.attr("y", "-1.75em")
+		.attr("width", function(d){return d.bbox.width})
+    	.attr("height", function(d){return d.bbox.height * 4})
+    	.style("fill", "white")
+        .style("visibility", "hidden"); 
+
+function getBB(text) {
+    text.each(function(d){d.bbox = this.getBBox();})    
+}	
 
 	function wrap(text, width) {
     text.each(function () {
@@ -172,7 +189,6 @@ d3.json(graph_data_url, function (error, graph) {
         }
     });
 }
-
 
 	var setEvents = node
     .on( 'click', function (d) {
@@ -212,11 +228,11 @@ d3.json(graph_data_url, function (error, graph) {
           	// User name is always hidden (except if the labels have been toggled on with the button#toggle-labels)    
             d3.select(this).selectAll(".text-screenname")
           	.style("visibility", "hidden"); 
-          }
-		  
-          
+          	d3.select(this).select("rect")   
+          	.style("visibility", "visible");
+          }   	
 		 })
-
+				
 		.on("mouseout", function(d)	{
         // On mouseout the image becomes smaller again
         d3.select(this).select("image")
@@ -246,9 +262,10 @@ d3.json(graph_data_url, function (error, graph) {
           .style("visibility", "hidden");
           d3.select(this).selectAll(".text-screenname")
           .style("visibility", "hidden");
-        }
+          d3.select(this).select("rect")   
+          	.style("visibility", "hidden"); 	
+        }	
  		})
-
 
     simulation
         .nodes(graph.nodes)

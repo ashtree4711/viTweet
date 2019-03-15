@@ -4,9 +4,14 @@ import networkx as nx
 from networkx.readwrite import json_graph
 import json
 import datetime
-
+import configparser
 import vi_twitter.utilities as utilities
-from app import config
+
+    # Instantiate configparser and say which INI file to read the configurations from
+    # (The config is used to access for example the file paths defined in an INI file. 
+    # Therefore the paths can be updated in the INI file at any time without requiring any changes elsewhere.)
+config = configparser.ConfigParser()
+config.read('config/app_config.ini')
 
 
 
