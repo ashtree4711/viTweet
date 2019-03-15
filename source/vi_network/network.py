@@ -8,7 +8,7 @@ import vi_twitter.utilities as utilities
 
 
 
-    # Instantiate configparser and say which INI file to read the configurations from
+    # Instantiate configparser and say which INI file to read the configurations from.
     # (The config is used to access for example the file paths defined in an INI file. 
     # Therefore the paths can be updated in the INI file at any time without requiring any changes elsewhere.)
 config = configparser.ConfigParser()
@@ -104,42 +104,60 @@ def draw_network(flatList_filename):
         # Draw the graph
     nx.draw(G)
     
+    
         # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
     for n in G:
-        G.node[n]['tweet_id'] = n
-        G.node[n]['tweet_content'] = nodes[n]['tweet_content']
-        G.node[n]['user_name'] = nodes[n]['user']['user_name']
-        G.node[n]['screen_name'] = nodes[n]['user']['screen_name']
-        G.node[n]['timestamp'] = nodes[n]['timestamp']
+        try:
+            G.node[n]['tweet_id'] = n
+            G.node[n]['tweet_content'] = nodes[n]['tweet_content']
+            G.node[n]['user_name'] = nodes[n]['user']['user_name']
+            G.node[n]['screen_name'] = nodes[n]['user']['screen_name']
+            G.node[n]['timestamp'] = nodes[n]['timestamp']
         
             # Save the Tweet types: 
             # The Root Tweet, i.e. the one that was searched for, is the last one of the nodes (because it is last in 
             # the fList), therefor check whether the currently iterated one is the last one, if so it is the Root Tweet
-        if n == list(G.node.keys())[-1]:
-            G.node[n]['tweet_type'] = 'root_tweet'
+            if n == list(G.node.keys())[-1]:
+                G.node[n]['tweet_type'] = 'root_tweet'
             # Identify Replies and Quote Tweets depending on the values of 'reply_to' and 'quote_to' for each Tweet
-        else:
-            if nodes[n]['reply_to'] != None:
-                G.node[n]['tweet_type'] = 'reply'
-            elif nodes[n]['quote_to'] != None:
-                G.node[n]['tweet_type'] = 'quote_tweet'
-        
+            else:
+                if nodes[n]['reply_to'] != None:
+                    G.node[n]['tweet_type'] = 'reply'
+                elif nodes[n]['quote_to'] != None:
+                    G.node[n]['tweet_type'] = 'quote_tweet'
+            
             # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/
             # [screen_name]/profile_image?size=normal (small version) or alternatively use "size=original" (larger version)
-        profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
-        G.node[n]['profile_picture'] = profile_picture
+            profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
+            G.node[n]['profile_picture'] = profile_picture
 
+        # If the reply limit of 200 [set when calling search.get_conversation() in app.conversation()] is exceeded, this
+        # for-loop throws a KeyError because for the those Tweets after the limit where the complete Tweet is not contained
+        # in the query result / fList, yet its Tweet ID might be referenced in the field 'replied_by'/'quoted_by' by another
+        # Tweet. In order to, on the one hand, prevent this error from being thrown and, on the other hand, to inform the 
+        # user about this fact, an alert is displayed on the page in this case and the the for-loop continues with the next ID. 
+        except KeyError:
+            over_reply_limit = 'yes'
+            continue
     
-        # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them 
-        # The JSON file can then be loaded with D3 to create an interactive graph in the browser
+        # Depending on if it was detected in the above for-loop that the query limit was exceeded, define the alert message.  
+    if over_reply_limit == 'yes':
+        alert_message = "The number of replies to this Tweet exceeds the query limit (200 replies), therefore only a portion of all replies are contained in the graph."
+    else:
+        alert_message = None    
+    print("Alert message: ", alert_message)
+
+
+        # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them.
+        # The JSON file can then later be loaded with D3 to create an interactive graph in the browser.
     d = json_graph.node_link_data(G)
     print("Data contained in graph G: ", d)
-    
     print("\nSAVING GRAPH...")
     graph_filename = "graph_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     print("Graph saved as: ", graph_filename + ".json")
     json.dump(d, open(config['FILES']['TEMP_JSON_GRAPH'] + graph_filename + ".json",'w'))
     
     
-        # Return the filename of the JSON file where the data of the created graph is stored for later use
-    return graph_filename
+        # Return the filename of the JSON file where the data of the created graph is stored for later use, and the alert
+        # message to inform the user in the case that the query limit was exceeded by the query.
+    return graph_filename, alert_message
