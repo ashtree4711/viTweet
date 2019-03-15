@@ -9,6 +9,14 @@
     stroke-width: 3px;
 }
 
+.links [line_type="reply"] {
+  stroke: blue;
+}
+
+.links [line_type="quote_tweet"] {
+  stroke: red;
+}
+
 .node text {
   pointer-events: none;
   font-family: Arial;
@@ -16,7 +24,7 @@
 }
 
 .node text.text-content {
-  
+
 }
 
 .node text.text-user {

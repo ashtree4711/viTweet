@@ -1,4 +1,4 @@
-from flask import send_file
+#from flask import send_file
 import matplotlib.pyplot as plt
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -18,7 +18,7 @@ config.read('config/app_config.ini')
     # TODO: This is very long... Vielleicht lässt sich das noch abkürzen
 def extract_nodes_edges(flatList_dict):
     
-    print("\nEXTRACTING TWEET-REPLY/TWEET-QUOTETWEET PAIRS FROM FLATLIST:")
+    print("\nEXTRACTING NODES AND EDGES FOR TWEET-REPLY/TWEET-QUOTETWEET PAIRS FROM FLATLIST")
     
     
         # Go through all tweets in the flatList and extract the IDs for all of the tweet-reply pairs (= edges)
@@ -40,7 +40,7 @@ def extract_nodes_edges(flatList_dict):
             tweet_reply_child.append('no_replies')'''
     
     tweet_reply_pairs = list(zip(tweet_reply_parent, tweet_reply_child))
-    print("Edges for the replies (= tweet-reply pairs) (", len(tweet_reply_pairs), ") : ", tweet_reply_pairs)
+    print("Edges for the Replies (", len(tweet_reply_pairs), ") : ", tweet_reply_pairs)
     
     
         # Go through all tweets in the flatList and extract the IDs for all of the tweet-quotetweet pairs
@@ -62,14 +62,14 @@ def extract_nodes_edges(flatList_dict):
             tweet_quotetweet_child.append('no_quote_tweets')'''
 
     tweet_quotetweet_pairs = list(zip(tweet_quotetweet_parent, tweet_quotetweet_child))
-    print("Edges for the quotetweets (= tweet-quotetweet pairs) (", len(tweet_quotetweet_pairs), "): ", tweet_quotetweet_pairs)
+    print("Edges for the Quote Tweets (", len(tweet_quotetweet_pairs), "): ", tweet_quotetweet_pairs)
     
     
-    all_tweet_pairs = tweet_reply_pairs + tweet_quotetweet_pairs
-    print("All edges (", len(all_tweet_pairs), "): ", all_tweet_pairs)
+    edges = tweet_reply_pairs + tweet_quotetweet_pairs
+    print("All edges (", len(edges), "): ", edges)
     
     
-        #TODO: Start-ID anders holen?
+    '''    #TODO: Start-ID anders holen?
     if tweet_reply_parent:
         start_tweet_id = tweet_reply_parent[-1] 
     elif tweet_reply_parent: # In case there are no replies, only quotetweets
@@ -84,7 +84,7 @@ def extract_nodes_edges(flatList_dict):
         all_tweet_nodes.append(val)
     for i, val in enumerate(tweet_quotetweet_child):
         all_tweet_nodes.append(val)
-    print("all_tweet_nodes (", len(all_tweet_nodes), "): ", all_tweet_nodes)
+    print("All_tweet_nodes (", len(all_tweet_nodes), "): ", all_tweet_nodes)'''
     
     
         # Save all tweets as nodes in the format {'A TWEET ID': {'tweet_id': 'A TWEET ID', 'node_label': 'BLABLABLA', ...}}
@@ -92,26 +92,26 @@ def extract_nodes_edges(flatList_dict):
     nodes = {}
     for i, val in enumerate(flatList_dict['conversation']):
         nodes[val['tweet_id']] = {}
-            # Create labels for the nodes (instead the elements could also be taken one by one by the D3 script
-        nodes[val['tweet_id']]['node_label'] = flatList_dict['conversation'][i]['tweet_content'] + "\n—" + flatList_dict['conversation'][i]['user']['user_name'] + "(@" + flatList_dict['conversation'][i]['user']['screen_name'] + ")"
+        '''    # Create labels for the nodes (instead the elements could also be taken one by one by the D3 script
+        nodes[val['tweet_id']]['node_label'] = flatList_dict['conversation'][i]['tweet_content'] + "\n—" + flatList_dict['conversation'][i]['user']['user_name'] + "(@" + flatList_dict['conversation'][i]['user']['screen_name'] + ")"'''
         nodes[val['tweet_id']].update(flatList_dict['conversation'][i])        
-    print("Nodes (= tweets): ", nodes)
+    print("All nodes: ", nodes)
     
     
-        # Save the node labels separately
+    '''    # Save the node labels separately
     labels = {}
     for i, val in enumerate(nodes):
         labels[val] = nodes[val]['node_label']
-    print("Labels: ", labels)
+    print("Labels: ", labels)'''
     
     
-        # Types of nodes ('start', 'reply', or 'quote_tweet')
+    '''    # Types of nodes ('start', 'reply', or 'quote_tweet')
     types_of_nodes = ['start']
     for i in tweet_reply_parent:
         types_of_nodes.append('reply')
     for i in tweet_quotetweet_parent:
         types_of_nodes.append('quote_tweet')
-    print("Types of nodes (", len(types_of_nodes), "):", types_of_nodes)
+    print("Types of nodes (", len(types_of_nodes), "):", types_of_nodes)'''
     
     
     '''    # Find out how many unique pairs / values there are --> it seems that this difference causes problems in some cases
@@ -122,16 +122,16 @@ def extract_nodes_edges(flatList_dict):
     print("all_unique_tweet_nodes (", len(all_unique_tweet_nodes), "): ", all_unique_tweet_nodes)'''
     
     
-    all_tweet_contents= []
+    '''all_tweet_contents= []
     for i,val in enumerate(flatList_dict['conversation']):
         all_tweet_contents.append(val['tweet_content'])
     start_tweet_contents = all_tweet_contents[-1]
     all_tweet_contents.insert(0, start_tweet_contents)
     all_tweet_contents = all_tweet_contents[:-1]
-    print("Tweet contents (",len(all_tweet_contents), "):", all_tweet_contents)
+    print("Tweet contents (",len(all_tweet_contents), "):", all_tweet_contents)'''
     
     
-    return nodes, labels, all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, edges, types_of_nodes, all_tweet_contents
+    return nodes, edges #return nodes, labels, all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, all_tweet_pairs, types_of_nodes, all_tweet_contents #return all_tweet_nodes, edges, types_of_nodes, all_tweet_contents
 
 
 
@@ -139,8 +139,10 @@ def draw_network(flatList_filename):
     flatList_dict = utilities.json_to_dictionary(mode='visualize', requested_file=flatList_filename)
         
         # Extract the nodes and edges from the flat file used as basis for the visualization
-    nodes, labels, all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict) #all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict)
+    nodes, edges = extract_nodes_edges(flatList_dict) #nodes, labels, all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict) #all_tweet_nodes, edges, types_of_nodes, all_tweet_contents = extract_nodes_edges(flatList_dict)
 
+
+    print("\nCREATING GRAPH...")
 
         # Undirected graph
     #G = nx.Graph()
@@ -152,14 +154,14 @@ def draw_network(flatList_filename):
     #G = nx.star_graph(n=num, create_using=nx.Graph())
     
     
-    all_labels=[] 
+    '''all_labels=[] 
     for a, b in zip(all_tweet_nodes,all_tweet_contents):
         string = str(a)+ ": " + b
         all_labels.append(string)
     print('Labels:', all_labels)
 
         #nodes labels
-    labels2 = dict(zip(all_tweet_nodes, all_labels))
+    labels2 = dict(zip(all_tweet_nodes, all_labels))'''
     
         # Add the nodes to the graph
     G.add_nodes_from(nodes) #G.add_nodes_from(all_tweet_nodes)
@@ -169,7 +171,7 @@ def draw_network(flatList_filename):
     
     
         # Define colors for each type of node
-    color_for_nodetype = []
+    '''color_for_nodetype = []
     size_for_nodetype = []
     
     for item in types_of_nodes:
@@ -183,11 +185,11 @@ def draw_network(flatList_filename):
             color_for_nodetype.append('green')
             size_for_nodetype.append(500)
     print("Colors for nodetypes (", len(color_for_nodetype), "): ", color_for_nodetype)
-    print("Sizes for nodetypes (", len(size_for_nodetype), "): ", size_for_nodetype)
+    print("Sizes for nodetypes (", len(size_for_nodetype), "): ", size_for_nodetype)'''
     
     
         # TODO: Let nodes have meaningful positions / choose a better layout!
-    pos = nx.shell_layout(G)
+    #pos = nx.shell_layout(G)
     
         # TODO: evtl. besser wieder mit nx.draw_networkx_edges / _nodes / _labels arbeiten?
         
@@ -201,16 +203,15 @@ def draw_network(flatList_filename):
     nx.draw_shell(G) #nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_shape='s', alpha=0.8) #nx.draw_shell(G, with_labels = False, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)    #nx.draw_spectral(G,  with_labels=True, arrows=True, arrowstyle='-|>', node_color=color_for_nodetype, node_size=size_for_nodetype, node_shape='s', alpha=0.8)
     
     
-    nx.draw_networkx_labels(G, pos, labels=labels2, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
+    #nx.draw_networkx_labels(G, pos, labels=labels2, font_size =8, font_color ='k', font_family = 'sans-serif', alpha= 0.8)
     
     
         # Save the drawing to a PNG file and return the file
-    plt.axis('off')
-    plt.savefig('../temp_files/png/network.png')
-    
-    
-        # Interactive graph
-    #i=0
+    #plt.axis('off')
+    #plt.savefig('../temp_files/png/network.png')
+
+
+        # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
     for n in G:
         G.node[n]['tweet_id'] = n
         G.node[n]['tweet_content'] = nodes[n]['tweet_content']
@@ -218,36 +219,38 @@ def draw_network(flatList_filename):
         G.node[n]['screen_name'] = nodes[n]['user']['screen_name']
         G.node[n]['timestamp'] = nodes[n]['timestamp']
         
-            # Save Tweet types, depending on the values of 'reply_to' and 'quote_to' for each Tweet
-        if nodes[n]['reply_to'] != None:
-            G.node[n]['tweet_type'] = 'reply'
-        elif nodes[n]['quote_to'] != None:
-            G.node[n]['tweet_type'] = 'quote_tweet'
-        else:
+            # Save the Tweet types: 
+            # The Root Tweet, i.e. the one that was searched for, is the last one of the nodes (because it is last in 
+            # the fList), therefor check whether the currently iterated one is the last one, if so it is the Root Tweet
+        if n == list(G.node.keys())[-1]:
             G.node[n]['tweet_type'] = 'root_tweet'
+            # Identify Replies and Quote Tweets depending on the values of 'reply_to' and 'quote_to' for each Tweet
+        else:
+            if nodes[n]['reply_to'] != None:
+                G.node[n]['tweet_type'] = 'reply'
+            elif nodes[n]['quote_to'] != None:
+                G.node[n]['tweet_type'] = 'quote_tweet'
         
-            # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/[screen_name]/profile_image?size=normal (for a small version; use "size=original" for a larger version)
+            # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/
+            # [screen_name]/profile_image?size=normal (small version) or alternatively use "size=original" (larger version)
         profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
         G.node[n]['profile_picture'] = profile_picture
-        #i=i+1
+
     
-    
-        # Give other attributes besides an ID to the graph's list of nodes
-    for n in nodes: #for n in all_tweet_nodes:
-        G.node[n]['label'] = nodes[n]['node_label'] #G.node[n]['label'] = all_tweet_nodes[n]['node_label'] # TODO: is this adding the correct labels?
-        
-        # Write the 'node_link_data' into a JSON file, this will contain the attributes added above
-        # The JSON file can then be loaded with D3 to create an interactive graph in the browsesr
+        # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them 
+        # The JSON file can then be loaded with D3 to create an interactive graph in the browser
     d = json_graph.node_link_data(G)
-    print("d: ", d)
+    print("Data contained in graph G: ", d)
     #graph_filename = '../temp_files/json/graph/graph_' + flatList_filename[6:] + '.json'
+    
+    print("\nSAVING GRAPH...")
     graph_filename = "graph_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S") #'static/graph.json'
-    print("graph_filename: ", graph_filename)
+    print("Graph saved as: ", graph_filename + ".json")
     json.dump(d, open(config['FILES']['TEMP_JSON_GRAPH'] + graph_filename + ".json",'w'))
     
     
         # Closing the plot prevents problems of a new graph getting added on top of the existing graph (for example, when refreshing the page)
-    plt.close()
+    #plt.close()
     #return render_template('network.html', nodelist=list_of_replies+list_of_quotetweets) #return render_template('network.html', name = plt.show(), url='network.png', response=response) #TODO: korrigieren; ich glaube name macht so keinen Sinn 
     #return send_file('../temp_files/png/network.png')
     return graph_filename

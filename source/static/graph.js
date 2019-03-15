@@ -3,8 +3,8 @@
 
 var svg = d3.select("svg"),
     width = +svg.attr("width")
-    height = +svg.attr("height");   			
-  
+    height = +svg.attr("height");
+
 var borderPath = svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
@@ -45,15 +45,17 @@ d3.json(graph_data_url, function (error, graph) {
               .on("drag", dragged)
               .on("end", dragended));
 
+    // Set the 'line_type' for each line based on the 'tweet_type' of the target node
     svg.selectAll("line")
-        .attr("node_type", function(d, i){
-          return graph.nodes[i].tweet_type;});
+        .attr("line_type", function(d, i){
+          for (var i = 0; i < graph.nodes.length; i++) {
+            if (graph.nodes[i].id == d.target) {
+              console.log("graph.nodes[i]: ", graph.nodes[i].id);
+              return graph.nodes[i].tweet_type;
+            }
+          }
+        });
 
-    // The color of the links is decided based on the tweet_type of the target of the link
-    svg.selectAll("line").style("stroke", function(d, i){
-      if(graph.nodes[i].tweet_type == 'reply') return 'blue';
-      else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
-      })
 
         // Append a "defs" element to SVG
         var defs = svg.append("defs").attr("id", "imgdefs")
@@ -104,10 +106,6 @@ d3.json(graph_data_url, function (error, graph) {
                   else return "url(#clip-circle-small)";
                 });
 
-        link.attr("stroke", function(d, i){
-                  if(graph.nodes[i].tweet_type == 'reply') return 'blue';
-                  else if(graph.nodes[i].tweet_type == 'quote_tweet') return 'red';
-                });
 
 	//Add user name to the node
  	node.append("text")
@@ -118,8 +116,8 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("dy", "0.35em")
         .style("visibility","hidden")
         .text(function(d) { return "@" + d.screen_name;})
-        
-		
+
+
     // Add label texts to the nodes
     node.append("text")
         .attr("class", "text-user")
@@ -129,9 +127,9 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("dy", "-0.95em")
         // Text is hidden
         .style("visibility","hidden")
-        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;})		
+        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;})
 		.call(getBB);
-		
+
     node.append("text")
         .attr("class", "text-content")
         .attr("dx", function(d, i){
@@ -142,7 +140,7 @@ d3.json(graph_data_url, function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
 		.call(wrap, 350);
-		
+
 	node.insert("rect","text")
 		.attr("x", function(d, i){
           if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 1.5;
@@ -151,11 +149,11 @@ d3.json(graph_data_url, function (error, graph) {
 		.attr("width", function(d){return d.bbox.width})
     	.attr("height", function(d){return d.bbox.height * 4})
     	.style("fill", "white")
-        .style("visibility", "hidden"); 
+        .style("visibility", "hidden");
 
 function getBB(text) {
-    text.each(function(d){d.bbox = this.getBBox();})    
-}	
+    text.each(function(d){d.bbox = this.getBBox();})
+}
 
 	function wrap(text, width) {
     text.each(function () {
@@ -222,17 +220,17 @@ function getBB(text) {
           // Mouseover shows the hidden text
           if (document.getElementById("toggle-labels").value == "Display user names"){
             d3.select(this).selectAll(".text-content")
-          	.style("visibility", "visible");   
+          	.style("visibility", "visible");
           	d3.select(this).selectAll(".text-user")
-          	.style("visibility", "visible");  
-          	// User name is always hidden (except if the labels have been toggled on with the button#toggle-labels)    
+          	.style("visibility", "visible");
+          	// User name is always hidden (except if the labels have been toggled on with the button#toggle-labels)
             d3.select(this).selectAll(".text-screenname")
           	.style("visibility", "hidden"); 
-          	d3.select(this).select("rect")   
+          	d3.select(this).select("rect")
           	.style("visibility", "visible");
-          }   	
+          }
 		 })
-				
+
 		.on("mouseout", function(d)	{
         // On mouseout the image becomes smaller again
         d3.select(this).select("image")
@@ -262,9 +260,9 @@ function getBB(text) {
           .style("visibility", "hidden");
           d3.select(this).selectAll(".text-screenname")
           .style("visibility", "hidden");
-          d3.select(this).select("rect")   
-          	.style("visibility", "hidden"); 	
-        }	
+          d3.select(this).select("rect")
+          	.style("visibility", "hidden");
+        }
  		})
 
     simulation
