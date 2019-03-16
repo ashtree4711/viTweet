@@ -48,27 +48,27 @@
 	</div>
 </nav>
 
-
-<h1>Dynamic Graph Visualization of Tweet {{ response['conversation'][response['conversation']|length-1]['tweet_id'] }}</h1>
+<div class="container">
+	<h1>Graph Visualization of Tweet {{ response['conversation'][response['conversation']|length-1]['tweet_id'] }}</h1>
 
 	<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
 	<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
-		<button>Switch to Linear Visualization</button>
+		<button class="btn btn-default btn-md"><span class="glyphicon glyphicon-arrow-right"></span> Switch to Linear Visualization</button>
 	</a>
-	   
-	<h4></h4>
-
-	<form action="">
-		<input type="button" id="toggle-labels" value="Display user names" onclick="toggle_labels(this);">
-	</form>
+	
+	<div id="graph-controls">
+		<p>Drag the nodes around or hover over them to see more information!</p>
+		<span>Graph display options: </span>
+		<input type="button" id="toggle-labels" class="btn btn-primary btn-sm" value="Display user names" onclick="toggle_labels(this);">
+	</div>
+	
 	{% if alert_message != None %}
 	<p><span class="glyphicon glyphicon-alert"></span> {{ alert_message }}</p>
 	{% endif %}
-
-<div id="container" class="svg-container">
-	<svg viewBox="0 0 900 600"></svg>
-	<svg preserveAspectRatio="xMidYMid meet"></svg>
-
+	
+	<div id="svg-container" class="container">	
+		<svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet"></svg>
+	</div>
 </div>
 
 <script src="{{ url_for('static', filename='graph.js') }}" data="{{ graph_data_filename }}"></script>
