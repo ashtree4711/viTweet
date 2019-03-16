@@ -30,7 +30,7 @@ var simulation = d3.forceSimulation()
 var graph_data_file = document.currentScript.getAttribute('data');
 
 // The URL where the file is delivered by the webservice
-var graph_data_url = "/graph-data/" + graph_data_file;
+var graph_data_url = "/download/json/graph-data/" + graph_data_file;
 
 // Use the d3.json() method to load data from the JSON file containing the data for the requested graph
 d3.json(graph_data_url, function (error, graph) {

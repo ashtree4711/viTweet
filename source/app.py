@@ -9,35 +9,58 @@ import vi_network.network as network
 
 
 
-    # Instantiate configparser and say which INI file to read the configurations from.
-    # (The config is used to access for example the file paths defined in an INI file. 
-    # Therefore the paths can be updated in the INI file at any time without requiring any changes elsewhere.)
+    # Instantiate configparser and specify which INI file to read the configurations from. 
+    # The config is used to access the filesystem paths defined in the INI file, so the paths can be updated
+    # in the INI file at any time without requiring changes elsewhere.
 config = configparser.ConfigParser()
 config.read('config/app_config.ini')
 
 
-app = Flask(__name__, static_url_path='/static')
-app.secret_key = config['FLASKAPP']['APP_SECRET_KEY'] #app.config['APP_SECRET_KEY']
+    #Configure the Flask app
+app = Flask(__name__, static_url_path='/static', template_folder='/templates')
+app.secret_key = config['FLASKAPP']['APP_SECRET_KEY']
 Bootstrap(app)
 
 
 @app.route('/')
 def index():
+    """
+    Routing for URL '/' (index page)
+    
+    :returns: Render the template 'index.html'
+    """
     return render_template('index.html')
 
 
 @app.route('/about')
 def about():
+    """
+    Routing for URL '/about' (about page)
+    
+    :returns: Render the template 'about.html'
+    """
     return render_template('about.html')
 
 
 @app.route('/contact')
 def contact():
+    """
+    Routing for URL '/contact' (contact page)
+    
+    :returns: Render the template 'contact.html'
+    """
     return render_template('contact.html')
 
 
+# @TODO: more documentation
 @app.route('/conversation', methods=['POST'])
-def conversation():    
+def conversation():
+    """
+    Routing for URL '/conversation'
+    
+    :param xyz: xyz...
+    :returns: Redirect to URL '/conversation/list' or '/conversation/graph', depending on the chosen visualization option
+    """
         # Save parameters from form input
     requestedTweetID = request.form.get('tweetID')
     language = request.form.get('langopt')
@@ -78,8 +101,16 @@ def conversation():
         return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))
 
 
+# @TODO: more documentation
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    """
+    Routing for URL '/upload' (called at file upload on index page)
+    
+    :param xyz: xyz...
+    
+    :returns: Redirect to URL '/conversation/list' or '/conversation/graph', depending on the chosen visualization option
+    """
         # Save parameters from form input
     visualization_type = request.form.get('visopt')
     
@@ -88,11 +119,8 @@ def upload():
     mode = session['session_type']
 
         # Save the JSON file uploaded by the user
-        #TODO: Zuerst überprüfen, ob es eine valide Datei ist?
-        #TODO: Handle whether the user is uploading a flat or recursive file
     f = request.files['file']
     import_filename = 'fList_import_' + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        # TODO: Use separate directory "config['FILES']['USERUPLOAD_JSON_FILES']" instead?
     f.save(config['FILES']['TEMP_JSON_FLATLIST'] + '/' + import_filename + '.json', buffer_size=16384)
     print('UPLOADED FILE SAVED AS: ', config['FILES']['TEMP_JSON_FLATLIST'] + import_filename + '.json')
     
@@ -129,6 +157,7 @@ def upload():
         return redirect(url_for('graph_visualization', mode=mode, use_basis=basis_flat, other_basis=basis_recursive))
 
 
+# @TODO: more documentation
 @app.route('/conversation/list', methods=['POST','GET'])
 def list_visualization():
     if 'current_basis' in session:
@@ -145,6 +174,7 @@ def list_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
+# @TODO: @elli more documentation
 @app.route('/conversation/graph', methods=['POST','GET'])
 def graph_visualization():
     if 'current_basis' in session:
@@ -163,37 +193,57 @@ def graph_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
-@app.route('/graph-data/<path:graph_data_filename>', methods=['POST', 'GET'])
-def graph_data(graph_data_filename):
-    #return send_file('../temp_files/json/graph/graph.json')
-    #return send_file('static/graph.json')
-    return send_from_directory(config['FILES']['TEMP_JSON_GRAPH'], graph_data_filename  + '.json') #return send_file(config['FILES']['TEMP_JSON_GRAPH'] + graph_data_filename + ".json")
-    #return send_file(url_for('static', filename='graph.json'))
 
-
+# @TODO: @elli more documentation
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
-        # Take the requested file from the path specified in the config; serve file at /download/[...].json
+    """
+    Routing for URL '/download/json/<path:json_filename>'
+    
+    Deliver from its directory the JSON file fList, rList, or graph which the user wants to download
+    or
+    Deliver the graph JSON file when it is used to load the graph data in graph.json
+    
+    :param json_filename: filename without file extension of the fList, rList, or graph JSON
+    
+    :returns: JSON file fList, rList, or graph
+    """
     if json_filename[0:6] == 'fList_':
         return send_from_directory(config['FILES']['TEMP_JSON_FLATLIST'], json_filename  + '.json')
+    
     elif json_filename[0:6] == 'rList_':
         return send_from_directory(config['FILES']['TEMP_JSON_RECURSIVELIST'], json_filename  + '.json')
+    
     elif json_filename[0:6] == 'graph_':
         return send_from_directory(config['FILES']['TEMP_JSON_GRAPH'], json_filename  + '.json')
+    
     else:
         return print("Download Error")
 
 
 @app.route('/download/xml/<path:create_xml_filename>', methods=['GET'])
 def download_xml(create_xml_filename):
-        # Convert the currently shown JSON to XML
+    """
+    Routing for URL '/download/xml/<path:json_filename>'
+    
+    Create the XML file which the user wants to download and deliver it from its directory
+    
+    :param create_xml_filename: filename without file extension of the JSON rList file
+    :param xml_filename: filename without file extension of the created XML file
+    
+    :returns: JSON file fList, rList, or graph
+    """
+    
+    # Convert the rList JSON file to its XML equivalent
     xml_filename = utilities.json_to_xml(create_xml_filename)
-        # Take the requested file from the path specified in the config; serve file at /download/[...].xml
-        # TODO: Aus irgendeinem Grund fehlt der heruntergeladenen Datei die Endung '.xml'???
+
     return send_from_directory(config['FILES']['TEMP_XML_FILES'], xml_filename + '.xml')
 
 
 
 if __name__ == "__main__":
+    # Run in debug mode, automatically reload app whenever a change in the source files is detected 
     app.run(debug=True, use_reloader=True)
-    # To run without debug: #app.run()
+    
+    # Run without debug 
+    # app.run()
