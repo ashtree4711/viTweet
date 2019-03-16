@@ -103,6 +103,8 @@ def draw_network(flatList_filename):
     
         # Draw the graph
     nx.draw(G)
+    
+    
     over_reply_limit = 'no'
     
         # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
@@ -119,16 +121,22 @@ def draw_network(flatList_filename):
             # the fList), therefor check whether the currently iterated one is the last one, if so it is the Root Tweet
             if n == list(G.node.keys())[-1]:
                 G.node[n]['tweet_type'] = 'root_tweet'
-            # Identify Replies and Quote Tweets depending on the values of 'reply_to' and 'quote_to' for each Tweet
+                
+                # To access profile picture for Root Tweet, use the redirect to the image file that Twitter offers as 
+                # https://twitter.com/[screen_name]/profile_image?size=original (higher resolution version)
+                profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=original'
+                
+            # Identify whether each Tweet is a Reply or Quote Tweet depending on the value of 'reply_to' and 'quote_to'
             else:
                 if nodes[n]['reply_to'] != None:
                     G.node[n]['tweet_type'] = 'reply'
                 elif nodes[n]['quote_to'] != None:
                     G.node[n]['tweet_type'] = 'quote_tweet'
-            
-            # To access profile pictures, use the redirect to the image file that Twitter offers as https://twitter.com/
-            # [screen_name]/profile_image?size=normal (small version) or alternatively use "size=original" (larger version)
-            profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
+                
+                # To access profile pictures for Replies/Quote Tweets, use the redirect to the image file that Twitter offers as 
+                # https://twitter.com/[screen_name]/profile_image?size=normal (smaller resolution version)
+                profile_picture = 'https://twitter.com/' + nodes[n]['user']['screen_name'] + '/profile_image?size=normal'
+
             G.node[n]['profile_picture'] = profile_picture
 
         # If the reply limit of 200 [set when calling search.get_conversation() in app.conversation()] is exceeded, this
