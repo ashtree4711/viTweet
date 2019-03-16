@@ -20,8 +20,11 @@ var borderPath = svg.append("rect")
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id;})
     .distance(60).strength(1))
+    .force('x', d3.forceX(width / 2).strength(0.015)) // Setting this works as gravity, i.e. prevents the nodes from leaving the graph
+    .force('y', d3.forceY(height / 2).strength(0.02))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
+
 
 // Get the file containing the data for the requested graph: The filename is passed from the attribute 'data' of the <script> tag in the HTML
 var graph_data_file = document.currentScript.getAttribute('data');
@@ -54,7 +57,6 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("line_type", function(d, i){
           for (var i = 0; i < graph.nodes.length; i++) {
             if (graph.nodes[i].id == d.target) {
-              console.log("graph.nodes[i]: ", graph.nodes[i].id);
               return graph.nodes[i].tweet_type;
             }
           }
@@ -300,10 +302,6 @@ function getBB(text) {
             .attr("y2", function (d) {
                 return d.target.y;
             });
-
-
-
-
     }
 });
 
