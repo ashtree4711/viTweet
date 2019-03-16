@@ -17,7 +17,7 @@ var borderPath = svg.append("rect")
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id;})
-    .distance(100).strength(1))
+    .distance(60).strength(1))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(900 / 2, 600 / 2));
 
