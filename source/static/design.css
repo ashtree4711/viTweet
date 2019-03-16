@@ -3,6 +3,19 @@ div#loading {
     cursor: wait;
 }
 
+#export-container {
+	float: right;
+}
+
+#view-switch-container {
+	float: left;
+}
+
+h1 {
+	clear: both;
+	padding: 4% 0 1% 0;
+}
+
 #listTweets {
     max-width: 1000px;
     overflow-x: scroll;

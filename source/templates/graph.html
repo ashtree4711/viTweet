@@ -1,5 +1,8 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='graph.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}"/>
+
+{% extends "bootstrap/base.html" %}
 
 
 {% block content %}
@@ -30,44 +33,51 @@
 					</div>
 				</form>
 			</div>
-			<div id="export-container" class="container">
-				<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
-				<a href="/download/json/fList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (flat JSON)</button>
-				</a>
-				<a href="/download/json/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (hierarchical JSON)</button>
-				</a>
-				<a href="/download/xml/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (XML)</button>
-				</a>
-			</div>
 		</div>
 	</div>
 </nav>
 
-<div id="svg-container" >
-	<h1>Dynamic Graph Visualization of Tweet</h1>
-
-	<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
-	<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
-		<button>Switch to Linear Visualization</button>
-	</a>
-	   
-	<h3>Click on the picture to visualize here the Tweet</h3>
-
-	<form action="">
-		<input type="button" id="toggle-labels" value="Display Tweet labels" onclick="toggle_labels(this);">
-	</form>
+<div class="container">
+	<div id="view-switch-container">
+		<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
+		<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
+			<button class="btn btn-default btn-md"><span class="glyphicon glyphicon-arrow-right"></span> Switch to List Visualization</button>
+		</a>
+	</div>
 	
-	<svg width="960" height="600"></svg>
+	<div id="export-container" class="dropdown">
+	    <button class="btn btn-default btn-md dropdown-toggle" type="button" data-toggle="dropdown">Export this conversation <span class="caret"></span></button>
+    	<ul class="dropdown-menu">
+		<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
+		<li><a href="/download/json/{{use_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as flat JSON
+		</a></li>
+		<li><a href="/download/json/{{other_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as hierarchical JSON
+		</a></li>
+		<li><a href="/download/xml/{{other_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as XML
+		</a></li>
+		</ul>
+	</div>
+	
+	<h1>Graph Visualization of Tweet {{ response['conversation'][response['conversation']|length-1]['tweet_id'] }}</h1>
+
+	<div id="graph-controls">
+		<p>Drag the nodes around or hover over them to see more information!</p>
+		<span>Graph display options: </span>
+		<input type="button" id="toggle-labels" class="btn btn-primary btn-sm" value="Display user names" onclick="toggle_labels(this);">
+	</div>
+	
+	{% if alert_message != None %}
+	<p><span class="glyphicon glyphicon-alert"></span> {{ alert_message }}</p>
+	{% endif %}
+	
+	<div id="svg-container" class="container">	
+		<svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet"></svg>
+	</div>
 </div>
 
+<script src="{{ url_for('static', filename='graph.js') }}" data="{{ graph_data_filename }}"></script>
+
 {% endblock %}
-
-
-<script src="{{ url_for('static', filename='graph.js') }}"></script>
-
-
-{% extends "bootstrap/base.html" %}
-<!-- TODO: hier führt die Bootstrap-Zeile dazu, dass der ganze Blockcontent zweimal erscheint, aber wenn sie vor den Script-Tags steht, dann werden diese nicht geladen -->
