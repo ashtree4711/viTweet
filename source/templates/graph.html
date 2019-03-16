@@ -65,6 +65,12 @@
 <div id="container" class="svg-container">
 	<svg viewBox="0 0 900 600"></svg>
 	<svg preserveAspectRatio="xMidYMid meet"></svg>
+
+	
+	{% if alert_message != None %}
+	<p><span class="glyphicon glyphicon-alert"></span> {{ alert_message }}</p>
+	{% endif %}
+
 </div>
 
 <script src="{{ url_for('static', filename='graph.js') }}" data="{{ graph_data_filename }}"></script>

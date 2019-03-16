@@ -1,14 +1,15 @@
-from flask import Flask, make_response, redirect, render_template, request, send_from_directory, session, url_for
+from flask import Flask, redirect, render_template, request, send_from_directory, session, url_for
 from flask_bootstrap import Bootstrap
 import datetime
+import configparser
 
 import vi_twitter.search as search
 import vi_twitter.utilities as utilities
 import vi_network.network as network
 
-import configparser
 
-    # Instantiate configparser and say which INI file to read the configurations from
+
+    # Instantiate configparser and say which INI file to read the configurations from.
     # (The config is used to access for example the file paths defined in an INI file. 
     # Therefore the paths can be updated in the INI file at any time without requiring any changes elsewhere.)
 config = configparser.ConfigParser()
@@ -154,9 +155,9 @@ def graph_visualization():
         print("SESSION INFORMATION for graph_visualization(): ", session)
         
             # Call the function which plots the graph; the return value is the name of the JSON file storing the graph
-        graph_data_filename = network.draw_network(use_basis)
+        graph_data_filename, alert_message = network.draw_network(use_basis)
         
-        return render_template('graph.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis, graph_data_filename=graph_data_filename)
+        return render_template('graph.html', response=utilities.json_to_dictionary(mode, use_basis), mode=mode, use_basis=use_basis, other_basis=other_basis, graph_data_filename=graph_data_filename, alert_message=alert_message)
 
     else:
         return 'Error while retrieving session information. Please start a new search.'
