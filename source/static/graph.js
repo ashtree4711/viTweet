@@ -1,15 +1,17 @@
 // Based on https://github.com/networkx/networkx/tree/master/examples/javascript / https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
 // and https://bl.ocks.org/mbostock/950642
 
-var svg = d3.select("svg"),
-    width = +svg.attr("width")
-    height = +svg.attr("height");
+var svg = d3.select("div#container")
+  .append("svg")
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 900 900")
+  .classed("svg-content", true);
 
 var borderPath = svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
-    .attr("height", height)
-    .attr("width", width)
+    .attr("height", 600)
+    .attr("width", 900)
     .style("stroke", "blue")
     .style("fill", "none");
 
@@ -17,7 +19,7 @@ var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id;})
     .distance(100).strength(1))
     .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+    .force("center", d3.forceCenter(900 / 2, 600 / 2));
 
 // Get the file containing the data for the requested graph: The filename is passed from the attribute 'data' of the <script> tag in the HTML
 var graph_data_file = document.currentScript.getAttribute('data');
@@ -117,7 +119,6 @@ d3.json(graph_data_url, function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return "@" + d.screen_name;})
 
-
     // Add label texts to the nodes
     node.append("text")
         .attr("class", "text-user")
@@ -129,7 +130,8 @@ d3.json(graph_data_url, function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;})
 		.call(getBB);
-
+	
+	//Add the tweet content to the nodes
     node.append("text")
         .attr("class", "text-content")
         .attr("dx", function(d, i){
@@ -140,7 +142,8 @@ d3.json(graph_data_url, function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
 		.call(wrap, 350);
-
+	
+	//Add the background box to the label text
 	node.insert("rect","text")
 		.attr("x", function(d, i){
           if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 1.5;
@@ -151,10 +154,12 @@ d3.json(graph_data_url, function (error, graph) {
     	.style("fill", "white")
         .style("visibility", "hidden");
 
+//This function gets the background box for the label text
 function getBB(text) {
     text.each(function(d){d.bbox = this.getBBox();})
 }
-
+	
+	//This function wraps the text in more lines instead of one
 	function wrap(text, width) {
     text.each(function () {
         var text = d3.select(this),
@@ -189,9 +194,6 @@ function getBB(text) {
 }
 
 	var setEvents = node
-    .on( 'click', function (d) {
-          d3.select("h3").html(d.label);
-    })
 
 		.on("mouseover", function(d) {
           // Mouseover enlarges image

@@ -14,7 +14,7 @@
 }
 
 .links [line_type="quote_tweet"] {
-  stroke: red;
+  stroke: lightskyblue;
 }
 
 .node text {
@@ -33,4 +33,19 @@
 
 .node text.text-screenname {
   font-weight: bold;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
 }

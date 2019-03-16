@@ -48,21 +48,23 @@
 	</div>
 </nav>
 
-<div id="svg-container" >
-	<h1>Dynamic Graph Visualization of Tweet {{ response['conversation'][response['conversation']|length-1]['tweet_id'] }}</h1>
+
+<h1>Dynamic Graph Visualization of Tweet {{ response['conversation'][response['conversation']|length-1]['tweet_id'] }}</h1>
 
 	<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
 	<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
 		<button>Switch to Linear Visualization</button>
 	</a>
 	   
-	<h3>Click on the picture to visualize here the Tweet</h3>
+	<h4></h4>
 
 	<form action="">
 		<input type="button" id="toggle-labels" value="Display user names" onclick="toggle_labels(this);">
 	</form>
-	
-	<svg width="960" height="600"></svg>
+
+<div id="container" class="svg-container">
+	<svg viewBox="0 0 900 600"></svg>
+	<svg preserveAspectRatio="xMidYMid meet"></svg>
 </div>
 
 <script src="{{ url_for('static', filename='graph.js') }}" data="{{ graph_data_filename }}"></script>
