@@ -4,8 +4,6 @@
 
 {% extends "bootstrap/base.html" %}
 
-{% extends "bootstrap/base.html" %}
-
 
 {% block content %}
 
@@ -59,6 +57,9 @@
 		</a></li>
 		<li><a href="/download/xml/{{other_basis}}" download>
 			<span class="glyphicon glyphicon-download-alt"></span> Export as XML
+		</a></li>
+		<li><a href="/download/json/{{graph_data_filename}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export graph JSON
 		</a></li>
 		</ul>
 	</div>

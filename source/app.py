@@ -178,6 +178,8 @@ def download_json(json_filename):
         return send_from_directory(config['FILES']['TEMP_JSON_FLATLIST'], json_filename  + '.json')
     elif json_filename[0:6] == 'rList_':
         return send_from_directory(config['FILES']['TEMP_JSON_RECURSIVELIST'], json_filename  + '.json')
+    elif json_filename[0:6] == 'graph_':
+        return send_from_directory(config['FILES']['TEMP_JSON_GRAPH'], json_filename  + '.json')
     else:
         return print("Download Error")
 
