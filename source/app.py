@@ -17,7 +17,7 @@ config.read('config/app_config.ini')
 
 
     #Configure the Flask app
-app = Flask(__name__, static_url_path='/static', template_folder='/templates')
+app = Flask(__name__, static_url_path='/static', template_folder='templates')
 app.secret_key = config['FLASKAPP']['APP_SECRET_KEY']
 Bootstrap(app)
 
@@ -174,7 +174,7 @@ def list_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
-# @TODO: @elli more documentation
+# @TODO: more documentation
 @app.route('/conversation/graph', methods=['POST','GET'])
 def graph_visualization():
     if 'current_basis' in session:
@@ -193,8 +193,19 @@ def graph_visualization():
         return 'Error while retrieving session information. Please start a new search.'
 
 
+@app.route('/graph-data/<path:graph_data_filename>', methods=['POST', 'GET'])
+def graph_data(graph_data_filename):
+    """
+    Deliver the graph JSON file when it is used to load the graph data in graph.json
+    
+    :param graph_data_filename: filename without file extension of the JSON storing the graph
+    
+    :returns: JSON graph file
+    """
+    return send_from_directory(config['FILES']['TEMP_JSON_GRAPH'], graph_data_filename  + '.json')
 
-# @TODO: @elli more documentation
+
+# @TODO: more documentation
 @app.route('/download/json/<path:json_filename>', methods=['GET'])
 def download_json(json_filename):
     """
@@ -202,7 +213,6 @@ def download_json(json_filename):
     
     Deliver from its directory the JSON file fList, rList, or graph which the user wants to download
     or
-    Deliver the graph JSON file when it is used to load the graph data in graph.json
     
     :param json_filename: filename without file extension of the fList, rList, or graph JSON
     
