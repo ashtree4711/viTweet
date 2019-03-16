@@ -103,7 +103,7 @@ def draw_network(flatList_filename):
     
         # Draw the graph
     nx.draw(G)
-    
+    over_reply_limit = 'no'
     
         # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
     for n in G:

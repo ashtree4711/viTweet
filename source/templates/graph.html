@@ -61,15 +61,13 @@
 	<form action="">
 		<input type="button" id="toggle-labels" value="Display user names" onclick="toggle_labels(this);">
 	</form>
+	{% if alert_message != None %}
+	<p><span class="glyphicon glyphicon-alert"></span> {{ alert_message }}</p>
+	{% endif %}
 
 <div id="container" class="svg-container">
 	<svg viewBox="0 0 900 600"></svg>
 	<svg preserveAspectRatio="xMidYMid meet"></svg>
-
-	
-	{% if alert_message != None %}
-	<p><span class="glyphicon glyphicon-alert"></span> {{ alert_message }}</p>
-	{% endif %}
 
 </div>
 
