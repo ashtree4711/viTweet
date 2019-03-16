@@ -160,15 +160,12 @@ d3.json(graph_data_url, function (error, graph) {
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
 		.call(wrap, 350)
-    .call(getBB);
+    	.call(getBB);
 
     // Add a background box to the '.text_user' and '.text_content' label
   	node.insert("rect", ".text-user")
         .attr("class", "text-user-background")
-  		  .attr("x", function(d, i){
-            if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 10;
-            else return d.bbox.x;
-          })
+  		  .attr("x", function(d){return d.bbox.x;})
       	.attr("y", "-1.5em")
         .attr("rx", "5") // Give the rect slightly rounded corners
         .attr("ry", "5")
