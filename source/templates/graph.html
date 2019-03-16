@@ -4,6 +4,8 @@
 
 {% extends "bootstrap/base.html" %}
 
+{% extends "bootstrap/base.html" %}
+
 
 {% block content %}
 
@@ -38,8 +40,8 @@
 </nav>
 
 <div class="container">
+	<!-- Switch to list visualization and switch from the currently used fList to the rList, on which the list view is based -->
 	<div id="view-switch-container">
-		<!-- Show the list visualization and switch from the currently used fList to the rList, on which the list view is based -->
 		<a href="/conversation/list?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
 			<button class="btn btn-default btn-md"><span class="glyphicon glyphicon-arrow-right"></span> Switch to List Visualization</button>
 		</a>
