@@ -122,8 +122,23 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("dy", "0.35em")
         .style("visibility","hidden")
         .text(function(d) { return "@" + d.screen_name;})
+        .call(getBB);
 
-    // Add label texts to the nodes
+        // Add a background box to the '.text_screenname' label
+        node.insert("rect", ".text-screenname")
+            .attr("class", "text-screenname-background")
+            .attr("x", function(d, i){
+                if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 1.5;
+                else return d.bbox.x;
+              })
+            .attr("y", "-0.35em")
+            .attr("rx", "5") // Give the rect slightly rounded corners
+            .attr("ry", "5")
+            .attr("width", function(d){return d.bbox.width;})
+            .attr("height", function(d){return d.bbox.height;})
+            .style("visibility", "hidden");
+
+    // Add user_name, screen_name and timestamp as a label to the nodes
     node.append("text")
         .attr("class", "text-user")
         .attr("dx", function(d, i){
@@ -132,10 +147,9 @@ d3.json(graph_data_url, function (error, graph) {
         .attr("dy", "-0.95em")
         // Text is hidden
         .style("visibility","hidden")
-        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;})
-		.call(getBB);
+        .text(function(d) { return d.user_name + " (@" + d.screen_name + "), " + d.timestamp;});
 
-	//Add the tweet content to the nodes
+	// Add the tweet_content to the label
     node.append("text")
         .attr("class", "text-content")
         .attr("dx", function(d, i){
@@ -145,20 +159,23 @@ d3.json(graph_data_url, function (error, graph) {
         // Text is hidden
         .style("visibility","hidden")
         .text(function(d) { return d.tweet_content;})
-		.call(wrap, 350);
+		.call(wrap, 350)
+    .call(getBB);
 
-	//Add the background box to the label text
-	node.insert("rect", "text")
-      .attr("class", "text-background")
-		  .attr("x", function(d, i){
-          if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 1.5;
-          else return d.bbox.x
-        })
-    	.attr("y", "-1.75em")
-		  .attr("width", function(d){return d.bbox.width})
-    	.attr("height", function(d){return d.bbox.height * 4})
-    	//.style("fill", "white")
-      .style("visibility", "hidden");
+    // Add a background box to the '.text_user' and '.text_content' label
+  	node.insert("rect", ".text-user")
+        .attr("class", "text-user-background")
+  		  .attr("x", function(d, i){
+            if (graph.nodes[i].tweet_type == 'root_tweet') return d.bbox.x + 10;
+            else return d.bbox.x;
+          })
+      	.attr("y", "-1.5em")
+        .attr("rx", "5") // Give the rect slightly rounded corners
+        .attr("ry", "5")
+  		  .attr("width", function(d){return d.bbox.width;})
+      	.attr("height", function(d){return d.bbox.height + 20;})
+        .style("visibility", "hidden");
+
 
 //This function gets the background box for the label text
 function getBB(text) {
@@ -225,18 +242,13 @@ function getBB(text) {
                   else return "url(#clip-circle-large)";
                 });
 
-          // Mouseover shows the hidden text
-          if (document.getElementById("toggle-labels").value == "Display user names"){
-            d3.select(this).selectAll(".text-content")
+          // Mouseover shows the hidden texts '.text-user' and '.text-content'
+          	d3.select(this).select(".text-user-background")
           	.style("visibility", "visible");
           	d3.select(this).selectAll(".text-user")
           	.style("visibility", "visible");
-          	// User name is always hidden (except if the labels have been toggled on with the button#toggle-labels)
-            d3.select(this).selectAll(".text-screenname")
-          	.style("visibility", "hidden");
-          	d3.select(this).select("rect")
-          	.style("visibility", "visible");
-          }
+            d3.select(this).selectAll(".text-content")
+            .style("visibility", "visible");
 		 })
 
 		.on("mouseout", function(d)	{
@@ -260,17 +272,13 @@ function getBB(text) {
               if (d.tweet_type == 'root_tweet') return "url(#clip-circle-root)";
               else return "url(#clip-circle-small)";
             });
-        // On mouseout the text is hidden again (except if the labels have been toggled on with the button#toggle-labels)
-        if (document.getElementById("toggle-labels").value == "Display user names"){
-          d3.select(this).selectAll(".text-content")
+        // On mouseout the texts '.text-user' and '.text-content' are hidden again
+          d3.select(this).select(".text-user-background")
           .style("visibility", "hidden");
           d3.select(this).selectAll(".text-user")
           .style("visibility", "hidden");
-          d3.select(this).selectAll(".text-screenname")
+          d3.select(this).selectAll(".text-content")
           .style("visibility", "hidden");
-          d3.select(this).select("rect")
-          .style("visibility", "hidden");
-        }
  		})
 
     simulation
@@ -328,10 +336,16 @@ function toggle_labels(toggle_button){
     toggle_button.value = "Don't display user names";
     d3.selectAll(".node").selectAll(".text-screenname")
       .style("visibility", "visible");
+
+    d3.selectAll(".node").selectAll(".text-screenname-background")
+      .style("visibility", "visible");
   }
   else if (toggle_button.value == "Don't display user names"){
     toggle_button.value = "Display user names";
     d3.selectAll(".node").selectAll(".text-screenname")
+      .style("visibility", "hidden");
+
+    d3.selectAll(".node").selectAll(".text-screenname-background")
       .style("visibility", "hidden");
   }
 }

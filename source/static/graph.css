@@ -5,7 +5,6 @@
 
 .links line {
     fill: none;
-    /*stroke: #337ab7;*/
     stroke-width: 3px;
 }
 
@@ -35,8 +34,14 @@
   font-weight: bold;
 }
 
-.node rect.text-background {
+.node rect.text-screenname-background {
   fill: white;
+  fill-opacity: 0.5;
+}
+
+.node rect.text-user-background {
+  fill: white;
+  fill-opacity: 0.95;
 }
 
 #svg-container {
