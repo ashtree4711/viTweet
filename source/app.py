@@ -93,7 +93,7 @@ def query():
         return redirect(url_for('graph_visualization', mode=session['mode'], basis=session['basis_flat']))
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     """
     @desc: Routing for URL '/upload' (called from file upload form on index page)
@@ -133,7 +133,7 @@ def upload():
         return redirect(url_for('graph_visualization', mode=session['mode'], basis=session['basis_flat']))
 
 
-@app.route('/conversation/list', methods=['POST','GET'])
+@app.route('/conversation/list')
 def list_visualization():
     """
     @desc: Routing for URL '/conversation/list'
@@ -145,7 +145,7 @@ def list_visualization():
     return render_template('conversation.html', response=utilities.json_to_dictionary(session['basis_recursive']), mode=session['mode'], use_basis=session['basis_recursive'], other_basis=session['basis_flat'])
 
 
-@app.route('/conversation/graph', methods=['POST','GET'])
+@app.route('/conversation/graph')
 def graph_visualization():
     """
     @desc: Routing for URL '/conversation/graph'
