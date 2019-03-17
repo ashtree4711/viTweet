@@ -4,12 +4,14 @@
 var width = 900;
 var height = 600;
 
+//this variable defines the container
 var svg = d3.select("div#svg-container")
   .append("svg")
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 900 600")
   .classed("svg-content", true);
 
+//this variable defines the border of the container
 var borderPath = svg.append("rect")
     .attr("class", "svg-border")
     .attr("x", 0)
@@ -17,6 +19,7 @@ var borderPath = svg.append("rect")
     .attr("height", height)
     .attr("width", width);
 
+//Creates a new simulation
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function (d) { return d.id;})
     .distance(60).strength(1))
@@ -310,7 +313,7 @@ function getBB(text) {
     }
 });
 
-
+//This function sets the current target alpha to the specified number (0.3) and returns this simulation
 function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
@@ -322,12 +325,14 @@ function dragged(d) {
     d.fy = d3.event.y;
 }
 
+//This function sets the current target alpha to the specified number (0) and returns this simulation
 function dragended(d) {
     if (!d3.event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
 }
 
+//This function shows the user names and their background when the button "Display user names" is enabled and hide them when it is disabled
 function toggle_labels(toggle_button){
   if(toggle_button.value == "Display user names") {
     toggle_button.value = "Don't display user names";
