@@ -28,7 +28,7 @@
     <div class="jumbotron">
         <h1>Welcome to viTweet!</h1>
         <div class="container" id="mainSearch">
-            <form method="POST" action="/conversation">
+            <form method="POST" action="/query">
                 <!-- main search with input field and submit button -->
                 <div class="form-group">
                     <label for="mainSearch">Search Tweet</label>
@@ -78,8 +78,8 @@
 				</div>
 			</div>
 			<div class="input-group-check">
-				<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
-				<label class="radio-right"><input type="radio" name="visopt" value="graph" required> Network</label>
+				<label class="radio-right"><input type="radio" name="visopt" value="list" required> List</label>
+				<label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Network</label>
 			</div>
 		</div>
 	</form>
