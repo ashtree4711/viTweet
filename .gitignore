@@ -149,6 +149,5 @@ temp_files/json/flatList/*.json
 temp_files/json/recursiveList/*.json
 temp_files/json/graph/*.json
 temp_files/png/*.png
-useruploads/json/*.json
-*.xml
+temp_files/xml/*.xml
 

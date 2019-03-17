@@ -18,7 +18,7 @@ config.read('config/app_config.ini')
 
 def extract_nodes_edges(flatList_dict):
     
-    print("\nEXTRACTING NODES AND EDGES FOR TWEET-REPLY/TWEET-QUOTETWEET PAIRS FROM FLATLIST")
+    print("\nINFO: EXTRACTING NODES AND EDGES FOR TWEET-REPLY/TWEET-QUOTETWEET PAIRS FROM FLATLIST")
     
     
         # Go through all tweets in the flatList and extract the IDs for all of the tweet-reply pairs (= edges)
@@ -40,7 +40,7 @@ def extract_nodes_edges(flatList_dict):
             tweet_reply_child.append('no_replies')'''
     
     tweet_reply_pairs = list(zip(tweet_reply_parent, tweet_reply_child))
-    print("Edges for the Replies (", len(tweet_reply_pairs), ") : ", tweet_reply_pairs)
+    print("Edges for Replies (", len(tweet_reply_pairs), ") : ", tweet_reply_pairs)
     
     
         # Go through all tweets in the flatList and extract the IDs for all of the tweet-quotetweet pairs
@@ -61,7 +61,7 @@ def extract_nodes_edges(flatList_dict):
 
 
     tweet_quotetweet_pairs = list(zip(tweet_quotetweet_parent, tweet_quotetweet_child))
-    print("Edges for the Quote Tweets (", len(tweet_quotetweet_pairs), "): ", tweet_quotetweet_pairs)
+    print("Edges for Quote Tweets (", len(tweet_quotetweet_pairs), "): ", tweet_quotetweet_pairs)
     
     
     edges = tweet_reply_pairs + tweet_quotetweet_pairs
@@ -74,7 +74,7 @@ def extract_nodes_edges(flatList_dict):
     for i, val in enumerate(flatList_dict['conversation']):
         nodes[val['tweet_id']] = {}
         nodes[val['tweet_id']].update(flatList_dict['conversation'][i])        
-    print("All nodes: ", nodes)
+    print("All nodes(", len(nodes), "): ", nodes)
     
     
         # Return the nodes and edges extracted from the fList
@@ -84,13 +84,13 @@ def extract_nodes_edges(flatList_dict):
 
 def draw_network(flatList_filename):
         # Get the dict equivalent of the fList 
-    flatList_dict = utilities.json_to_dictionary(mode='visualize', requested_file=flatList_filename)
+    flatList_dict = utilities.json_to_dictionary(requested_file=flatList_filename)
         
         # Extract the nodes and edges from the fList file used as basis for the visualization
     nodes, edges = extract_nodes_edges(flatList_dict)
 
 
-    print("\nCREATING GRAPH...")
+    print("\nINFO: CREATING GRAPH...")
 
         # Directed graph
     G = nx.DiGraph()
@@ -159,8 +159,8 @@ def draw_network(flatList_filename):
         # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them.
         # The JSON file can then later be loaded with D3 to create an interactive graph in the browser.
     d = json_graph.node_link_data(G)
-    print("Data contained in graph G: ", d)
-    print("\nSAVING GRAPH...")
+    print("Data of graph G: ", d)
+    print("\nINFO: SAVING GRAPH...")
     graph_filename = "graph_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     print("Graph saved as: ", graph_filename + ".json")
     json.dump(d, open(config['FILES']['TEMP_JSON_GRAPH'] + graph_filename + ".json",'w'))

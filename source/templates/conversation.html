@@ -1,12 +1,11 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script src="{{url_for('static', filename='response.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static', filename='design.css')}}">
+
 {% extends "bootstrap/base.html" %}
 
 
 {% block content %}
-
-
 
 <!-- Navigation on top of the website -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,41 +22,48 @@
 				</ul>
 
 				<!-- basic small search -->
-				<form class="navbar-form navbar-right" method="POST" action="/conversation">
+				<form class="navbar-form navbar-right" method="POST" action="/query">
 					<div class="input-group">
 						<input type="text" class="form-control" id="smallSearch" placeholder="Search" name="tweetID">
 						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
+							<button class="btn btn-default form-control" type="submit">
+							<span class="glyphicon glyphicon-search"></spani>
 							</button>
 						</div>
 					</div>
-					<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
+					<label class="radio-right"><input type="radio" name="visopt" value="list" required> List</label>
+					<label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Graph</label>
 				</form>
-			</div>
-			<div id="export-container" class="container">
-				<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
-				<a href="/download/json/fList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (flat JSON)</button>
-				</a>
-				<a href="/download/json/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (hierarchical JSON)</button>
-				</a>
-				<a href="/download/xml/rList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
-					<button>Export conversation (XML)</button>
-				</a>
 			</div>
 		</div>
 	</div>
 </nav>
 
 <div class="container" style="margin-bottom: 50px">
-	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}</h1>
+	<!-- Switch to graph visualization and switch from the currently used rList to the fList, on which the graph view is based -->
+	<div id="view-switch-container">
+		<a href="/conversation/graph?mode={{mode}}&basis={{other_basis}}">
+			<button class="btn btn-default btn-md"><span class="glyphicon glyphicon-arrow-right"></span> Switch to Graph Visualization</button>
+		</a>
+	</div>
 	
-	<!-- Link to show the graph visualization and switch from currently used rList to fList, on which the graph is based -->
-	<a href="/conversation/graph?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
-		<button class="btn btn-default btn-md"><span class="glyphicon glyphicon-arrow-right"></span> Switch to Graph Visualization</button>
-	</a>
+	<!-- Download menu -->
+	<div id="export-container" class="dropdown">
+	    <button class="btn btn-default btn-md dropdown-toggle" type="button" data-toggle="dropdown">Export this conversation <span class="caret"></span></button>
+    	<ul class="dropdown-menu">
+		<li><a href="/download/json/{{other_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as flat JSON
+		</a></li>
+		<li><a href="/download/json/{{use_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as hierarchical JSON
+		</a></li>
+		<li><a href="/download/xml/{{use_basis}}" download>
+			<span class="glyphicon glyphicon-download-alt"></span> Export as XML
+		</a></li>
+		</ul>
+	</div>
+
+	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}</h1>
 </div>
 
 <div class="container" id="listTweets">
