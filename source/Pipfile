@@ -12,6 +12,8 @@ twython = "*"
 jinja2 = "*"
 pipenv = "*"
 flask-bootstrap = "*"
+werkzeug = "*"
+xmltodict = "*"
 
 [requires]
 python_version = "3.6"
