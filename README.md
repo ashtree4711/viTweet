@@ -16,7 +16,7 @@ viTweet is a webservice providing visualizations to better understand Twitter co
 
 * [Set up a Twitter developer account](https://developer.twitter.com/en/apply) if you do not already have one
 * [Generate your access tokens](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens.html)
-* Enter your access tokens ...
+* Enter your access tokens to the /source/config/config.ini
 
 ### Running the application
 * Use an IDE like Eclipse (others have not yet been tested by us) to run the file 'app.py'
