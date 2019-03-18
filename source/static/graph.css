@@ -5,20 +5,66 @@
 
 .links line {
     fill: none;
-    /*stroke: #337ab7;*/
     stroke-width: 3px;
+}
+
+.links [line_type="reply"] {
+  stroke: blue;
+}
+
+.links [line_type="quote_tweet"] {
+  stroke: lightskyblue;
 }
 
 .node text {
   pointer-events: none;
   font-family: Arial;
-  font-size: 10pt;
+  font-size: 8pt;
+}
+
+.node text.text-content {
+
 }
 
 .node text.text-user {
   font-weight: bold;
 }
 
-.node text.text-content {
+.node text.text-screenname {
+  font-weight: bold;
+}
 
+.node rect.text-screenname-background {
+  fill: white;
+  fill-opacity: 0.5;
+}
+
+.node rect.text-user-background {
+  fill: white;
+  fill-opacity: 0.95;
+}
+
+#svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 2%;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.svg-border {
+  stroke: blue;
+  fill: none;
+}
+
+#graph-controls {
+  padding: 2% 0 1% 0;
 }

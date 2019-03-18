@@ -31,7 +31,7 @@ def save_rList(dictionary):
     persist_data_file = os.path.join(dirname, "temp_files/json/recursiveList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
-    print ("SAVE RECURSIVE LIST TO:", persist_data_file)
+    print ("\nSAVE RECURSIVE LIST TO:", persist_data_file)
     return filename
 
 def save_fList(dictionary):
@@ -46,24 +46,17 @@ def save_fList(dictionary):
     persist_data_file = os.path.join(dirname, "temp_files/json/flatList/", filename + ".json") #TODO: Pfad stattdessen aus config-Datei entnehmen
     with open(persist_data_file, 'w') as outfile:
         json.dump(persist_data, outfile, indent=4, sort_keys=True)
-    print ("SAVE FLAT LIST TO:", persist_data_file)
+    print ("\nSAVE FLAT LIST TO:", persist_data_file)
     return filename
 
 
-def json_to_dictionary(mode, requested_file):
-
-    if mode == 'search' or mode == 'visualize':
-        if requested_file[0] == 'r':
-            json_file = open(config['FILES']['TEMP_JSON_RECURSIVELIST'] + requested_file + '.json')
-        elif requested_file[0] == 'f':
-            json_file = open(config['FILES']['TEMP_JSON_FLATLIST'] + requested_file + '.json') 
-
-        # TODO: Use separate directory "config['FILES']['USERUPLOAD_JSON_FILES']" instead?
-    elif mode == 'upload':
-        if requested_file[0] == 'r':
-            json_file = open(config['FILES']['TEMP_JSON_RECURSIVELIST'] + requested_file + '.json')
-        elif requested_file[0] == 'f':
-            json_file = open(config['FILES']['TEMP_JSON_FLATLIST'] + requested_file + '.json')
+def json_to_dictionary(requested_file):
+    if requested_file[0] == 'r':
+        json_file = open(config['FILES']['TEMP_JSON_RECURSIVELIST'] + requested_file + '.json')
+    elif requested_file[0] == 'f':
+        json_file = open(config['FILES']['TEMP_JSON_FLATLIST'] + requested_file + '.json')
+    else:
+        return print("Error: Requested file ", requested_file, " is not of type rList or fList") 
 
     json_str = json_file.read()
     dictionary = json.loads(json_str)
@@ -105,7 +98,7 @@ def create_rList(tweet_id, fList_filename):
         structured recursively according to the Depth-First schema. 
     '''
         # Use the flat list of tweets inside 'conversation' 
-    fList = json_to_dictionary(mode='search', requested_file=fList_filename)['conversation']
+    fList = json_to_dictionary(requested_file=fList_filename)['conversation']
     for investigatedTweet in fList:
         if investigatedTweet.get('tweet_id') == tweet_id:
             replyList=get_replies_from_fList(investigatedTweet, fList)
