@@ -4,8 +4,12 @@
     <list default="true" id="88092186-1e74-440d-94c8-d9d3059d0985" name="Default Changelist" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/static/design.css" afterPath="$PROJECT_DIR$/source/static/design.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/static/graph.json" afterPath="$PROJECT_DIR$/source/static/graph.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/static/response.js" afterPath="$PROJECT_DIR$/source/static/response.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/templates/about.html" afterPath="$PROJECT_DIR$/source/templates/about.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/templates/contact.html" afterPath="$PROJECT_DIR$/source/templates/contact.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/templates/conversation.html" afterPath="$PROJECT_DIR$/source/templates/conversation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/templates/graph.html" afterPath="$PROJECT_DIR$/source/templates/graph.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source/templates/index.html" afterPath="$PROJECT_DIR$/source/templates/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,11 +22,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="conversation.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="conversation.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/templates/conversation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-367">
-              <caret line="34" column="124" lean-forward="false" selection-start-line="34" selection-start-column="124" selection-end-line="34" selection-end-column="124" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="69" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -35,7 +39,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,18 +49,18 @@
       <file leaf-file-name="graph.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/templates/graph.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="509">
+              <caret line="40" column="69" lean-forward="false" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="design.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="design.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/static/design.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+            <state relative-caret-position="615">
+              <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -64,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/source/static/response.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
-              <caret line="18" column="23" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+              <caret line="18" column="36" lean-forward="false" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -73,8 +79,8 @@
       <file leaf-file-name="about.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/templates/about.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="39" column="22" lean-forward="false" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+            <state relative-caret-position="30">
+              <caret line="2" column="75" lean-forward="false" selection-start-line="2" selection-start-column="75" selection-end-line="2" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -83,8 +89,8 @@
       <file leaf-file-name="contact.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/templates/contact.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="30">
+              <caret line="2" column="75" lean-forward="false" selection-start-line="2" selection-start-column="75" selection-end-line="2" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -93,8 +99,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="24" column="62" lean-forward="true" selection-start-line="24" selection-start-column="62" selection-end-line="24" selection-end-column="62" />
+            <state relative-caret-position="60">
+              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#div#1;n#!!top" expanded="true" />
@@ -120,14 +126,15 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/source/app.py" />
-        <option value="$PROJECT_DIR$/source/templates/contact.html" />
-        <option value="$PROJECT_DIR$/source/templates/about.html" />
         <option value="$PROJECT_DIR$/source/templates/listconversation.js" />
         <option value="$PROJECT_DIR$/source/static/css/design.css" />
-        <option value="$PROJECT_DIR$/source/static/response.js" />
-        <option value="$PROJECT_DIR$/source/templates/conversation.html" />
         <option value="$PROJECT_DIR$/source/static/design.css" />
         <option value="$PROJECT_DIR$/source/templates/index.html" />
+        <option value="$PROJECT_DIR$/source/templates/graph.html" />
+        <option value="$PROJECT_DIR$/source/templates/conversation.html" />
+        <option value="$PROJECT_DIR$/source/templates/contact.html" />
+        <option value="$PROJECT_DIR$/source/templates/about.html" />
+        <option value="$PROJECT_DIR$/source/static/response.js" />
       </list>
     </option>
   </component>
@@ -141,7 +148,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="723" />
+    <option name="height" value="716" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -305,14 +312,15 @@
       <workItem from="1552317751667" duration="6633000" />
       <workItem from="1552389526587" duration="4197000" />
       <workItem from="1552402732999" duration="4166000" />
+      <workItem from="1552903785825" duration="7373000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46506000" />
+    <option name="totallyTimeSpent" value="53879000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="723" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="716" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.01640625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -714,10 +722,54 @@
     <entry file="file://$PROJECT_DIR$/source/templates/listconversation.js" />
     <entry file="file://$PROJECT_DIR$/source/static/css/design.css" />
     <entry file="file://$PROJECT_DIR$/design.css" />
+    <entry file="file://$PROJECT_DIR$/source/static/graph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/templates/graph.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="40" column="69" lean-forward="false" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/templates/conversation.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="69" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/templates/contact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="75" lean-forward="false" selection-start-line="2" selection-start-column="75" selection-end-line="2" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/templates/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="75" lean-forward="false" selection-start-line="2" selection-start-column="75" selection-end-line="2" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="24" column="62" lean-forward="true" selection-start-line="24" selection-start-column="62" selection-end-line="24" selection-end-column="62" />
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#img#0;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#0;n#div#1;n#!!top" expanded="true" />
@@ -725,61 +777,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/templates/contact.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/templates/about.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="39" column="22" lean-forward="false" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/static/response.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="18" column="23" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+          <caret line="18" column="36" lean-forward="false" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/static/design.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+        <state relative-caret-position="615">
+          <caret line="41" column="21" lean-forward="false" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/templates/graph.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/static/graph.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/templates/conversation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-367">
-          <caret line="34" column="124" lean-forward="false" selection-start-line="34" selection-start-column="124" selection-end-line="34" selection-end-column="124" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

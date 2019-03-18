@@ -12,9 +12,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<div class="navbar-header">
-			<!-- place for our brand logo, clicking the logo will always bring you back to index page -->
+			<!-- place for our brand logo/name, clicking the logo will always bring you back to index page -->
 			<a class="navbar-brand" href="/">viTweet</a>
 
+			<!-- links to other templates -->
 			<div class="container">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="/">Home</a></li>
@@ -22,7 +23,7 @@
 					<li><a href="/contact">Contact</a></li>
 				</ul>
 
-				<!-- basic small search -->
+				<!-- basic small search for an new search (without going to the index page)-->
 				<form class="navbar-form navbar-right" method="POST" action="/conversation">
 					<div class="input-group">
 						<input type="text" class="form-control" id="smallSearch" placeholder="Search" name="tweetID">
@@ -32,9 +33,16 @@
 							</button>
 						</div>
 					</div>
-					<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
+
+					<!-- allows the user to choose between two different visualization types-->
+					<div class="input-group-check">
+						<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
+						<label class="radio-right"><input type="radio" name="visopt" value="graph" required> Network</label>
+					</div>
 				</form>
 			</div>
+
+			<!-- export option to download analysed conversations -->
 			<div id="export-container" class="container">
 				<!-- Download button; filename is created from 'datetime' at the start of the JSON file which is currently shown -->
 				<a href="/download/json/fList_{{response['datetime']|replace("-", "")|replace(" ", "")|replace(":", "")}}" download>
@@ -53,26 +61,43 @@
 
 <div class="container" style="margin-bottom: 50px">
 	<h1>Linear Visualization of Tweet {{response['conversation']['inv.tweet']['tweet_id']}}:</h1>
+
 	<!-- Link to show the graph visualization and switch from currently used rList to fList, on which the graph is based -->
 	<a href="/conversation/graph?mode={{mode}}&use_basis={{other_basis}}&other_basis={{use_basis}}">
 		<button>Switch to Graph Visualization</button>
 	</a>
 </div>
 
+<!-- list visualization with nested objects -->
 <div class="container" id="listTweets">
 	<div class="container">
 		<div>
-			<!-- button with number of replies -->
-			<button onclick="showReplies()" id="numreplies">Replies <span class="badge">{{response['conversation']['inv.tweet']['number_of_replies']}}</span></button>
-			<button onclick="showQuotes()" id="numquotes">Quotes <span class="badge">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}}</span></button>
+			<div>
+				<!-- get number of replies from JSON -->
+				<span class="badge" id="numreplies">{{response['conversation']['inv.tweet']['number_of_replies']}} Replies</span>
+
+				<!-- show/hide replies -->
+				<button onclick="showReplies()">show</button>
+				<button onclick="hideReplies()">hide</button>
+			</div>
+
+			<div>
+				<!-- get number of quotes from JSON -->
+				<span class="badge" id="numquotes">{{response['conversation']['inv.tweet']['number_of_quote_tweets']}} Quotes</span>
+
+				<!-- show/hide quotes -->
+				<button onclick="showQuotes()">show</button>
+				<button onclick="showQuotes()">hide</button>
+			</div>
 		</div>
 
+		<!-- main tweet with embedding code from JSON -->
 		<div id="mainTweet">
-			<!-- main tweet -->
 			{{response['conversation']['inv.tweet']['embeddingCode']|safe}}
 		</div>
+
+		<!-- function to display all replies and quotes -->
 		<div id="replyTweet">
-			<!-- Nested object -->
 			{{ render_boxes(response['conversation']['replies']) }}
 		</div>
 	</div>
@@ -81,25 +106,32 @@
 {% endblock %}
 
 
-
+<!-- function to show all replies and quotes (as different items); recursive function to catch replies of replies etc. -->
 {% macro render_boxes(replies) %}
 {% for items in replies %}
 <div class="container">
-	<div>
-		<span class="badge" id="hidereplynumber">{{items['inv.tweet']['number_of_replies']}} Replies </span>
-		<span class="badge" id="hidequotenumber">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
-	</div>
+
+	<!--disinguish between quotes and replies; if quotes then class=quote, else class=reply -->
 	{% if items['inv.tweet']['isQuote'] %}
 	<div class="quote">
+		<div>
+			<span class="badge" id="hidereplynumber">{{items['inv.tweet']['number_of_replies']}} Replies </span>
+			<span class="badge" id="hidequotenumber">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
+		</div>
 		{{items['inv.tweet']['embeddingCode']|safe}}
 	</div>
 	{% else %}
 	<div class="reply">
+		<div>
+			<span class="badge" id="hidereplynumber2">{{items['inv.tweet']['number_of_replies']}} Replies </span>
+			<span class="badge" id="hidequotenumber2">{{items['inv.tweet']['number_of_quote_tweets']}} Quotes </span>
+		</div>
 		{{items['inv.tweet']['embeddingCode']|safe}}
 	</div>
 	{% endif %}
-	<!-- replies -->
-	<div>
+
+	<!-- recursive function calls itself -->
+	<div class="recursive">
 		{% if items['replies'] %}
 		{{ render_boxes(items['replies']) }}
 		{% endif %}

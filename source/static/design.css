@@ -29,7 +29,8 @@ div#loading {
 .reply {
     background-color: lightcyan;
     width: 450px;
-    margin-left: 50px;
+    margin-left: 75px;
+    margin-top: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -37,7 +38,8 @@ div#loading {
 .quote {
     background-color: aquamarine;
     width: 450px;
-    margin-left: 50px;
+    margin-left: 750px;
+    margin-top: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -45,9 +47,28 @@ div#loading {
 #hidequotenumber {
     margin-bottom: 10px;
     margin-top: 10px;
+    margin-left: 20px;
 }
 
 #hidereplynumber {
     margin-bottom: 10px;
     margin-top: 10px;
+    margin-left: 20px;
+}
+
+#hidequotenumber2 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#hidereplynumber2 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.recursive {
+    margin-left: 75px;
+    margin-top: 20px;
 }
