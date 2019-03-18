@@ -37,12 +37,14 @@ h1 {
 #numreplies {
     background-color: rgba(0, 116, 254, 0.22);
     margin-bottom: 20px;
+    color: black;
 }
 
 /* button to show/hide quotes */
 #numquotes {
     background-color: rgba(255, 76, 0, 0.22);
     margin-bottom: 20px;
+    color: black;
 }
 
 .reply {
