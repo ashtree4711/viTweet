@@ -36,10 +36,10 @@ $ flask run
 * Enter a Tweet URL or ID into the search bar
 * Try the different visualization options
  * List visualization
- 
-image ...
+ ![list view](/screenshots/list-1.png "List View")
+ ![list view](/screenshots/list-2.png "List View")
  * Graph visualization
- 
+ ![graph view](/screenshots/graph.png "Graph View")
 image ...
 * Export and import conversations
  * Export search result in different formats with the button at the top right of the results page
