@@ -1,3 +1,6 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script src="{{url_for('static', filename='response.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='design.css')}}">
 {% extends "bootstrap/base.html" %}
 
 
@@ -6,9 +9,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<div class="navbar-header">
-			<!-- place for our brand logo, clicking the logo will always bring you back to index page -->
+			<!-- place for our brand logo/name, clicking the logo will always bring you back to index page -->
 			<a class="navbar-brand" href="/">viTweet</a>
 
+			<!-- links to other templates -->
 			<div class="container">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="active"><a href="/">Home</a></li>
@@ -16,7 +20,7 @@
 					<li><a href="/contact">Contact</a></li>
 				</ul>
 
-				<!-- basic small search -->
+				<!-- basic small search for an new search (without going to the index page)-->
 				<form class="navbar-form navbar-right" method="POST" action="/conversation">
 					<div class="input-group">
 						<input type="text" class="form-control" id="smallSearch" placeholder="Search" name="tweetID">
@@ -26,16 +30,25 @@
 							</button>
 						</div>
 					</div>
+
+					<!-- allows the user to choose between two different visualization types-->
+					<div class="input-group-check">
+						<label class="radio-right"><input type="radio" name="visopt" value="list" required checked> List</label>
+						<label class="radio-right"><input type="radio" name="visopt" value="graph" required> Network</label>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </nav>
 
+<!-- main content -->
 <div class="container">
 	<div class="jumbotron">
 		<h1>Get in touch!</h1>
 		<p>Please write us if you have any questions or comments on viTweet!</p>
+
+	<!-- contact form to send an e-mail -->
 	<form>
 		<div class="form-group">
 			<label for="email">Email address:</label>

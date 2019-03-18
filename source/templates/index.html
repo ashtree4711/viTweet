@@ -5,14 +5,16 @@
 
 {% block content %}
 
+<!-- navigation for all templates -->
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="navbar-header">
-            <!-- place for our brand logo, clicking the logo will always bring you back to index page -->
+            <!-- place for our brand logo/name, clicking the logo will always bring you back to index page -->
             <a class="navbar-brand" href="/">viTweet</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <!-- links to other templates -->
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
@@ -20,10 +22,14 @@
         </div>
     </div>
 </div>
+
+<!-- Loading-GIF (currently not working) during API request -->
 <div id="loading">
     <img src="{{url_for('static', filename='pigeons.gif')}}" alt="loading" width="500" style="margin-left: 300px">
     <p style="margin-left: 300px">collecting your tweets..</p>
 </div>
+
+<!-- main content with short introduction and main search -->
 <div class="container" id="content">
     <div class="jumbotron">
         <h1>Welcome to viTweet!</h1>
@@ -35,8 +41,14 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="search" placeholder="URL or Tweet-ID" name="tweetID" autofocus>
                         <div class="input-group-btn">
+<<<<<<< HEAD
                             <button class="btn btn-default form-control" type="submit" onclick="loading()">
                                 <span class="glyphicon glyphicon-search"></span>
+=======
+                            <!-- submit button leads to API request; function loading() displays GIF -->
+                            <button class="btn btn-default" type="submit" onclick="loading()">
+                                <i class="glyphicon glyphicon-search"></i>
+>>>>>>> frontend
                             </button>
                         </div>
                     </div>
@@ -52,10 +64,13 @@
 
                     <!-- allows the user to choose between two different visualization types-->
                     <div class="input-group-check">
-
                         <label class="radio-right"><input type="radio" name="visopt" value="list" required> List</label>
+<<<<<<< HEAD
                         <label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Graph</label>
 
+=======
+                        <label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Network</label>
+>>>>>>> frontend
                     </div>
                 </div>
             </form>
@@ -65,7 +80,13 @@
 </div> 
 
 
+<<<<<<< HEAD
 <div class="container" id="uploadOption">
+=======
+<!-- TODO: Handle whether the user is uploading a flat or recursive file -->
+<!-- upload option to use conversations from the past -->
+<div class="container" id="uploadOption"> 
+>>>>>>> frontend
 	<form method="POST" action="/upload" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="fileUpload">Upload a file previously saved from viTweet (export type "flat JSON")</label>
