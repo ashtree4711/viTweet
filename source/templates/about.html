@@ -46,10 +46,22 @@
 <div class="container">
 	<div class="jumbotron">
 		<h1>Welcome to viTweet!</h1>
-		<p>viTweet kann Gesprächsverläufe, die auf Twitter via Retweets und Replies realisiert werden, in einem dynamischen grafischen Netzwerk visualisieren. Da Twitter selbst ausschließlich Replies als Teil der Konversation anzeigt und diese auch lediglich linear darstellt, soll es mit der Applikation, durch einen Webservice bereitgestellt, Nutzer*innen ermöglicht werden, Gesprächsverläufe besser zu verfolgen. Gleichzeitig können die Visualisierungen bzw. das leichtere Verständnis der Gespräche als Grundlage für weitere Forschungen dienen.</p>
+		<p>Die Aufgabe der Applikation viTweet ist, Gesprächsverläufe auf Twitter sowohl in einer Listenansicht als auch in einem dynamischen grafischen Netzwerk zu visualisieren und so Nutzer*innen einen übersichtlichen und einfachen Zugang zu ermöglichen. viTweet startet die Visualisierung der Konversationen auf Grundlage einer eingegebenen tweet url  oder tweet id und konstruiert die daraus resultierenden Gesprächsverläufe mithilfe von replies (direkte Antworten auf einen spezifischen Tweet) und quoted tweets (zitierte Version eines Tweets mit Anmerkung). Retweets (einfaches Teilen von Tweets) sind kein Teil der Analyse.</p>
+		<br>
+		<p>Darüber hinaus stellt viTweet Export- und Importfunktionen zur Verfügung, um untersuchte Gesprächsverläufe auch der Forschung zugänglicher zu machen.</p>
 	</div>
-	<h3>Infos/Tutorials:</h3>
-	<p>text text text</p>
+
+	<h2>Wie kann ich viTweet benutzen?</h2>
+	<h4>Such dir einen Tweet aus!</h4>
+	<p>Sobald du auf Twitter einen Tweet gefunden hast, den du untersuchen möchtest, kannst du die URL oder ID des Tweets kopieren und auf unserer Startseite in das Suchfeld eingeben. Dann kannst du über die Buttons auswählen, ob die Konversation als Liste oder als dynamischer Graph angezeigt werden soll.</p>
+	<p>Jetzt geht es los. Es dauert einen Moment bis alle Replies und Quotes gefunden wurden.</p>
+
+	<h4>Zwischen den Darstellungen wechseln:</h4>
+	<p>Du kannst bei deinen Untersuchungen zwischen der Listen- und der Graphansicht ganz einfach mit nur einem klick wechseln. Klicke einfach auf den Button oben links und schon gelangst du zur anderen Ansicht. Zurück geht es auf die gleiche Art und Weise.</p>
+
+	<h4>Konversationen exportieren und später noch einmal ansehen:</h4>
+	<p>Du kannst deine untersuchten Konversationen über unsere Export-Funktion herunterladen. Dann kannst du sie zu einem späteren Zeitpunkt noch einmal importieren. Achtung: Für der Import wir die flat JSON benötigt.</p>
+	<p>Auf der Startseite kannst du die Importfunktion nutzen, die unten auf der Seite eingebettet ist. Viel Spaß!</p>
 </div>
 
 {% endblock %}
