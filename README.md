@@ -40,7 +40,6 @@ $ flask run
  ![list view](/screenshots/list-2.png "List View")
  * Graph visualization
  ![graph view](/screenshots/graph.png "Graph View")
-image ...
 * Export and import conversations
  * Export search result in different formats with the button at the top right of the results page
  * Import a file (type 'flat JSON') with the uploader at the bottom of the index page
