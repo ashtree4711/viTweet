@@ -9,6 +9,8 @@ viTweet is a webservice providing visualizations to better understand Twitter co
 | Jinja2 2.10 | Template engine |
 | D3.js v4 | Graph visualization |
 
+Make sure to import the libraries or use the pipfile!
+
 
 ## How to use viTweet
 
