@@ -1,8 +1,7 @@
-'''
-Created on 20 Nov 2018
-    The search.py module constructs the search query, initiates access to the Twitter API and processes the results. 
-@author: markeschweiler
-'''
+"""
+The search.py module constructs the search query, initiates access to the Twitter API and processes the results. 
+"""
+
 import twython
 
 import vi_twitter.TweetObject as Tweet
@@ -126,6 +125,7 @@ def get_tweet_by_id(tweet_id, session):
         @params session: needs a consisting connection to twitter-api
         
         @return tweet: Returns a Tweet as TweetObject
+        
         @desc Gets just one Tweet by its ID and constructs 
     """
     twitterTweet = session.show_status(id=tweet_id)
@@ -175,6 +175,7 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
         @param potentialReplies: List of all received Tweets(Object) as potential‚ Replies -> needed to always the same 100 Tweets
         @param replyHits: List of all hitted Reply-Tweets(Object)
         @param rootTweet: Tweet(Object) for which we seek replies 
+        
         @return Updated lists of potentialReplies & replyHits
         
         @desc After we got the first 100 tweets, which are the latest, we need the next 100 tweets that should be older than the
@@ -217,19 +218,13 @@ def clean_hits(replyHits, max_replies):
 def convert_list_to_dict(tweetObjectList):
     '''
         @param tweetObjectList: a list with tweet-object
+        
         @return newTweetObjectList: a list with tweet-objects as dictionaries
+        
         @desc Each tweet object is written to a Dictionary so that the Web service can read it.
     '''
     newTweetObjectList=[]
     for tweetObject in tweetObjectList:
         newTweetObjectList.append(tweetObject.convert_to_new_dict())
     return newTweetObjectList
-            
-    
-    
-    
-      
-    
-    
-
     

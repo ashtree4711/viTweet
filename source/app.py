@@ -1,5 +1,5 @@
 """
-@desc: This is the main program and webservice: Handles all routing, search queries, file uploads
+This is the main program and webservice: Handles all routing, search queries, file uploads
 Session cookies are used to store the following information:
 - 'basis_flat': filename 'fList_TIMESTAMP' of the fList JSON
 - 'basis_recursive': filename 'rList_TIMESTAMP' of the rList JSON
@@ -217,3 +217,4 @@ def download_xml(json_filename):
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
     #app.run()
+

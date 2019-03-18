@@ -1,3 +1,7 @@
+"""
+This module builds a graph of a Twitter conversation
+"""
+
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
@@ -16,11 +20,18 @@ config.read('config/app_config.ini')
 
 
 def extract_nodes_edges(flatList_dict):
+    """
+    @desc: Extracts the nodes and edges from the fList 
+    
+    @param flatList_dict: The fList as a dictionary
+    
+    @return: The 'nodes' and 'edges' (both dicts) that were extracted from the fList
+    """
     
     print("\nINFO: EXTRACTING NODES AND EDGES FOR TWEET-REPLY/TWEET-QUOTETWEET PAIRS FROM FLATLIST")
     
     
-        # Go through all tweets in the flatList and extract the IDs for all of the tweet-reply pairs (= edges)
+    # Go through all tweets in the flatList and extract the IDs for all of the tweet-reply pairs (= edges)
     tweet_reply_parent=[]
     tweet_reply_child=[]
     for i, val in enumerate(flatList_dict['conversation']):
@@ -35,14 +46,12 @@ def extract_nodes_edges(flatList_dict):
                     tweet_reply_child.append(val['replied_by'][reply_i])
         else: # If the list 'replied_by' is empty, do not add this pair to the list
             tweet_reply_parent.pop()
-        '''else: # If the list 'replied_by' is empty, give it the value 'no_replies'
-            tweet_reply_child.append('no_replies')'''
     
     tweet_reply_pairs = list(zip(tweet_reply_parent, tweet_reply_child))
     print("Edges for Replies (", len(tweet_reply_pairs), ") : ", tweet_reply_pairs)
     
     
-        # Go through all tweets in the flatList and extract the IDs for all of the tweet-quotetweet pairs
+    # Go through all tweets in the flatList and extract the IDs for all of the tweet-quotetweet pairs
     tweet_quotetweet_parent=[]
     tweet_quotetweet_child=[]
     for i, val in enumerate(flatList_dict['conversation']):
@@ -67,8 +76,7 @@ def extract_nodes_edges(flatList_dict):
     print("All edges (", len(edges), "): ", edges)
     
     
-        # Save all tweets as nodes in the format {'A TWEET ID': {'tweet_id': 'A TWEET ID', 'node_label': 'BLABLABLA', ...}}
-        # TODO: This does not have (explicit) information about the type of node (like 'start', 'reply', or 'quote_tweet')
+    # Save all tweets as nodes in the format {'TWEET ID': {'tweet_id': 'TWEET ID', ...}}
     nodes = {}
     for i, val in enumerate(flatList_dict['conversation']):
         nodes[val['tweet_id']] = {}
@@ -76,37 +84,46 @@ def extract_nodes_edges(flatList_dict):
     print("All nodes(", len(nodes), "): ", nodes)
     
     
-        # Return the nodes and edges extracted from the fList
+    # Return the nodes and edges extracted from the fList
     return nodes, edges
 
 
 
 def draw_network(flatList_filename):
-        # Get the dict equivalent of the fList 
+    """
+    @desc: Generates a graph G of the conversation 
+    Adds all information needed for the graph visualization to the graph
+    Creates a graph JSON file which stores all data of the graph
+    
+    @param flatList_filename: The filename without file extension of the fList JSON file
+    
+    @return: The filename 'graph_filename' of the created graph JSON file without file extension, an 'alert_message' for the user
+    """
+    # Get the dict equivalent of the fList 
     flatList_dict = utilities.json_to_dictionary(requested_file=flatList_filename)
         
-        # Extract the nodes and edges from the fList file used as basis for the visualization
+    # Extract the nodes and edges from the fList file used as basis for the visualization
     nodes, edges = extract_nodes_edges(flatList_dict)
 
 
     print("\nINFO: CREATING GRAPH...")
 
-        # Directed graph
+    # Directed graph
     G = nx.DiGraph()
     
-        # Add the nodes to the graph
+    # Add the nodes to the graph
     G.add_nodes_from(nodes)
     
-        # Add the edges from the list 'edges' to the graph
+    # Add the edges from the list 'edges' to the graph
     G.add_edges_from(edges)
     
-        # Draw the graph
+    # Draw the graph
     nx.draw(G)
     
     
     over_reply_limit = 'no'
     
-        # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
+    # Add other Tweet attributes to the nodes saved in graph G, which are needed for the visualization
     for n in G:
         try:
             G.node[n]['tweet_id'] = n
@@ -147,7 +164,7 @@ def draw_network(flatList_filename):
             over_reply_limit = 'yes'
             continue
     
-        # Depending on if it was detected in the above for-loop that the query limit was exceeded, define the alert message.  
+    # Depending on if it was detected in the above for-loop that the query limit was exceeded, define the alert message.  
     if over_reply_limit == 'yes':
         alert_message = "The number of replies to this Tweet exceeds the query limit (200 replies), therefore only a portion of all replies are contained in the graph."
     else:
@@ -155,8 +172,8 @@ def draw_network(flatList_filename):
     print("Alert message: ", alert_message)
 
 
-        # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them.
-        # The JSON file can then later be loaded with D3 to create an interactive graph in the browser.
+    # Write the 'node_link_data' into a JSON file, i.e. the nodes with the attributes added above and the links between them.
+    # The JSON file can then later be loaded with D3 to create an interactive graph in the browser.
     d = json_graph.node_link_data(G)
     print("Data of graph G: ", d)
     print("\nINFO: SAVING GRAPH...")
@@ -165,6 +182,7 @@ def draw_network(flatList_filename):
     json.dump(d, open(config['FILES']['TEMP_JSON_GRAPH'] + graph_filename + ".json",'w'))
     
     
-        # Return the filename of the JSON file where the data of the created graph is stored for later use, and the alert
-        # message to inform the user in the case that the query limit was exceeded by the query.
+    # Return the filename of the JSON file where the data of the created graph is stored for later use, and the alert
+    # message to inform the user in the case that the query limit was exceeded by the query.
     return graph_filename, alert_message
+

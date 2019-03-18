@@ -1,22 +1,20 @@
-'''
-Created on 19 Nov 2018
-
-@author: markeschweiler
-'''
+"""
+With TweetObject.py we construct a Tweet object for each Tweet and initiate it with selected attributes of the Tweet
+"""
 
 class Tweet(object):
-    '''
+    """
         The 'Tweet' class is viTweet's own object class consisting of the useful attributes of the tweets provided by the 
         Twitter API. All attributes are callable via setters and getters
-    '''
+    """
 
 
     def __init__(self, api_json):
-        '''
+        """
           @param api_json: The Tweet-Information from Twitter
           
           @desc We construct for every useful information an attribute within an object  
-        '''
+        """
         # General Information of posted Tweet
         self.timestamp = api_json['created_at'] # String
         self.tweet_id = int(api_json['id']) # Integer
@@ -88,9 +86,9 @@ class Tweet(object):
         return self.__convertedTweetStructure
     
     def convert_to_new_dict(self):
-        '''
+        """
             @desc Here we construct a new reduced Tweet-Dictionary with the Information we possible need.
-        ''' 
+        """
         new_dict = {'timestamp': self.timestamp,'tweet_id':self.tweet_id, 'tweet_content':self.tweet_content, 'reply_to':self.reply_to_tweet_id, 'quote_to':self.quote_to_tweet_id, 'number_of_replies':self.reply_quantity, 'replied_by':self.get_replied_by_list(), 'isQuote': self.reply_isQuote ,'number_of_quote_tweets':self.quote_tweet_quantity, 'quoted_by':self.get_quoted_by_list(),'embeddingCode':self.embedded_tweet,
                      'user':{'user_id':self.user_id, 'user_name':self.user_name, 'screen_name':self.user_screenname,
                             'location':self.user_location, 'description': self.user_desc}}
@@ -403,20 +401,3 @@ class Tweet(object):
     retweeted_text = property(get_retweeted_text, set_retweeted_text, del_retweeted_text, "retweeted_text's docstring")
     retweeted_user = property(get_retweeted_user, set_retweeted_user, del_retweeted_user, "retweeted_user's docstring")
 
-
-
-    
-        
-        
-        
-
-    
-        
-    
-
-    
-
-
-
-
-        
