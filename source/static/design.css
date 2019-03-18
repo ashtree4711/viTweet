@@ -1,8 +1,10 @@
+/* loading gif during API request */
 div#loading {
     display: none;
     cursor: wait;
 }
 
+/* main container for list visualization */
 #listTweets {
     max-width: 1000px;
     overflow-x: scroll;
@@ -16,18 +18,20 @@ div#loading {
     padding-bottom: 20px;
 }
 
+/* button to show/hide replies */
 #numreplies {
-    background-color: lightcyan;
+    background-color: blue;
     margin-bottom: 20px;
 }
 
+/* button to show/hide quotes */
 #numquotes {
-    background-color: aquamarine;
+    background-color: lightskyblue;
     margin-bottom: 20px;
 }
 
 .reply {
-    background-color: lightcyan;
+    background-color: blue;
     width: 450px;
     margin-left: 75px;
     margin-top: 20px;
@@ -36,7 +40,7 @@ div#loading {
 }
 
 .quote {
-    background-color: aquamarine;
+    background-color: lightskyblue;
     width: 450px;
     margin-left: 750px;
     margin-top: 20px;
@@ -68,6 +72,7 @@ div#loading {
     margin-left: 10px;
 }
 
+/* interleaved levels for replies of replies */
 .recursive {
     margin-left: 75px;
     margin-top: 20px;
