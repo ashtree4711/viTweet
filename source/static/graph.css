@@ -9,11 +9,11 @@
 }
 
 .links [line_type="reply"] {
-  stroke: blue;
+  stroke: #0074FF;
 }
 
 .links [line_type="quote_tweet"] {
-  stroke: lightskyblue;
+  stroke: #FF4C00;
 }
 
 .node text {
@@ -61,7 +61,7 @@
 }
 
 .svg-border {
-  stroke: blue;
+  stroke: #E6ECF0;
   fill: none;
 }
 

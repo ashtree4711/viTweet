@@ -25,14 +25,14 @@ function hideReplies() {
 
 //show quotes in list visualization
 function showQuotes() {
-    $(".reply").show();
-    $("#hidereplynumber").show();
-    $("#hidereplynumber2").show();
+    $(".quote").show();
+    $("#hidequotenumber").show();
+    $("#hidequotenumber2").show();
 }
 
 //hide quotes in list visualization
 function hideQuotes() {
-    $(".reply").hide();
-    $("#hidereplynumber").hide();
-    $("#hidereplynumber2").hide();
+    $(".quote").hide();
+    $("#hidequotenumber").hide();
+    $("#hidequotenumber2").hide();
 }

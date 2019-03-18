@@ -40,15 +40,11 @@
                     <label for="mainSearch">Search Tweet</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="search" placeholder="URL or Tweet-ID" name="tweetID" autofocus>
+
+                        <!-- submit button leads to API request; function loading() displays GIF -->
                         <div class="input-group-btn">
-<<<<<<< HEAD
                             <button class="btn btn-default form-control" type="submit" onclick="loading()">
                                 <span class="glyphicon glyphicon-search"></span>
-=======
-                            <!-- submit button leads to API request; function loading() displays GIF -->
-                            <button class="btn btn-default" type="submit" onclick="loading()">
-                                <i class="glyphicon glyphicon-search"></i>
->>>>>>> frontend
                             </button>
                         </div>
                     </div>
@@ -65,12 +61,7 @@
                     <!-- allows the user to choose between two different visualization types-->
                     <div class="input-group-check">
                         <label class="radio-right"><input type="radio" name="visopt" value="list" required> List</label>
-<<<<<<< HEAD
                         <label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Graph</label>
-
-=======
-                        <label class="radio-right"><input type="radio" name="visopt" value="graph" required checked> Network</label>
->>>>>>> frontend
                     </div>
                 </div>
             </form>
@@ -80,13 +71,9 @@
 </div> 
 
 
-<<<<<<< HEAD
-<div class="container" id="uploadOption">
-=======
-<!-- TODO: Handle whether the user is uploading a flat or recursive file -->
+
 <!-- upload option to use conversations from the past -->
-<div class="container" id="uploadOption"> 
->>>>>>> frontend
+<div class="container" id="uploadOption">
 	<form method="POST" action="/upload" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="fileUpload">Upload a file previously saved from viTweet (export type "flat JSON")</label>

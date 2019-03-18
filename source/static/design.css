@@ -27,7 +27,7 @@ h1 {
 }
 
 #mainTweet {
-    background-color: deepskyblue;
+    background-color: #E6ECF0;
     width: 450px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -35,18 +35,18 @@ h1 {
 
 /* button to show/hide replies */
 #numreplies {
-    background-color: blue;
+    background-color: rgba(0, 116, 254, 0.22);
     margin-bottom: 20px;
 }
 
 /* button to show/hide quotes */
 #numquotes {
-    background-color: lightskyblue;
+    background-color: rgba(255, 76, 0, 0.22);
     margin-bottom: 20px;
 }
 
 .reply {
-    background-color: blue;
+    background-color: rgba(0, 116, 254, 0.22);
     width: 450px;
     margin-left: 75px;
     margin-top: 20px;
@@ -55,9 +55,9 @@ h1 {
 }
 
 .quote {
-    background-color: lightskyblue;
+    background-color: rgba(255, 76, 0, 0.22);
     width: 450px;
-    margin-left: 750px;
+    margin-left: 75px;
     margin-top: 20px;
     padding-top: 20px;
     padding-bottom: 20px;

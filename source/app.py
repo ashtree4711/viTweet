@@ -142,7 +142,7 @@ def list_visualization():
     """
     # Pass multiple parameters to the template: 'response' is the dict of the chosen JSON file; 'mode', 'use_basis', 
     # and 'other_basis' are taken from what is stored in the session cookie
-    return render_template('conversation.html', response=utilities.json_to_dictionary(session['basis_recursive']), mode=session['mode'], use_basis=session['basis_recursive'], other_basis=session['basis_flat'])
+    return render_template('list.html', response=utilities.json_to_dictionary(session['basis_recursive']), mode=session['mode'], use_basis=session['basis_recursive'], other_basis=session['basis_flat'])
 
 
 @app.route('/conversation/graph')
