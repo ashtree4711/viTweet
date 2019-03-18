@@ -9,7 +9,7 @@ viTweet is a webservice providing visualizations to better understand Twitter co
 | Jinja2 2.10 | Template engine |
 | D3.js v4 | Graph visualization |
 
-Make sure to import the libraries or use the pipfile!
+Make sure to import all libraries or use the pipfile ('source/Pipfile') to install them!
 
 
 ## How to use viTweet
@@ -18,7 +18,7 @@ Make sure to import the libraries or use the pipfile!
 
 * [Set up a Twitter developer account](https://developer.twitter.com/en/apply) if you do not already have one
 * [Generate your access tokens](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens.html)
-* Enter your access tokens to the /source/config/config.ini
+* Enter your access tokens to the configuration file '/source/config/config.ini'
 
 ### Running the application
 * Use an IDE like Eclipse (others have not yet been tested by us) to run the file 'app.py'
