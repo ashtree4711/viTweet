@@ -3,20 +3,21 @@ Created on 16 Nov 2018
 
 @author: markeschweiler
 '''
-from pathlib import Path
-from os.path import os
 '''
 # Created on 18.08.2018
 # This is where Twitter API searches are handled
 # Access to the Twitter API is limited. 450 accesses are allowed with a free developer account.
 # @author: Mark Eschweiler
 '''
+    # Initializing Twitter Session
+
+import configparser
+from os.path import os
+from pathlib import Path
 
 from twython import Twython
-import configparser
 
 
-    # Initializing Twitter Session
 def connect_to_api():
     '''
         @desc To connect to the Twitter-API with developer keys

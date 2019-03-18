@@ -1,11 +1,11 @@
-from flask import send_file
-import matplotlib.pyplot as plt
-import networkx as nx
-from networkx.readwrite import json_graph
 import json
 
-import vi_twitter.utilities as utilities
+from flask import send_file
+from networkx.readwrite import json_graph
 
+import matplotlib.pyplot as plt
+import networkx as nx
+import vi_twitter.utilities as utilities
 
 
     # TODO: This is very long... Vielleicht lässt sich das noch abkürzen

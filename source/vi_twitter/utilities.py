@@ -4,10 +4,10 @@ Created on 20 Nov 2018
 @author: markeschweiler
 '''
 
-import datetime, os, json, xmltodict
-from pathlib import Path
 from builtins import int
 import configparser
+import datetime, os, json, xmltodict
+from pathlib import Path
 
 
     # Instantiate configparser and say which INI file to read the configurations from 

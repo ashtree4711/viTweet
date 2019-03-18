@@ -3,13 +3,14 @@ Created on 20 Nov 2018
     The search.py module constructs the search query, initiates access to the Twitter API and processes the results. 
 @author: markeschweiler
 '''
-from vi_twitter.connector import connect_to_api
-from vi_twitter.utilities import preprocess_input,\
-    save_rList, save_fList, create_rList
-import vi_twitter.TweetObject as Tweet
 import twython
 
-    
+import vi_twitter.TweetObject as Tweet
+from vi_twitter.connector import connect_to_api
+from vi_twitter.utilities import preprocess_input, \
+    save_rList, save_fList, create_rList
+
+
 def get_conversation(userInput, language, max_replies):
     """
     @param userInput: Serves a String or an Integer which contains the Twitter-ID of a Tweet 
@@ -171,7 +172,7 @@ def search_by_usermention_max_id(userMention, session, potentialReplies, replyHi
     """ 
         @param userMention: '@user'-String expecting
         @param session: Connection to Twitter-API via Twython needed
-        @param potentialReplies: List of all received Tweets(Object) as potential Replies -> needed to always the same 100 Tweets
+        @param potentialReplies: List of all received Tweets(Object) as potential‚ Replies -> needed to always the same 100 Tweets
         @param replyHits: List of all hitted Reply-Tweets(Object)
         @param rootTweet: Tweet(Object) for which we seek replies 
         @return Updated lists of potentialReplies & replyHits

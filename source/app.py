@@ -1,15 +1,16 @@
-from flask import Flask, redirect, render_template, request, send_file, send_from_directory, session, url_for
-from flask_bootstrap import Bootstrap
+import configparser
 import datetime
 
+from flask import Flask, redirect, render_template, request, send_file, send_from_directory, session, url_for
+from flask_bootstrap import Bootstrap
+
+import vi_network.network as network
 import vi_twitter.search as search
 import vi_twitter.utilities as utilities
-import vi_network.network as network
 
-import configparser
 
     # Instantiate configparser and say which INI file to read the configurations from 
-    # (The configparser is used to access the file paths defined in an INI file. 
+    # (The configp‚arser is used to access the file paths defined in an INI file. 
     # Therefore the paths can be updated in the INI file at any time without requiring any changes here.)
 config = configparser.ConfigParser()
 config.read('config/app_config.ini')
